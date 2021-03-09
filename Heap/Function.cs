@@ -66,8 +66,9 @@ namespace BDlab1{
             Console.WriteLine();
         }
 
-        public static void Search(int idRecordBook,string namefile){
+        public static int Search(int idRecordBook,string namefile){
             Block blockArr = new Block();
+            int numBlock=0,numZap=1;
             using (BinaryReader reader = new BinaryReader(File.Open(namefile, FileMode.Open)))
             {
                 Zap[] zapArr = new Zap[5];
@@ -80,26 +81,30 @@ namespace BDlab1{
                         {
                             blockArr = new Block(zapArr);
                             blockArr.SetSize(i);
-                            if(!Student(blockArr,idRecordBook))
+                            reader.Close();
+                            if((numZap=Student(blockArr,idRecordBook))==-1)
                             {
                                 Console.WriteLine("\nУпс, ничего не удалось найти\n");
+                                return(-1);
                             }
-                            reader.Close();
-                            return;
+                            return (84*(numBlock*5+numZap));
                         }
                     }
                     blockArr = new Block(zapArr);
-                    if(Student(blockArr,idRecordBook))
+                    if((numZap=Student(blockArr,idRecordBook))!=-1)
                     {
                         reader.Close();
-                        return;
+                        return (84*(numBlock*5+numZap));;
                     }
+                    numBlock++;
 
                 }
             }
+            return(-2);
         }
 
-        public static bool Student(Block blockNew,int idRecordBook){
+
+        public static int Student(Block blockNew,int idRecordBook){
             for(int i=0;i<=blockNew.GetSize();i++)
             {
                 if(blockNew.GetZapMass(i).GetIdRecordBook()==idRecordBook){
@@ -107,19 +112,59 @@ namespace BDlab1{
                     Console.WriteLine("Студент которыго вы искали: Номер зачётки: {0}; Фамилия: {1}; Имя: {2}; Отчество: {3}; Номер группы: {4};\n",
                     blockNew.GetZapMass(i).GetIdRecordBook(), new string(blockNew.GetZapMass(i).GetLastname()), new string(blockNew.GetZapMass(i).GetName()), 
                     new string(blockNew.GetZapMass(i).GetMiddlename()), blockNew.GetZapMass(i).GetIdGroup());
-                    return true;
+                    return i;
                 }
             }
-            return false;
+            return -1;
         }
 
-        public static void Edit()
+        public static void Edit(string namefile)
         {
-
+            using (BinaryWriter writer = new BinaryWriter(File.Open(namefile, FileMode.OpenOrCreate)))
+            {
+                writer.Seek(-84,SeekOrigin.End);
+                for(int i=0;i<84;i++){
+                    writer.Write('\0');
+                }
+            }
         }
         public static void Remove(int idRecordBook,string namefile)
         {
+           /* Block blockArr = new Block();
+            int numBlock=0,numZap=1;
+            using (BinaryReader reader = new BinaryReader(File.Open(namefile, FileMode.Open)))
+            {
+                Zap[] zapArr = new Zap[5];
+                while(reader.PeekChar()!=-1)
+                {
+                    for(int i=0;i<5;i++)
+                    {
+                        zapArr[i] = new Zap(reader.ReadInt32(),ByteChar(reader,30),ByteChar(reader,20),ByteChar(reader,30),reader.ReadInt32());
+                        if (reader.PeekChar()==-1)
+                        {
+                            blockArr = new Block(zapArr);
+                            blockArr.SetSize(i);
+                            reader.Close();
+                            if((numZap=Student(blockArr,idRecordBook))==-1)
+                            {
+                                Console.WriteLine("\nУпс, ничего не удалось найти\n");
+                                return;
+                            }
+                            return;
+                        
+                    }
+                    blockArr = new Block(zapArr);
+                    if((numZap=Student(blockArr,idRecordBook))!=-1)
+                    {
+                        reader.Close();
+                        return;
+                    }
+                    numBlock++;
 
+                }
+            }
+            return;
+        }*/
         }
     }
 }

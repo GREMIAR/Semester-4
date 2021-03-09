@@ -1,6 +1,6 @@
 using System;
 namespace BDlab1{
-    class Zap{
+    class Zap{//30+30+20+4+4=84
         int idRecordBook;
         char[] lastname;//30
         char[] name;//20
@@ -49,5 +49,13 @@ namespace BDlab1{
             this.zapMass[4] = zapMass[4];
         }
         public Block(){}
+    }
+
+    class OurBlock{
+        public static int numBlock;
+        public static int numZap;
+        public static int size;
+        public static Block block = new Block();
+        public static Zap[] zap = new Zap[5];
     }
 }

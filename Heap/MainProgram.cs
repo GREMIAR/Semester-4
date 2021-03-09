@@ -30,7 +30,7 @@ namespace BDlab1{
                     case "2":
                     {
                         
-                        Edit();
+                        Edit(namefile);
                         break;
                     }
                     case "3":
@@ -44,12 +44,12 @@ namespace BDlab1{
                     {
                         Console.Write("Введите номер зачётки студента которого вы ищете: ");
                         int idZ = Convert.ToInt32(Console.ReadLine());
-                        Search(idZ,namefile);
+                        Console.WriteLine(Search(idZ,namefile));
                         break;
                     }
                     default:
                         break;
-                }
+                } 
             }
         }
     }
