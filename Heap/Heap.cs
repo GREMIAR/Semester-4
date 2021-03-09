@@ -48,7 +48,6 @@ namespace BDlab1{
             this.zapMass[3] = zapMass[3];
             this.zapMass[4] = zapMass[4];
         }
-        public Block(){
-        }
+        public Block(){}
     }
 }
