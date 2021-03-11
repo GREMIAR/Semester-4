@@ -5,7 +5,20 @@ namespace BDlab1{
     class Program : Function
     {
         static void Main(string[] args){
-            const string namefile = "BD.bin";
+            const string filename = "BD.bin";
+            BinaryWriter writer;
+
+            try{
+                writer = new BinaryWriter(File.Open(filename, FileMode.Open));
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                using (writer = new BinaryWriter(File.Open(filename, FileMode.Create)))
+                {
+                    writer.Write(1); // write first block
+                }  
+            }
+            OurBlock mainBlock = new OurBlock();
             string a="";
             while (a!="9"){
                 Console.Write("1-Добавление информации о студент\n2-Изменение информации о студенте\n3-Удаление информации о студенте\n4-Осуществление поиска информации о студенте\nВвод: ");
@@ -24,33 +37,34 @@ namespace BDlab1{
                         string midlename = Console.ReadLine();
                         Console.Write("Номер группа: ");
                         int idG = Convert.ToInt32(Console.ReadLine());
-                        AddOnEnd(namefile, idZ,lastname,name,midlename,idG);
+                        AddOnEnd(writer,filename, idZ,lastname,name,midlename,idG);
                         break;
                     }   
                     case "2":
                     {
                         
-                        Edit(namefile);
+                        Edit(filename);
                         break;
                     }
                     case "3":
                     {
                         Console.Write("Введите номер зачётки студента которого вы хотите удалить: ");
                         int idZ = Convert.ToInt32(Console.ReadLine());
-                        Remove(idZ,namefile);
+                        Remove(idZ,filename);
                         break;
                     }
                     case "4":
                     {
                         Console.Write("Введите номер зачётки студента которого вы ищете: ");
                         int idZ = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine(Search(idZ,namefile));
+                        mainBlock.Search(idZ,filename);
                         break;
                     }
                     default:
                         break;
                 } 
             }
+            writer.Close();
         }
     }
 }
