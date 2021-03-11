@@ -117,15 +117,6 @@ class OurBlock{
             }
             return charArr;
         }
-        public static string InString(char[] charArr, int length)
-        {
-            string str="";
-            for (int i = 0; i < length&&str.Length > i; i++)
-            {
-                str+= charArr[i];
-            }
-            return str;
-        }
         public void Remove(int idRecordBook,string filename)
         {
             Zap[] zapArr = new Zap[1];

@@ -1,13 +1,11 @@
 using System;
 using System.IO;
-using System.Text;
 namespace BDlab1{
     class Program : Function
     {
         static void Main(string[] args){
             const string filename = "BD.bin";
             BinaryWriter writer;
-
             try{
                 writer = new BinaryWriter(File.Open(filename, FileMode.Open));
             }
@@ -77,7 +75,6 @@ namespace BDlab1{
                         break;
                 } 
             }
-            writer.Close();
         }
     }
 }
