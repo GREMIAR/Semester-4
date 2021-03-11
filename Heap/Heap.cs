@@ -37,6 +37,9 @@ namespace BDlab1{
         public Zap GetZapMass(int i){
             return zapMass[i];
         }
+        public void SetZapMass(int i,int idRecordBook,char[] lastname,char[] name,char[] patronymic,int idGroup){
+            zapMass[i] = new Zap(idRecordBook,lastname,name,patronymic,idGroup);
+        }
         public void SetSize(int size){
             this.size=size;
         }

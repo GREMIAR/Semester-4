@@ -1,19 +1,14 @@
 using System;
 using System.IO;
-using System.Text;
 namespace BDlab1{
 class OurBlock{
         Block block = new Block();
-        Zap[] zap = new Zap[5];
-        public OurBlock(){
-        }
+        public OurBlock(){}
         public int Search(int idRecordBook,string filename)
         {
-            Block blockArr = new Block();
             using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
             {
                 int numZap = reader.ReadInt32();
-                Zap[] zapArr = new Zap[5];
                 int i=1,f;
                 int numZapFound;
                 while(numZap>i)
@@ -24,30 +19,30 @@ class OurBlock{
                         {
                             break;    
                         }
-                        zapArr[f] = new Zap(reader.ReadInt32(),ByteChar(reader,30),ByteChar(reader,20),ByteChar(reader,30),reader.ReadInt32());
+                        block.SetZapMass(f,reader.ReadInt32(),ByteChar(reader,30),ByteChar(reader,20),ByteChar(reader,30),reader.ReadInt32());
                         i++;
                     }
-                    blockArr = new Block(zapArr);
-                    blockArr.SetSize(f);
-                    if((numZapFound=Student(blockArr,idRecordBook,f))!=-1)
+                    block.SetSize(f);
+                    if((numZapFound=Student(idRecordBook,f))!=-1)
                     {
                         reader.Close();
                         return (numZapFound)*88;
                     }
                 }
+                reader.Close();
                 Console.WriteLine("\nУпс, ничего не удалось найти\n");
                 return -1;
             }
         }
 
-        int Student(Block blockNew,int idRecordBook,int numZip){
+        int Student(int idRecordBook,int numZip){
             for(int i=0;i<numZip;i++)
             {
-                if(blockNew.GetZapMass(i).GetIdRecordBook()==idRecordBook){
-                    this.block=blockNew;
-                    PrintBlock(block);
+                if(block.GetZapMass(i).GetIdRecordBook()==idRecordBook)
+                {
+                    PrintBlock();
                     Console.WriteLine("Студент которыго вы искали: Номер зачётки: {0}; Фамилия: {1}; Имя: {2}; Отчество: {3}; Номер группы: {4};\n",
-                    blockNew.GetZapMass(i).GetIdRecordBook(), new string(block.GetZapMass(i).GetLastname()), new string(block.GetZapMass(i).GetName()), 
+                    block.GetZapMass(i).GetIdRecordBook(), new string(block.GetZapMass(i).GetLastname()), new string(block.GetZapMass(i).GetName()), 
                     new string(block.GetZapMass(i).GetMiddlename()), block.GetZapMass(i).GetIdGroup());
                     return i;
                 }
@@ -77,12 +72,12 @@ class OurBlock{
             }
             return newChar;
         }
-        void PrintBlock(Block Arr){
+        void PrintBlock(){
             Console.WriteLine("----Весь Блок----\n");
-            for(int i = 0; i < Arr.GetSize(); i++){
+            for(int i = 0; i < block.GetSize(); i++){
                 Console.WriteLine("Номер записи в блоке: {0}; Номер зачётки: {1}; Фамилия: {2}; Имя: {3}; Отчество: {4}; Номер группы: {5};",i+1,
-                Arr.GetZapMass(i).GetIdRecordBook(), new string(Arr.GetZapMass(i).GetLastname()), new string(Arr.GetZapMass(i).GetName()), 
-                new string(Arr.GetZapMass(i).GetMiddlename()), Arr.GetZapMass(i).GetIdGroup());
+                block.GetZapMass(i).GetIdRecordBook(), new string(block.GetZapMass(i).GetLastname()), new string(block.GetZapMass(i).GetName()), 
+                new string(block.GetZapMass(i).GetMiddlename()), block.GetZapMass(i).GetIdGroup());
             }
             Console.WriteLine();
         }
@@ -119,7 +114,6 @@ class OurBlock{
         }
         public void Remove(int idRecordBook,string filename)
         {
-            Zap[] zapArr = new Zap[1];
             int sizeZap;
             using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
             {
@@ -127,11 +121,11 @@ class OurBlock{
                 Console.WriteLine(sizeZap);
                 for(int i=0;i<sizeZap-1;i++)
                 {
-                    zapArr[0] = new Zap(reader.ReadInt32(),ByteChar(reader,30),ByteChar(reader,20),ByteChar(reader,30),reader.ReadInt32());
+                    block.SetZapMass(i%5,reader.ReadInt32(),ByteChar(reader,30),ByteChar(reader,20),ByteChar(reader,30),reader.ReadInt32());
                 }
                 reader.Close();
             }
-            if(Edit(filename,idRecordBook,zapArr[0].GetIdRecordBook(),zapArr[0].GetLastname().ToString(),zapArr[0].GetName().ToString(),zapArr[0].GetMiddlename().ToString(),zapArr[0].GetIdGroup())==-1)
+            if(Edit(filename,idRecordBook,block.GetZapMass((sizeZap-2)%5).GetIdRecordBook(), block.GetZapMass((sizeZap-2)%5).GetLastname().ToString(),block.GetZapMass((sizeZap-2)%5).GetName().ToString(),block.GetZapMass((sizeZap-2)%5).GetMiddlename().ToString(),block.GetZapMass((sizeZap-2)%5).GetIdGroup())==-1)
             {
                 return;
             }
@@ -146,21 +140,20 @@ class OurBlock{
             char [] lastnameChar = OurBlock.InChar(lastname,30);
             char [] nameChar = OurBlock.InChar(name,20);
             char [] patronymicChar = OurBlock.InChar(patronymic,30);
-            Zap zapArr = new Zap(idRecordBook,lastnameChar,nameChar,patronymicChar,idGroup);
-            int sizeZap = Function.ReadNullBlockInt(filename)+1;
-            
+            block.SetZapMass(0,idRecordBook,lastnameChar,nameChar,patronymicChar,idGroup);
+            int sizeZap = Function.ReadNullBlockInt(filename);
             using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
             {
-                writer.Write(sizeZap);
-                sizeZap-=2;
+                writer.Write(sizeZap+1);
+                sizeZap--;
                 sizeZap*=88;
                 sizeZap+=4;
                 writer.Seek(sizeZap,SeekOrigin.Begin);
-                writer.Write(zapArr.GetIdRecordBook());
-                writer.Write(zapArr.GetLastname());
-                writer.Write(zapArr.GetName());
-                writer.Write(zapArr.GetMiddlename());
-                writer.Write(zapArr.GetIdGroup());
+                writer.Write(block.GetZapMass(0).GetIdRecordBook());
+                writer.Write(block.GetZapMass(0).GetLastname());
+                writer.Write(block.GetZapMass(0).GetName());
+                writer.Write(block.GetZapMass(0).GetMiddlename());
+                writer.Write(block.GetZapMass(0).GetIdGroup());
             }
         }
 

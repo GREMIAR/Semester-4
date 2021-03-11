@@ -8,7 +8,7 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Nikitos\\.nuget\\packages\\": {}
+    "C:\\Users\\Nikita\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
@@ -16,11 +16,11 @@
       "projectUniqueName": "C:\\Project\\BD\\Heap\\Heap.csproj",
       "projectName": "Heap",
       "projectPath": "C:\\Project\\BD\\Heap\\Heap.csproj",
-      "packagesPath": "C:\\Users\\Nikitos\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\Nikita\\.nuget\\packages\\",
       "outputPath": "C:\\Project\\BD\\Heap\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Nikitos\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Nikita\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"

@@ -18,17 +18,5 @@ namespace BDlab1{
                 return -1;
             }
         }
-        public static BinaryReader ReadNullBlock(BinaryReader reader){  
-            try{  
-                int size = reader.ReadInt32();  
-                reader.Close();
-                return reader;  
-            }
-            catch(IOException e){
-                Console.WriteLine("Exception on reading zero block: " + e);
-            }  
-            reader.Close();
-            return reader;
-        }
     }
 }
