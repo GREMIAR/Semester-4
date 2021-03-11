@@ -2,11 +2,11 @@ using System;
 using System.IO;
 using System.Text;
 namespace BDlab1{
-    class Zap{//30+30+20+4+4=84
+    class Zap{
         int idRecordBook;
-        char[] lastname;//30
-        char[] name;//20
-        char[] middlename;//30
+        char[] lastname;
+        char[] name;
+        char[] patronymic;
         int idGroup;
         public int GetIdRecordBook(){
             return idRecordBook;
@@ -18,22 +18,22 @@ namespace BDlab1{
             return name;
         }
         public char[] GetMiddlename(){
-            return middlename;
+            return patronymic;
         }
         public int GetIdGroup(){
             return idGroup;
         }
-        public Zap(int idRecordBook,char[] lastname,char[] name,char[] middlename,int idGroup){
+        public Zap(int idRecordBook,char[] lastname,char[] name,char[] patronymic,int idGroup){
             this.idRecordBook = idRecordBook;
             this.lastname = lastname;
             this.name = name;
-            this.middlename = middlename;
+            this.patronymic = patronymic;
             this.idGroup = idGroup;
         }
     }
     class Block {
         Zap[] zapMass = new Zap[5];
-        int size=4;
+        int size=5;
         public Zap GetZapMass(int i){
             return zapMass[i];
         }

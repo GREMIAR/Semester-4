@@ -3,58 +3,45 @@ using System.IO;
 using System.Text;
 namespace BDlab1{
 class OurBlock{
-        int numBlock;
-        int numZap;
-        int size;
         Block block = new Block();
         Zap[] zap = new Zap[5];
         public OurBlock(){
-            numBlock=-1;
-            numZap=-1;
-            size=-1;
         }
-        public void Search(int idRecordBook,string filename)
+        public int Search(int idRecordBook,string filename)
         {
-            numBlock=0;
             Block blockArr = new Block();
             using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
             {
+                int numZap = reader.ReadInt32();
                 Zap[] zapArr = new Zap[5];
-                while(reader.PeekChar()!=-1)
+                int i=1,f;
+                int numZapFound;
+                while(numZap>i)
                 {
-                    for(int i=0;i<5;i++)
+                    for(f=0;f<5;f++)
                     {
-                        zapArr[i] = new Zap(reader.ReadInt32(),ByteChar(reader,30),ByteChar(reader,20),ByteChar(reader,30),reader.ReadInt32());
-                        if (reader.PeekChar()==-1)
+                        if(i>=numZap)
                         {
-                            blockArr = new Block(zapArr);
-                            blockArr.SetSize(i);
-                            reader.Close();
-                            if((numZap=Student(blockArr,idRecordBook))==-1)
-                            {
-                                Console.WriteLine("\nУпс, ничего не удалось найти\n");
-                                return;
-                            }
-                            return;
+                            break;    
                         }
+                        zapArr[f] = new Zap(reader.ReadInt32(),ByteChar(reader,30),ByteChar(reader,20),ByteChar(reader,30),reader.ReadInt32());
+                        i++;
                     }
                     blockArr = new Block(zapArr);
-                    if((numZap=Student(blockArr,idRecordBook))!=-1)
+                    blockArr.SetSize(f);
+                    if((numZapFound=Student(blockArr,idRecordBook,f))!=-1)
                     {
                         reader.Close();
-                        return;
+                        return (numZapFound)*88;
                     }
-                    numBlock++;
-
                 }
+                Console.WriteLine("\nУпс, ничего не удалось найти\n");
+                return -1;
             }
-            return;
         }
 
-
-        
-        int Student(Block blockNew,int idRecordBook){
-            for(int i=0;i<=blockNew.GetSize();i++)
+        int Student(Block blockNew,int idRecordBook,int numZip){
+            for(int i=0;i<numZip;i++)
             {
                 if(blockNew.GetZapMass(i).GetIdRecordBook()==idRecordBook){
                     this.block=blockNew;
@@ -92,14 +79,43 @@ class OurBlock{
         }
         void PrintBlock(Block Arr){
             Console.WriteLine("----Весь Блок----\n");
-            for(int i = 0; i <= Arr.GetSize(); i++){
-                Console.WriteLine("Номер блока: {0}; Номер зачётки: {1}; Фамилия: {2}; Имя: {3}; Отчество: {4}; Номер группы: {5};",i+1,
+            for(int i = 0; i < Arr.GetSize(); i++){
+                Console.WriteLine("Номер записи в блоке: {0}; Номер зачётки: {1}; Фамилия: {2}; Имя: {3}; Отчество: {4}; Номер группы: {5};",i+1,
                 Arr.GetZapMass(i).GetIdRecordBook(), new string(Arr.GetZapMass(i).GetLastname()), new string(Arr.GetZapMass(i).GetName()), 
                 new string(Arr.GetZapMass(i).GetMiddlename()), Arr.GetZapMass(i).GetIdGroup());
             }
             Console.WriteLine();
         }
-    
+        public void Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup)
+        {
+            int numZap=Search(oldidRecordBook,filename);
+            if(numZap==-1)
+            {
+                return;
+            }
+            numZap+=4;
+            using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+            {
+                writer.Seek(numZap,SeekOrigin.Begin);
+                writer.Write(idRecordBook);
+                writer.Write(InChar(lastname,30));
+                writer.Write(InChar(name,20));
+                writer.Write(InChar(patronymic,30));
+                writer.Write(idGroup); 
+                writer.Close();              
+            }
+            Console.WriteLine("Заменён на: \n");
+            Search(idRecordBook,filename);
+        }
+        public static char[] InChar(string str, int length)
+        {
+            char[] charArr = new char[length];
+            for (int i = 0; i < length&&str.Length > i; i++)
+            {
+                charArr[i] = str[i];
+            }
+            return charArr;
+        }
 
     }
 }

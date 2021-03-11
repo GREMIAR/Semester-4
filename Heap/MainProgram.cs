@@ -15,9 +15,10 @@ namespace BDlab1{
             {
                 using (writer = new BinaryWriter(File.Open(filename, FileMode.Create)))
                 {
-                    writer.Write(1); // write first block
+                    writer.Write(1);
                 }  
             }
+            writer.Close();
             OurBlock mainBlock = new OurBlock();
             string a="";
             while (a!="9"){
@@ -37,13 +38,25 @@ namespace BDlab1{
                         string midlename = Console.ReadLine();
                         Console.Write("Номер группа: ");
                         int idG = Convert.ToInt32(Console.ReadLine());
-                        AddOnEnd(writer,filename, idZ,lastname,name,midlename,idG);
+                        AddOnEnd(filename, idZ,lastname,name,midlename,idG);
                         break;
                     }   
                     case "2":
                     {
-                        
-                        Edit(filename);
+                        Console.Write("Введите номер зачётки сткденкта которого хотиие изменить: ");
+                        int oldidz = Convert.ToInt32(Console.ReadLine());
+                        Console.Write("На что засменяем: ");
+                        Console.Write("Номер зачётки: ");
+                        int idZ = Convert.ToInt32(Console.ReadLine());
+                        Console.Write("Фамилия: ");
+                        string lastname = Console.ReadLine();
+                        Console.Write("Имя: ");
+                        string name = Console.ReadLine();
+                        Console.Write("Отчество: ");
+                        string middlename = Console.ReadLine();
+                        Console.Write("Номер группа: ");
+                        int idG = Convert.ToInt32(Console.ReadLine());
+                        mainBlock.Edit(filename,oldidz,idZ,lastname,name,middlename,idG);
                         break;
                     }
                     case "3":
