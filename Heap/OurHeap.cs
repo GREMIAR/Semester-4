@@ -86,12 +86,12 @@ class OurBlock{
             }
             Console.WriteLine();
         }
-        public void Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup)
+        public int Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup)
         {
             int numZap=Search(oldidRecordBook,filename);
             if(numZap==-1)
             {
-                return;
+                return -1;
             }
             numZap+=4;
             using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
@@ -106,6 +106,7 @@ class OurBlock{
             }
             Console.WriteLine("Заменён на: \n");
             Search(idRecordBook,filename);
+            return 0;
         }
         public static char[] InChar(string str, int length)
         {
@@ -115,6 +116,61 @@ class OurBlock{
                 charArr[i] = str[i];
             }
             return charArr;
+        }
+        public static string InString(char[] charArr, int length)
+        {
+            string str="";
+            for (int i = 0; i < length&&str.Length > i; i++)
+            {
+                str+= charArr[i];
+            }
+            return str;
+        }
+        public void Remove(int idRecordBook,string filename)
+        {
+            Zap[] zapArr = new Zap[1];
+            int sizeZap;
+            using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
+            {
+                sizeZap = reader.ReadInt32();  
+                Console.WriteLine(sizeZap);
+                for(int i=0;i<sizeZap-1;i++)
+                {
+                    zapArr[0] = new Zap(reader.ReadInt32(),ByteChar(reader,30),ByteChar(reader,20),ByteChar(reader,30),reader.ReadInt32());
+                }
+                reader.Close();
+            }
+            if(Edit(filename,idRecordBook,zapArr[0].GetIdRecordBook(),zapArr[0].GetLastname().ToString(),zapArr[0].GetName().ToString(),zapArr[0].GetMiddlename().ToString(),zapArr[0].GetIdGroup())==-1)
+            {
+                return;
+            }
+            using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+            {
+                writer.Write(sizeZap-1);
+                writer.Close();
+            }
+        }
+        public void AddOnEnd(string filename, int idRecordBook,string lastname,string name,string patronymic,int idGroup)
+        {
+            char [] lastnameChar = OurBlock.InChar(lastname,30);
+            char [] nameChar = OurBlock.InChar(name,20);
+            char [] patronymicChar = OurBlock.InChar(patronymic,30);
+            Zap zapArr = new Zap(idRecordBook,lastnameChar,nameChar,patronymicChar,idGroup);
+            int sizeZap = Function.ReadNullBlockInt(filename)+1;
+            
+            using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+            {
+                writer.Write(sizeZap);
+                sizeZap-=2;
+                sizeZap*=88;
+                sizeZap+=4;
+                writer.Seek(sizeZap,SeekOrigin.Begin);
+                writer.Write(zapArr.GetIdRecordBook());
+                writer.Write(zapArr.GetLastname());
+                writer.Write(zapArr.GetName());
+                writer.Write(zapArr.GetMiddlename());
+                writer.Write(zapArr.GetIdGroup());
+            }
         }
 
     }

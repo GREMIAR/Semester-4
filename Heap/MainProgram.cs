@@ -38,7 +38,7 @@ namespace BDlab1{
                         string midlename = Console.ReadLine();
                         Console.Write("Номер группа: ");
                         int idG = Convert.ToInt32(Console.ReadLine());
-                        AddOnEnd(filename, idZ,lastname,name,midlename,idG);
+                        mainBlock.AddOnEnd(filename, idZ,lastname,name,midlename,idG);
                         break;
                     }   
                     case "2":
@@ -63,7 +63,7 @@ namespace BDlab1{
                     {
                         Console.Write("Введите номер зачётки студента которого вы хотите удалить: ");
                         int idZ = Convert.ToInt32(Console.ReadLine());
-                        Remove(idZ,filename);
+                        mainBlock.Remove(idZ,filename);
                         break;
                     }
                     case "4":
