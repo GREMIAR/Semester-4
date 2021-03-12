@@ -54,7 +54,9 @@ namespace BDlab1{
                         string middlename = Console.ReadLine();
                         Console.Write("Номер группа: ");
                         int idG = Convert.ToInt32(Console.ReadLine());
-                        mainBlock.Edit(filename,oldidz,idZ,lastname,name,middlename,idG);
+                        if(mainBlock.Unique(filename,idZ)!=-1){
+                            mainBlock.Edit(filename,oldidz,idZ,lastname,name,middlename,idG);
+                        }
                         break;
                     }
                     case "3":
@@ -68,7 +70,13 @@ namespace BDlab1{
                     {
                         Console.Write("Введите номер зачётки студента которого вы ищете: ");
                         int idZ = Convert.ToInt32(Console.ReadLine());
-                        mainBlock.Search(idZ,filename);
+                        if((idZ=mainBlock.Search(idZ,filename))!=-1){
+                            mainBlock.PrintBlock();
+                            mainBlock.PrintFindStudent(idZ/88);
+                        }
+                        else{
+                            Console.WriteLine("\nУпс, ничего не удалось найти");
+                        }
                         break;
                     }
                     default:
