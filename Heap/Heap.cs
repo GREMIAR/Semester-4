@@ -23,6 +23,21 @@ namespace BDlab1{
         public int GetIdGroup(){
             return idGroup;
         }
+        public void SetIdRecordBook(int idRecordBook){
+            this.idRecordBook=idRecordBook;
+        }
+        public void SetLastname(char[] lastname){
+            this.lastname=lastname;
+        }
+        public void SetName(char[] name){
+            this.name=name;
+        }
+        public void SetMiddlename(char[] patronymic){
+            this.patronymic=patronymic;
+        }
+        public void SetIdGroup(int idGroup){
+            this.idGroup=idGroup;
+        }
         public Zap(int idRecordBook,char[] lastname,char[] name,char[] patronymic,int idGroup){
             this.idRecordBook = idRecordBook;
             this.lastname = lastname;

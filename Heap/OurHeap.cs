@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 namespace BDlab1{
 class OurBlock{
         Block block = new Block();
@@ -8,22 +9,14 @@ class OurBlock{
         {
             using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
             {
-                int numZap = reader.ReadInt32();
-                int i=1,f;
+                byte[] blockBinary = new byte[440];
+                int numBlock = reader.ReadInt32();
                 int numZapFound;
-                while(numZap>i)
+                for(int i=1;i<numBlock;i++)
                 {
-                    for(f=0;f<5;f++)
-                    {
-                        if(i>=numZap)
-                        {
-                            break;    
-                        }
-                        block.SetZapMass(f,reader.ReadInt32(),ByteChar(reader,30),ByteChar(reader,20),ByteChar(reader,30),reader.ReadInt32());
-                        i++;
-                    }
-                    block.SetSize(f);
-                    if((numZapFound=FindStudent(idRecordBook,f))!=-1)
+                    reader.Read(blockBinary, 0, 440);
+                    ByteArrToBlock(blockBinary);
+                    if((numZapFound=FindStudent(idRecordBook,5))!=-1)
                     {
                         reader.Close();
                         return (numZapFound)*88;
@@ -33,6 +26,32 @@ class OurBlock{
                 return -1;
             }
         }
+        void ByteArrToBlock(byte[] blockBinary)
+        {
+            byte[] byteArrByf = new byte[30];
+            byte[] intArr = new byte[4];
+            int r1;
+            char[] r2 = new char[30];
+            char[] r3 = new char[20];
+            char[] r4 = new char[30];
+            int r5;
+            for (int i=0;i<440;i+=88)
+            {
+                Array.Copy(blockBinary,i,intArr,0,4);
+                r1 = BitConverter.ToInt32(intArr, 0);
+                Array.Copy(blockBinary,i+4,byteArrByf,0,30);
+                r2 = Encoding.UTF8.GetChars(byteArrByf);
+                Array.Copy(blockBinary,i+34,byteArrByf,0,20);
+                r3 = Encoding.UTF8.GetChars(byteArrByf);
+                Array.Copy(blockBinary,i+54,byteArrByf,0,30);
+                r4 = Encoding.UTF8.GetChars(byteArrByf);
+                Array.Copy(blockBinary,i+84,intArr,0,4);
+                r5 = BitConverter.ToInt32(intArr, 0);
+                block.SetZapMass(i/88,r1,r2,r3,r4,r5);
+            }
+            return; 
+        }
+        
         int FindStudent(int idRecordBook,int numZip){
             for(int i=0;i<numZip;i++)
             {
@@ -46,8 +65,8 @@ class OurBlock{
         public void PrintFindStudent(int i)
         {
             Console.WriteLine("\nСтудент которыго вы искали: Номер зачётки: {0}; Фамилия: {1}; Имя: {2}; Отчество: {3}; Номер группы: {4};\n",
-            block.GetZapMass(i).GetIdRecordBook(), new string(block.GetZapMass(i).GetLastname()), new string(block.GetZapMass(i).GetName()), 
-            new string(block.GetZapMass(i).GetMiddlename()), block.GetZapMass(i).GetIdGroup());
+            block.GetZapMass(i).GetIdRecordBook(), InString(block.GetZapMass(i).GetLastname(),30), InString(block.GetZapMass(i).GetName(),20), 
+            InString(block.GetZapMass(i).GetMiddlename(),30), block.GetZapMass(i).GetIdGroup());
         }
         char[] ByteChar(BinaryReader reader,int length)
         {
@@ -75,14 +94,8 @@ class OurBlock{
         public void PrintBlock(){
             Console.WriteLine("----Весь Блок----\n");
             for(int i = 0; i < block.GetSize(); i++){
-                Console.Write("Номер записи в блоке: {0}; Номер зачётки: {1};",i+1,block.GetZapMass(i).GetIdRecordBook());
-                Console.Write("Фамилия: ");
-                Console.Write(new string(block.GetZapMass(i).GetLastname()));
-                Console.Write("; Имя: ");
-                Console.Write(new string(block.GetZapMass(i).GetName()));
-                Console.Write("; Отчество: ");
-                Console.Write(new string(block.GetZapMass(i).GetMiddlename()));
-                Console.WriteLine("; Номер группы: {0};",block.GetZapMass(i).GetIdGroup());
+                Console.WriteLine("Номер записи в блоке: {0}; Номер зачётки: {1}; Фамилия: {2}; Имя: {3}; Отчесвто: {4}; Номер группы: {5};",i+1,block.GetZapMass(i).GetIdRecordBook(),
+                InString(block.GetZapMass(i).GetLastname(),30),InString(block.GetZapMass(i).GetLastname(),20),InString(block.GetZapMass(i).GetMiddlename(),30),block.GetZapMass(i).GetIdGroup());
             }
             Console.WriteLine();
         }
