@@ -1,0 +1,16 @@
+C:\Project\PiAPS-labs\bin\Debug\net5.0\PiAPS-labs.exe
+C:\Project\PiAPS-labs\bin\Debug\net5.0\PiAPS-labs.deps.json
+C:\Project\PiAPS-labs\bin\Debug\net5.0\PiAPS-labs.runtimeconfig.json
+C:\Project\PiAPS-labs\bin\Debug\net5.0\PiAPS-labs.runtimeconfig.dev.json
+C:\Project\PiAPS-labs\bin\Debug\net5.0\PiAPS-labs.dll
+C:\Project\PiAPS-labs\bin\Debug\net5.0\ref\PiAPS-labs.dll
+C:\Project\PiAPS-labs\bin\Debug\net5.0\PiAPS-labs.pdb
+C:\Project\PiAPS-labs\obj\Debug\net5.0\PiAPS-labs.csprojAssemblyReference.cache
+C:\Project\PiAPS-labs\obj\Debug\net5.0\PiAPS-labs.GeneratedMSBuildEditorConfig.editorconfig
+C:\Project\PiAPS-labs\obj\Debug\net5.0\PiAPS-labs.AssemblyInfoInputs.cache
+C:\Project\PiAPS-labs\obj\Debug\net5.0\PiAPS-labs.AssemblyInfo.cs
+C:\Project\PiAPS-labs\obj\Debug\net5.0\PiAPS-labs.csproj.CoreCompileInputs.cache
+C:\Project\PiAPS-labs\obj\Debug\net5.0\PiAPS-labs.dll
+C:\Project\PiAPS-labs\obj\Debug\net5.0\ref\PiAPS-labs.dll
+C:\Project\PiAPS-labs\obj\Debug\net5.0\PiAPS-labs.pdb
+C:\Project\PiAPS-labs\obj\Debug\net5.0\PiAPS-labs.genruntimeconfig.cache
