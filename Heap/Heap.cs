@@ -3,11 +3,18 @@ using System.IO;
 using System.Text;
 namespace BDlab1{
     class Zap{
+        bool isZap=false;
         int idRecordBook;
         char[] lastname;
         char[] name;
         char[] patronymic;
         int idGroup;
+        public bool GetIsZap(){
+            return isZap;
+        }
+        public  void SetIsZap(bool isZap){
+            this.isZap=isZap;
+        }
         public int GetIdRecordBook(){
             return idRecordBook;
         }
@@ -23,27 +30,22 @@ namespace BDlab1{
         public int GetIdGroup(){
             return idGroup;
         }
-        public void SetIdRecordBook(int idRecordBook){
-            this.idRecordBook=idRecordBook;
-        }
-        public void SetLastname(char[] lastname){
-            this.lastname=lastname;
-        }
-        public void SetName(char[] name){
-            this.name=name;
-        }
-        public void SetMiddlename(char[] patronymic){
-            this.patronymic=patronymic;
-        }
-        public void SetIdGroup(int idGroup){
-            this.idGroup=idGroup;
-        }
         public Zap(int idRecordBook,char[] lastname,char[] name,char[] patronymic,int idGroup){
             this.idRecordBook = idRecordBook;
             this.lastname = lastname;
             this.name = name;
             this.patronymic = patronymic;
             this.idGroup = idGroup;
+            isZap=true;
+        }
+        public Zap()
+        {
+            isZap=false;
+            idRecordBook=-1;
+            lastname=new char[0];
+            name=new char[0];
+            patronymic=new char[0];
+            idGroup=-1;
         }
     }
     class Block {
@@ -61,13 +63,24 @@ namespace BDlab1{
         public int GetSize(){
             return size;
         }
-        public Block(Zap[] zapMass){
-            this.zapMass[0] = zapMass[0];
-            this.zapMass[1] = zapMass[1];
-            this.zapMass[2] = zapMass[2];
-            this.zapMass[3] = zapMass[3];
-            this.zapMass[4] = zapMass[4];
+        public void SetFullRestart()
+        {
+            for(int i=0;i<5;i++)
+            {
+                zapMass[i].SetIsZap(false);
+            }
         }
-        public Block(){}
+        public Block(Zap[] zapMass){
+            for(int i=0;i<5;i++)
+            {
+                this.zapMass[i] = zapMass[i];
+            }
+        }
+        public Block(){
+            for(int i=0;i<5;i++)
+            {
+                zapMass[i] = new Zap();
+            }
+        }
     }
 }
