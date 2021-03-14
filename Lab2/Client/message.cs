@@ -7,7 +7,18 @@ namespace Client
     public class ClientMessage
     {
         static TcpClient client=null;
-        static string userName="";
+        static string userName;
+        public static void SignUp(string address, int port)
+        {
+            Console.Clear();
+            Console.Write("Введите свое имя:");
+            userName = Console.ReadLine();
+            client = new TcpClient(address, port);
+            NetworkStream stream = client.GetStream();
+            byte[] data = Encoding.Unicode.GetBytes(String.Format(userName + ": вошёл в чат "));
+            stream.Write(data, 0, data.Length);
+        }
+
         public static void Send()
         {
             NetworkStream stream = client.GetStream();
@@ -19,7 +30,7 @@ namespace Client
                 stream.Write(data, 0, data.Length);
             }
         }
-        public static void Rece()
+        public static void Receive()
         {
             NetworkStream stream = client.GetStream();
             while(true)
@@ -27,16 +38,8 @@ namespace Client
                 byte[] data = new byte[64]; // буфер для получаемых данных
                 int bytes = stream.Read(data, 0, data.Length); 
                 string message = Encoding.Unicode.GetString(data, 0, bytes);
-                Console.WriteLine("Сервер: {0}", message);
+                Console.WriteLine("\n"+ message);
             }
-        }
-        public static void LogIn(int port, string address,string userNameUp)
-        {
-            userName=userNameUp;
-            client = new TcpClient(address, port);
-            NetworkStream stream = client.GetStream();
-            byte[] data = Encoding.Unicode.GetBytes(String.Format(userName + ": вошёл в чат "));
-            stream.Write(data, 0, data.Length);
         }
         public static void CloseMessage()
         {

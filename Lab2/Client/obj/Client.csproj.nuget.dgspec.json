@@ -10,11 +10,11 @@
         "projectUniqueName": "C:\\Project\\PiAPS-labs\\Lab2\\Client\\Client.csproj",
         "projectName": "Client",
         "projectPath": "C:\\Project\\PiAPS-labs\\Lab2\\Client\\Client.csproj",
-        "packagesPath": "C:\\Users\\Nikita\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\Nikitos\\.nuget\\packages\\",
         "outputPath": "C:\\Project\\PiAPS-labs\\Lab2\\Client\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Nikita\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Nikitos\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"

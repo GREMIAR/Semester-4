@@ -1,39 +1,33 @@
-﻿using System;
+using System;
+using System.Net;
 using System.Net.Sockets;
-using System.Text;
+using System.Threading;
+using System.Collections.Generic;
  
-namespace Server
+namespace ServerChat
 {
-    public class СonnectedClient
+    class Program
     {
-        TcpClient client;
-        
-        public СonnectedClient(TcpClient client)
+        const int port = 8888;
+        static void Main(string[] args)
         {
-            this.client = client;
-        }
-        
-        public TcpClient GetClient()
-        {
-            return client;
-        }
-
-        public void Process()
-        {
-            NetworkStream stream = null;
+            Server test = new Server();
             try
             {
+
+                List<TcpClient> client = new List<TcpClient>();
+
+                test.StartingServer(port);
+
+                Console.Clear();
+
+
+
+                test.FirstClient();
+
                 while(true)
                 {
-                    stream = client.GetStream();
-                    byte[] data = new byte[64]; 
-                    while (true)
-                    {
-                        int bytes = stream.Read(data, 0, data.Length); 
-                        string message = Encoding.Unicode.GetString(data, 0, bytes);
-                        Console.WriteLine(message);
-                        
-                    }
+                   test.SecondClient();
                 }
             }
             catch(Exception ex)
@@ -42,10 +36,7 @@ namespace Server
             }
             finally
             {
-                if (stream != null)
-                    stream.Close();
-                if (client != null)
-                    client.Close();
+                test.ClossServer();
             }
         }
     }

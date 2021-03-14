@@ -1,32 +1,83 @@
-using System;
-using System.Net;
+﻿using System;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
- 
-namespace Server
+using System.Collections.Generic;
+using System.Net;
+
+namespace ServerChat
 {
-    class Program
+    public class Server
     {
-        const int port = 8888;
-        static TcpListener listener;
-        static void Main(string[] args)
+        static List<TcpClient>  clients = new List<TcpClient>();
+        TcpListener listener;
+
+        TcpClient client;
+        
+        public Server(TcpClient client)
         {
+            this.client = client;
+        }
+        public Server()
+        {
+        }
+        
+        public TcpClient GetClient()
+        {
+            return client;
+        }
+
+        public void FirstClient()
+        {
+            Console.Clear();
+            Server clientObject = new Server(client);
+            Thread clientThread = new Thread(new ThreadStart(clientObject.Process));
+            clientThread.Start();
+        }
+        public void SecondClient()
+        {
+            client = listener.AcceptTcpClient();
+            clients.Add(client);
+            Server clientObject = new Server(client);
+            Thread clientThread = new Thread(new ThreadStart(clientObject.Process));
+            clientThread.Start();
+        }
+
+        public void StartingServer(int port)
+        {
+            listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
+            listener.Start();
+            Console.WriteLine("Ожидание подключений...");
+            client = listener.AcceptTcpClient();
+            clients.Add(client);
+        }
+
+        public void Process()
+        {
+            NetworkStream stream = null;
             try
             {
-                listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
-                listener.Start();
-                Console.WriteLine("Ожидание подключений...");
-                TcpClient client = listener.AcceptTcpClient();
-                Console.Clear();
-                СonnectedClient clientObject = new СonnectedClient(client);
-                Thread clientThread = new Thread(new ThreadStart(clientObject.Process));
-                clientThread.Start();
                 while(true)
                 {
-                    client = listener.AcceptTcpClient();
-                    clientObject = new СonnectedClient(client);
-                    clientThread = new Thread(new ThreadStart(clientObject.Process));
-                    clientThread.Start();
+                    stream = client.GetStream();
+                    TcpClient localClient = client;
+                    while (true)
+                    {
+                        byte[] data = new byte[64]; 
+                        stream = localClient.GetStream();
+                        int bytes = stream.Read(data, 0, data.Length); 
+                        string message = Encoding.Unicode.GetString(data, 0, bytes);
+                        Console.WriteLine(message);
+                        foreach (TcpClient Client in clients)
+                        {
+                            if(Client!=localClient)
+                            {
+                                stream = Client.GetStream();
+                                stream.Write(data, 0, data.Length);
+                            }
+                        }
+                        
+                    }
                 }
             }
             catch(Exception ex)
@@ -35,9 +86,17 @@ namespace Server
             }
             finally
             {
-                if(listener!=null)
-                    listener.Stop();
+                if (stream != null)
+                    stream.Close();
+                if (client != null)
+                    client.Close();
             }
+        }
+
+        public void ClossServer()
+        {
+            if(listener!=null)
+                listener.Stop();
         }
     }
 }
