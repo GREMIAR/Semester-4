@@ -83,6 +83,7 @@
             this.textBoxMsg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxMsg.Size = new System.Drawing.Size(607, 112);
             this.textBoxMsg.TabIndex = 3;
+            this.textBoxMsg.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxMsg_KeyDown);
             // 
             // buttonSend
             // 

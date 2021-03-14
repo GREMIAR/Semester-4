@@ -45,7 +45,7 @@ namespace ServerChat
 
         public void StartingServer(int port)
         {
-            listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
+            listener = new TcpListener(IPAddress.Parse("26.146.45.95"), port);
             listener.Start();
             Console.WriteLine("Ожидание подключений...");
             client = listener.AcceptTcpClient();
@@ -63,7 +63,7 @@ namespace ServerChat
                     TcpClient localClient = client;
                     while (true)
                     {
-                        byte[] data = new byte[64]; 
+                        byte[] data = new byte[1024]; 
                         stream = localClient.GetStream();
                         int bytes = stream.Read(data, 0, data.Length); 
                         string message = Encoding.Unicode.GetString(data, 0, bytes);

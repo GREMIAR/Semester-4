@@ -16,8 +16,6 @@ namespace ArchitectureLab2
     {
         static TcpClient client = null;
         static string userName;
-        const string address = "127.0.0.1";
-        const int port = 8888;
 
         public ClientForm()
         {
@@ -40,15 +38,14 @@ namespace ArchitectureLab2
             NetworkStream stream = client.GetStream();
             while (true)
             {
-                byte[] data = new byte[64];
+                byte[] data = new byte[1024];
                 int bytes = stream.Read(data, 0, data.Length);
                 string message = Encoding.Unicode.GetString(data, 0, bytes);
                 textBoxChat.AppendText(message);
                 textBoxChat.AppendText(Environment.NewLine);
             }
         }
-
-        private void buttonSend_Click(object sender, EventArgs e)
+        public void Send()
         {
             NetworkStream stream = client.GetStream();
             string message = textBoxMsg.Text;
@@ -57,6 +54,11 @@ namespace ArchitectureLab2
             byte[] data = Encoding.Unicode.GetBytes(String.Format("{0}: {1}", userName, message));
             stream.Write(data, 0, data.Length);
             textBoxMsg.Clear();
+        }
+
+        private void buttonSend_Click(object sender, EventArgs e)
+        {
+            Send();
         }
 
         private void textBoxAddress_Click(object sender, EventArgs e)
@@ -72,6 +74,14 @@ namespace ArchitectureLab2
         private void textBoxName_Click(object sender, EventArgs e)
         {
             textBoxName.Clear();
+        }
+
+        private void textBoxMsg_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Send();
+            }
         }
     }
 }
