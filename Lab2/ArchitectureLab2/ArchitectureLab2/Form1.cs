@@ -18,6 +18,7 @@ namespace ArchitectureLab2
         static string userName;
         const string address = "127.0.0.1";
         const int port = 8888;
+
         public ClientForm()
         {
             InitializeComponent();
@@ -26,32 +27,24 @@ namespace ArchitectureLab2
         private void buttonLogIn_Click(object sender, EventArgs e)
         {
             userName = textBoxName.Text;
-            client = new TcpClient(address, port);
+            client = new TcpClient(textBoxAddress.Text,int.Parse(textBoxPort.Text));
             NetworkStream stream = client.GetStream();
             byte[] data = Encoding.Unicode.GetBytes(String.Format(userName + ": вошёл в чат "));
             stream.Write(data, 0, data.Length);
-
-
             Thread ReceThread = new Thread(Receive);
             ReceThread.Start();
+            buttonSend.Enabled = true;
         }
         public void Receive()
         {
             NetworkStream stream = client.GetStream();
             while (true)
             {
-                byte[] data = new byte[64]; // буфер для получаемых данных
+                byte[] data = new byte[64];
                 int bytes = stream.Read(data, 0, data.Length);
                 string message = Encoding.Unicode.GetString(data, 0, bytes);
-                const int limit = 1000;
-                if (textBoxChat.Text.Length < limit)
-                {
-                    textBoxChat.Text += message+"\n";
-                }
-                else
-                {
-                    textBoxChat.Text = message + "\n";
-                }
+                textBoxChat.AppendText(message);
+                textBoxChat.AppendText(Environment.NewLine);
             }
         }
 
@@ -59,9 +52,26 @@ namespace ArchitectureLab2
         {
             NetworkStream stream = client.GetStream();
             string message = textBoxMsg.Text;
+            textBoxChat.AppendText("Вы: " + message);
+            textBoxChat.AppendText(Environment.NewLine);
             byte[] data = Encoding.Unicode.GetBytes(String.Format("{0}: {1}", userName, message));
             stream.Write(data, 0, data.Length);
-            textBoxMsg.Text = "";
+            textBoxMsg.Clear();
+        }
+
+        private void textBoxAddress_Click(object sender, EventArgs e)
+        {
+            textBoxAddress.Clear();
+        }
+
+        private void textBoxPort_Click(object sender, EventArgs e)
+        {
+            textBoxPort.Clear();
+        }
+
+        private void textBoxName_Click(object sender, EventArgs e)
+        {
+            textBoxName.Clear();
         }
     }
 }

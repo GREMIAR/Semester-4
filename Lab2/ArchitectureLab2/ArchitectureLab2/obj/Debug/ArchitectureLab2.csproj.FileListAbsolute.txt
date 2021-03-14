@@ -8,3 +8,13 @@ C:\Users\Mikhail\source\repos\ArchitectureLab2\ArchitectureLab2\obj\Debug\Archit
 C:\Users\Mikhail\source\repos\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.exe
 C:\Users\Mikhail\source\repos\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.pdb
 C:\Users\Mikhail\source\repos\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.ClientForm.resources
+C:\Project\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.exe
+C:\Project\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.pdb
+C:\Project\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\bin\Debug\ArchitectureLab2.exe.config
+C:\Project\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\bin\Debug\ArchitectureLab2.exe
+C:\Project\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\bin\Debug\ArchitectureLab2.pdb
+C:\Project\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.csprojAssemblyReference.cache
+C:\Project\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.ClientForm.resources
+C:\Project\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.Properties.Resources.resources
+C:\Project\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.csproj.GenerateResource.cache
+C:\Project\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.csproj.CoreCompileInputs.cache
