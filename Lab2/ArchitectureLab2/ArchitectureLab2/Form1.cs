@@ -43,7 +43,15 @@ namespace ArchitectureLab2
                 byte[] data = new byte[64]; // буфер для получаемых данных
                 int bytes = stream.Read(data, 0, data.Length);
                 string message = Encoding.Unicode.GetString(data, 0, bytes);
-                textBoxChat.Text = message+"\n";
+                const int limit = 1000;
+                if (textBoxChat.Text.Length < limit)
+                {
+                    textBoxChat.Text += message+"\n";
+                }
+                else
+                {
+                    textBoxChat.Text = message + "\n";
+                }
             }
         }
 
