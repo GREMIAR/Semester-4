@@ -1,0 +1,10 @@
+C:\Users\Mikhail\source\repos\ArchitectureLab2\ArchitectureLab2\bin\Debug\ArchitectureLab2.exe.config
+C:\Users\Mikhail\source\repos\ArchitectureLab2\ArchitectureLab2\bin\Debug\ArchitectureLab2.exe
+C:\Users\Mikhail\source\repos\ArchitectureLab2\ArchitectureLab2\bin\Debug\ArchitectureLab2.pdb
+C:\Users\Mikhail\source\repos\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.csprojAssemblyReference.cache
+C:\Users\Mikhail\source\repos\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.Properties.Resources.resources
+C:\Users\Mikhail\source\repos\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.csproj.GenerateResource.cache
+C:\Users\Mikhail\source\repos\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.csproj.CoreCompileInputs.cache
+C:\Users\Mikhail\source\repos\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.exe
+C:\Users\Mikhail\source\repos\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.pdb
+C:\Users\Mikhail\source\repos\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.ClientForm.resources
