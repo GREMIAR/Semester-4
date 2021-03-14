@@ -10,11 +10,11 @@
         "projectUniqueName": "C:\\Project\\PiAPS-labs\\Lab2\\Server\\Server.csproj",
         "projectName": "Server",
         "projectPath": "C:\\Project\\PiAPS-labs\\Lab2\\Server\\Server.csproj",
-        "packagesPath": "C:\\Users\\Nikitos\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\Nikita\\.nuget\\packages\\",
         "outputPath": "C:\\Project\\PiAPS-labs\\Lab2\\Server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Nikitos\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Nikita\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
