@@ -41,28 +41,31 @@ namespace ArchitectureLab2
                 byte[] data = new byte[1024];
                 int bytes = stream.Read(data, 0, data.Length);
                 string message = Encoding.Unicode.GetString(data, 0, bytes);
-                string onlineUser = OnlineClient(message);
-                if (onlineUser == "-1")
+                if (!OnlineClient(message))
                 {
                     textBoxChat.AppendText(message);
                     textBoxChat.AppendText(Environment.NewLine);
                 }
-                else
-                {
-                    textBoxUserList.Text = onlineUser;
-                }
             }
         }
-        public string OnlineClient(string user)
+        public bool OnlineClient(string user)
         {
             if (user[0] == '/')
             {
                 user = user.Substring(5);
-                return user;
+                string[] words = user.Split('#');
+                textBoxUserList.Clear();
+                foreach (var word in words)
+                {
+
+                    textBoxUserList.AppendText(word);
+                    textBoxUserList.AppendText(Environment.NewLine);
+                }
+                return true;
             }
             else
             {
-                return "-1";
+                return false;
             }
         }
         public void Send()
@@ -104,7 +107,7 @@ namespace ArchitectureLab2
             }
         }
 
-        private void textBoxChat_TextChanged(object sender, EventArgs e)
+        private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             NetworkStream stream = client.GetStream();
             string message = "/Close";

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Project\\PiAPS-labs\\Lab2\\Server\\Server.csproj": {}
+    "C:\\Project\\PiAPS-labs\\lab2\\server\\Server.csproj": {}
   },
   "projects": {
-    "C:\\Project\\PiAPS-labs\\Lab2\\Server\\Server.csproj": {
+    "C:\\Project\\PiAPS-labs\\lab2\\server\\Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Project\\PiAPS-labs\\Lab2\\Server\\Server.csproj",
+        "projectUniqueName": "C:\\Project\\PiAPS-labs\\lab2\\server\\Server.csproj",
         "projectName": "Server",
-        "projectPath": "C:\\Project\\PiAPS-labs\\Lab2\\Server\\Server.csproj",
+        "projectPath": "C:\\Project\\PiAPS-labs\\lab2\\server\\Server.csproj",
         "packagesPath": "C:\\Users\\Nikita\\.nuget\\packages\\",
-        "outputPath": "C:\\Project\\PiAPS-labs\\Lab2\\Server\\obj\\",
+        "outputPath": "C:\\Project\\PiAPS-labs\\lab2\\server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
