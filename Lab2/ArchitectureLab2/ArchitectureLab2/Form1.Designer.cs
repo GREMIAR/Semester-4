@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBoxChat = new System.Windows.Forms.TextBox();
             this.buttonLogIn = new System.Windows.Forms.Button();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.textBoxMsg = new System.Windows.Forms.TextBox();
@@ -37,28 +36,20 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxPort = new System.Windows.Forms.TextBox();
             this.textBoxAddress = new System.Windows.Forms.TextBox();
+            this.textBoxChat = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // textBoxChat
-            // 
-            this.textBoxChat.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.textBoxChat.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxChat.Location = new System.Drawing.Point(539, 22);
-            this.textBoxChat.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.textBoxChat.Multiline = true;
-            this.textBoxChat.Name = "textBoxChat";
-            this.textBoxChat.ReadOnly = true;
-            this.textBoxChat.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxChat.Size = new System.Drawing.Size(1357, 1110);
-            this.textBoxChat.TabIndex = 0;
             // 
             // buttonLogIn
             // 
+            this.buttonLogIn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonLogIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonLogIn.Location = new System.Drawing.Point(22, 216);
-            this.buttonLogIn.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.buttonLogIn.Location = new System.Drawing.Point(3, 117);
             this.buttonLogIn.Name = "buttonLogIn";
-            this.buttonLogIn.Size = new System.Drawing.Size(506, 87);
+            this.buttonLogIn.Size = new System.Drawing.Size(250, 32);
             this.buttonLogIn.TabIndex = 1;
             this.buttonLogIn.Text = "Вход";
             this.buttonLogIn.UseVisualStyleBackColor = true;
@@ -66,37 +57,43 @@
             // 
             // textBoxName
             // 
+            this.textBoxName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxName.BackColor = System.Drawing.SystemColors.ControlDark;
             this.textBoxName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxName.Location = new System.Drawing.Point(22, 151);
-            this.textBoxName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.textBoxName.Location = new System.Drawing.Point(3, 79);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(503, 44);
+            this.textBoxName.Size = new System.Drawing.Size(250, 29);
             this.textBoxName.TabIndex = 2;
             this.textBoxName.Text = " Имя";
             this.textBoxName.Click += new System.EventHandler(this.textBoxName_Click);
             // 
             // textBoxMsg
             // 
+            this.textBoxMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxMsg.BackColor = System.Drawing.SystemColors.ControlDark;
             this.textBoxMsg.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxMsg.Location = new System.Drawing.Point(539, 1146);
-            this.textBoxMsg.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.textBoxMsg.Location = new System.Drawing.Point(259, 698);
             this.textBoxMsg.Multiline = true;
             this.textBoxMsg.Name = "textBoxMsg";
             this.textBoxMsg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxMsg.Size = new System.Drawing.Size(1110, 203);
+            this.textBoxMsg.Size = new System.Drawing.Size(506, 77);
             this.textBoxMsg.TabIndex = 3;
             this.textBoxMsg.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxMsg_KeyDown);
             // 
             // buttonSend
             // 
+            this.buttonSend.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSend.Enabled = false;
             this.buttonSend.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonSend.Location = new System.Drawing.Point(1663, 1146);
-            this.buttonSend.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.buttonSend.Location = new System.Drawing.Point(771, 698);
             this.buttonSend.Name = "buttonSend";
-            this.buttonSend.Size = new System.Drawing.Size(237, 207);
+            this.buttonSend.Size = new System.Drawing.Size(250, 77);
             this.buttonSend.TabIndex = 4;
             this.buttonSend.Text = "Отправить";
             this.buttonSend.UseVisualStyleBackColor = true;
@@ -104,79 +101,126 @@
             // 
             // textBoxUserList
             // 
+            this.textBoxUserList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxUserList.BackColor = System.Drawing.SystemColors.ControlDark;
             this.textBoxUserList.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxUserList.Location = new System.Drawing.Point(22, 410);
-            this.textBoxUserList.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.textBoxUserList.Location = new System.Drawing.Point(3, 193);
             this.textBoxUserList.Multiline = true;
             this.textBoxUserList.Name = "textBoxUserList";
             this.textBoxUserList.ReadOnly = true;
+            this.tableLayoutPanel1.SetRowSpan(this.textBoxUserList, 2);
             this.textBoxUserList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUserList.Size = new System.Drawing.Size(503, 940);
+            this.textBoxUserList.Size = new System.Drawing.Size(250, 582);
             this.textBoxUserList.TabIndex = 7;
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(22, 358);
-            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label2.Location = new System.Drawing.Point(3, 152);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(400, 39);
+            this.label2.Size = new System.Drawing.Size(250, 38);
             this.label2.TabIndex = 8;
             this.label2.Text = "Список пользователей:";
             // 
             // textBoxPort
             // 
+            this.textBoxPort.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxPort.BackColor = System.Drawing.SystemColors.ControlDark;
             this.textBoxPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxPort.Location = new System.Drawing.Point(22, 87);
-            this.textBoxPort.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.textBoxPort.Location = new System.Drawing.Point(3, 41);
             this.textBoxPort.Name = "textBoxPort";
-            this.textBoxPort.Size = new System.Drawing.Size(503, 44);
+            this.textBoxPort.Size = new System.Drawing.Size(250, 29);
             this.textBoxPort.TabIndex = 12;
             this.textBoxPort.Text = " Порт";
             this.textBoxPort.Click += new System.EventHandler(this.textBoxPort_Click);
             // 
             // textBoxAddress
             // 
+            this.textBoxAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxAddress.BackColor = System.Drawing.SystemColors.ControlDark;
             this.textBoxAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxAddress.Location = new System.Drawing.Point(22, 22);
-            this.textBoxAddress.Margin = new System.Windows.Forms.Padding(6);
+            this.textBoxAddress.Location = new System.Drawing.Point(3, 3);
             this.textBoxAddress.Name = "textBoxAddress";
-            this.textBoxAddress.Size = new System.Drawing.Size(503, 44);
+            this.textBoxAddress.Size = new System.Drawing.Size(250, 29);
             this.textBoxAddress.TabIndex = 10;
             this.textBoxAddress.Text = " Адрес";
             this.textBoxAddress.Click += new System.EventHandler(this.textBoxAddress_Click);
             // 
+            // textBoxChat
+            // 
+            this.textBoxChat.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxChat.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.tableLayoutPanel1.SetColumnSpan(this.textBoxChat, 2);
+            this.textBoxChat.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxChat.Location = new System.Drawing.Point(259, 3);
+            this.textBoxChat.Multiline = true;
+            this.textBoxChat.Name = "textBoxChat";
+            this.textBoxChat.ReadOnly = true;
+            this.tableLayoutPanel1.SetRowSpan(this.textBoxChat, 6);
+            this.textBoxChat.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxChat.Size = new System.Drawing.Size(762, 689);
+            this.textBoxChat.TabIndex = 0;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.Controls.Add(this.textBoxChat, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxAddress, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxPort, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxName, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.buttonLogIn, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxUserList, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.buttonSend, 2, 6);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxMsg, 1, 6);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 65F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1024, 778);
+            this.tableLayoutPanel1.TabIndex = 13;
+            // 
             // ClientForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(1921, 1375);
-            this.Controls.Add(this.textBoxPort);
-            this.Controls.Add(this.textBoxAddress);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBoxUserList);
-            this.Controls.Add(this.buttonSend);
-            this.Controls.Add(this.textBoxMsg);
-            this.Controls.Add(this.textBoxName);
-            this.Controls.Add(this.buttonLogIn);
-            this.Controls.Add(this.textBoxChat);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.ClientSize = new System.Drawing.Size(1048, 802);
+            this.Controls.Add(this.tableLayoutPanel1);
+            this.MinimumSize = new System.Drawing.Size(1064, 841);
             this.Name = "ClientForm";
             this.Text = "ChatClient";
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox textBoxChat;
         private System.Windows.Forms.Button buttonLogIn;
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.TextBox textBoxMsg;
@@ -185,6 +229,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxPort;
         private System.Windows.Forms.TextBox textBoxAddress;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TextBox textBoxChat;
     }
 }
 

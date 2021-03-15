@@ -41,8 +41,28 @@ namespace ArchitectureLab2
                 byte[] data = new byte[1024];
                 int bytes = stream.Read(data, 0, data.Length);
                 string message = Encoding.Unicode.GetString(data, 0, bytes);
-                textBoxChat.AppendText(message);
-                textBoxChat.AppendText(Environment.NewLine);
+                string onlineUser = OnlineClient(message);
+                if (onlineUser == "-1")
+                {
+                    textBoxChat.AppendText(message);
+                    textBoxChat.AppendText(Environment.NewLine);
+                }
+                else
+                {
+                    textBoxUserList.Text = onlineUser;
+                }
+            }
+        }
+        public string OnlineClient(string user)
+        {
+            if (user[0] == '/')
+            {
+                user = user.Substring(5);
+                return user;
+            }
+            else
+            {
+                return "-1";
             }
         }
         public void Send()
@@ -82,6 +102,14 @@ namespace ArchitectureLab2
             {
                 Send();
             }
+        }
+
+        private void textBoxChat_TextChanged(object sender, EventArgs e)
+        {
+            NetworkStream stream = client.GetStream();
+            string message = "/Close";
+            byte[] data = Encoding.Unicode.GetBytes(String.Format(message));
+            stream.Write(data, 0, data.Length);
         }
     }
 }

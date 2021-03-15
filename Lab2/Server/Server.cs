@@ -11,7 +11,6 @@ namespace ServerChat
             try
             {
                 server.StartingServer(port);
-                Console.Clear();
                 while(true)
                 {
                    server.ClientConnect();

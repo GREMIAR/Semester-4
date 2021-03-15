@@ -49,19 +49,26 @@ namespace ServerChat
                 byte[] data = new byte[1024];
                 int bytes = stream.Read(data, 0, data.Length); 
                 username = Encoding.Unicode.GetString(data, 0, bytes);
+                
+                username = username.Substring(0, username.LastIndexOf(':'));
                 Console.WriteLine(username);
                 userArr.Add(username);
+                string userOnline= "/user ";
+                foreach (string user in userArr)
+                {
+                    userOnline+=(user+"\n");
+                }
+                //data = Encoding.Unicode.GetBytes(String.Format("Добро пожаловать в чат!"));
+                //stream.Write(data, 0, data.Length);
                 foreach (TcpClient Client in clients)
                 {
+                    stream.Write(Encoding.Unicode.GetBytes(String.Format(userOnline)));
                     if(Client!=client)
                     {
                         stream = Client.GetStream();
                         stream.Write(data, 0, data.Length);
                     }
                 }
-                //data = Encoding.Unicode.GetBytes(String.Format("Добро пожаловать в чат!"));
-                //stream.Write(data, 0, data.Length);
-                
                 TcpClient localClient = client;
                 while (true)
                 {                        
@@ -69,6 +76,16 @@ namespace ServerChat
                     stream = localClient.GetStream();
                     bytes = stream.Read(data, 0, data.Length); 
                     string message = Encoding.Unicode.GetString(data, 0, bytes);
+                    if(message=="/Close")
+                    {
+                        userArr.Remove(username);
+                        clients.Remove(localClient);
+                        Console.WriteLine("Сюда");
+                        localClient.Close();
+                        stream.Close();
+                        Console.WriteLine(username+"вышел");
+                        return;
+                    }
                     Console.WriteLine(message);
                     foreach (TcpClient Client in clients)
                     {
@@ -78,8 +95,9 @@ namespace ServerChat
                             stream.Write(data, 0, data.Length);
                         }
                     }
-                    
+                    Console.WriteLine("1");
                 }
+                Console.WriteLine("2");
             }
             catch(Exception ex)
             {

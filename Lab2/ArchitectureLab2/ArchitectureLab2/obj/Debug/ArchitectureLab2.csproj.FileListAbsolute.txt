@@ -18,3 +18,12 @@ C:\Project\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\Architect
 C:\Project\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.Properties.Resources.resources
 C:\Project\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.csproj.GenerateResource.cache
 C:\Project\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.csproj.CoreCompileInputs.cache
+C:\Users\user\Documents\Универ\4 семестр\ПиАПС\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\bin\Debug\ArchitectureLab2.exe.config
+C:\Users\user\Documents\Универ\4 семестр\ПиАПС\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\bin\Debug\ArchitectureLab2.exe
+C:\Users\user\Documents\Универ\4 семестр\ПиАПС\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\bin\Debug\ArchitectureLab2.pdb
+C:\Users\user\Documents\Универ\4 семестр\ПиАПС\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.csprojAssemblyReference.cache
+C:\Users\user\Documents\Универ\4 семестр\ПиАПС\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.ClientForm.resources
+C:\Users\user\Documents\Универ\4 семестр\ПиАПС\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.Properties.Resources.resources
+C:\Users\user\Documents\Универ\4 семестр\ПиАПС\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.csproj.GenerateResource.cache
+C:\Users\user\Documents\Универ\4 семестр\ПиАПС\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.exe
+C:\Users\user\Documents\Универ\4 семестр\ПиАПС\PiAPS-labs\Lab2\ArchitectureLab2\ArchitectureLab2\obj\Debug\ArchitectureLab2.pdb
