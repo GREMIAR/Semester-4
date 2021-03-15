@@ -20,19 +20,45 @@ namespace ArchitectureLab2
         public ClientForm()
         {
             InitializeComponent();
+            AutoCompleteStringCollection source = new AutoCompleteStringCollection()
+            {
+            "8888"
+            };
+            textBoxPort.AutoCompleteCustomSource = source;
+            textBoxPort.AutoCompleteMode = AutoCompleteMode.Append;
+            textBoxPort.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
 
         private void buttonLogIn_Click(object sender, EventArgs e)
         {
-            userName = textBoxName.Text;
-            client = new TcpClient(textBoxAddress.Text,int.Parse(textBoxPort.Text));
-            NetworkStream stream = client.GetStream();
-            byte[] data = Encoding.Unicode.GetBytes(String.Format(userName + ": вошёл в чат "));
-            stream.Write(data, 0, data.Length);
-            Thread ReceThread = new Thread(Receive);
-            ReceThread.Start();
-            buttonSend.Enabled = true;
+            LogIn();
         }
+
+        public void LogIn()
+        {
+            try
+            {
+                userName = textBoxName.Text;
+                client = new TcpClient(textBoxAddress.Text, int.Parse(textBoxPort.Text));
+                NetworkStream stream = client.GetStream();
+                byte[] data = Encoding.Unicode.GetBytes(String.Format(userName + ": вошёл в чат "));
+                stream.Write(data, 0, data.Length);
+                Thread ReceThread = new Thread(Receive);
+                ReceThread.Start();
+                buttonSend.Enabled = true;
+            }
+            catch
+            {
+                MessageBox.Show(
+                "Мы не можем установить надёжного соединения",
+                "Сообщение",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+            }
+        }
+
         public void Receive()
         {
             NetworkStream stream = client.GetStream();
@@ -109,10 +135,41 @@ namespace ArchitectureLab2
 
         private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            NetworkStream stream = client.GetStream();
-            string message = "/Close";
-            byte[] data = Encoding.Unicode.GetBytes(String.Format(message));
-            stream.Write(data, 0, data.Length);
+            try
+            {
+                NetworkStream stream = client.GetStream();
+                string message = "/Close";
+                byte[] data = Encoding.Unicode.GetBytes(String.Format(message));
+                stream.Write(data, 0, data.Length);
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        private void textBoxAddress_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                ActiveControl = textBoxPort;
+            }
+        }
+
+        private void textBoxPort_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                ActiveControl = textBoxName;
+            }
+        }
+
+        private void textBoxName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                LogIn();
+            }
         }
     }
 }

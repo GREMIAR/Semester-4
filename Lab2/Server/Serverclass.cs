@@ -35,7 +35,7 @@ namespace ServerChat
 
         public void StartingServer(int port)
         {
-            listener = new TcpListener(IPAddress.Parse("26.165.89.67"), port);
+            listener = new TcpListener(IPAddress.Parse("26.146.45.95"), port);
             listener.Start();
             Console.WriteLine("Ожидание подключений...");
         }
@@ -64,13 +64,12 @@ namespace ServerChat
                     Console.WriteLine(message);
                     if(message=="/Close")
                     {
-                        UpdateUserOnline(stream,localClient);
                         userArr.Remove(username);
                         clients.Remove(localClient);
-                        Console.WriteLine("Сюда");
+                        UpdateUserOnline(stream,localClient);
                         localClient.Close();
                         stream.Close();
-                        Console.WriteLine(username+"вышел");
+                        Console.WriteLine(username+": вышел");
                         return;
                     }
                     Console.WriteLine(message);
