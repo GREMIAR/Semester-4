@@ -25,6 +25,13 @@ namespace ServerChat
 
         }
 
+        public void StartingServer(string ipAddress,int port)
+        {
+            listener = new TcpListener(IPAddress.Parse(ipAddress), port);
+            listener.Start();
+            Console.WriteLine("Ожидание подключений...");
+        }
+
         public void ClientConnect()
         {
             client = listener.AcceptTcpClient();
@@ -33,46 +40,42 @@ namespace ServerChat
             clientThread.Start();
         }
 
-        public void StartingServer(int port)
+        public string ReadClient(TcpClient tcpClient)
         {
-            listener = new TcpListener(IPAddress.Parse("26.146.45.95"), port);
-            listener.Start();
-            Console.WriteLine("Ожидание подключений...");
+            NetworkStream stream = tcpClient.GetStream();
+            byte[] data = new byte[2048];
+            int bytes = stream.Read(data, 0, data.Length); 
+            return Encoding.Unicode.GetString(data, 0, bytes);
         }
 
         public void Process()
         {
+            NetworkStream stream = client.GetStream();;
             string username;
-            NetworkStream stream = null;
+            TcpClient localClient = client;
             try
             {
-                stream = client.GetStream();
-                byte[] data = new byte[2048];
-                int bytes = stream.Read(data, 0, data.Length); 
-                username = Encoding.Unicode.GetString(data, 0, bytes);
+                username = ReadClient(localClient);
                 Console.WriteLine(username);
                 username = username.Substring(0, username.LastIndexOf(':'));
                 userArr.Add(username);
-                UpdateUserOnline(stream,client);
-                TcpClient localClient = client;
+                UpdateUserOnline(localClient);
                 while (true)
                 {                        
-                    data = new byte[2048]; 
-                    stream = localClient.GetStream();
-                    bytes = stream.Read(data, 0, data.Length); 
-                    string message = Encoding.Unicode.GetString(data, 0, bytes);
+                    string message = ReadClient(localClient);
                     Console.WriteLine(message);
                     if(message=="/Close")
                     {
                         userArr.Remove(username);
                         clients.Remove(localClient);
-                        UpdateUserOnline(stream,localClient);
+                        UpdateUserOnline(localClient);
                         localClient.Close();
                         stream.Close();
                         Console.WriteLine(username+": вышел");
                         return;
                     }
                     Console.WriteLine(message);
+                    byte[] data = Encoding.Unicode.GetBytes(String.Format(message));
                     foreach (TcpClient Client in clients)
                     {
                         if(Client!=localClient)
@@ -95,8 +98,9 @@ namespace ServerChat
                     client.Close();
             }
         }
-        public void UpdateUserOnline(NetworkStream stream,TcpClient localClient)
+        void UpdateUserOnline(TcpClient localClient)
         {
+            NetworkStream stream = localClient.GetStream();
             byte[] data = new byte[2048]; 
             string userOnline= "/user ";
             foreach (string user in userArr)
