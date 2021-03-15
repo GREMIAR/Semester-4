@@ -1,8 +1,4 @@
-using System;
-using System.Net;
-using System.Net.Sockets;
-using System.Threading;
-using System.Collections.Generic;
+﻿using System;
  
 namespace ServerChat
 {
@@ -11,23 +7,14 @@ namespace ServerChat
         const int port = 8888;
         static void Main(string[] args)
         {
-            Server test = new Server();
+            Server server = new Server();
             try
             {
-
-                List<TcpClient> client = new List<TcpClient>();
-
-                test.StartingServer(port);
-
+                server.StartingServer(port);
                 Console.Clear();
-
-
-
-                test.FirstClient();
-
                 while(true)
                 {
-                   test.SecondClient();
+                   server.ClientConnect();
                 }
             }
             catch(Exception ex)
@@ -36,7 +23,7 @@ namespace ServerChat
             }
             finally
             {
-                test.ClossServer();
+                server.ClossServer();
             }
         }
     }

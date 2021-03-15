@@ -10,6 +10,7 @@ namespace ServerChat
     public class Server
     {
         static List<TcpClient>  clients = new List<TcpClient>();
+        static List<string> userArr = new List<string>();
         TcpListener listener;
 
         TcpClient client;
@@ -20,64 +21,64 @@ namespace ServerChat
         }
         public Server()
         {
-        }
-        
-        public TcpClient GetClient()
-        {
-            return client;
+
         }
 
-        public void FirstClient()
-        {
-            Console.Clear();
-            Server clientObject = new Server(client);
-            Thread clientThread = new Thread(new ThreadStart(clientObject.Process));
-            clientThread.Start();
-        }
-        public void SecondClient()
+        public void ClientConnect()
         {
             client = listener.AcceptTcpClient();
             clients.Add(client);
-            Server clientObject = new Server(client);
-            Thread clientThread = new Thread(new ThreadStart(clientObject.Process));
+            Thread clientThread = new Thread(new ThreadStart(Process));
             clientThread.Start();
         }
 
         public void StartingServer(int port)
         {
-            listener = new TcpListener(IPAddress.Parse("26.146.45.95"), port);
+            listener = new TcpListener(IPAddress.Parse("26.165.89.67"), port);
             listener.Start();
             Console.WriteLine("Ожидание подключений...");
-            client = listener.AcceptTcpClient();
-            clients.Add(client);
         }
 
         public void Process()
         {
+            string username;
             NetworkStream stream = null;
             try
             {
-                while(true)
+                stream = client.GetStream();
+                byte[] data = new byte[1024];
+                int bytes = stream.Read(data, 0, data.Length); 
+                username = Encoding.Unicode.GetString(data, 0, bytes);
+                Console.WriteLine(username);
+                userArr.Add(username);
+                foreach (TcpClient Client in clients)
                 {
-                    stream = client.GetStream();
-                    TcpClient localClient = client;
-                    while (true)
+                    if(Client!=client)
                     {
-                        byte[] data = new byte[1024]; 
-                        stream = localClient.GetStream();
-                        int bytes = stream.Read(data, 0, data.Length); 
-                        string message = Encoding.Unicode.GetString(data, 0, bytes);
-                        Console.WriteLine(message);
-                        foreach (TcpClient Client in clients)
-                        {
-                            if(Client!=localClient)
-                            {
-                                stream = Client.GetStream();
-                                stream.Write(data, 0, data.Length);
-                            }
-                        }
-                        
+                        stream = Client.GetStream();
+                        stream.Write(data, 0, data.Length);
                     }
+                }
+                //data = Encoding.Unicode.GetBytes(String.Format("Добро пожаловать в чат!"));
+                //stream.Write(data, 0, data.Length);
+                
+                TcpClient localClient = client;
+                while (true)
+                {                        
+                    data = new byte[1024]; 
+                    stream = localClient.GetStream();
+                    bytes = stream.Read(data, 0, data.Length); 
+                    string message = Encoding.Unicode.GetString(data, 0, bytes);
+                    Console.WriteLine(message);
+                    foreach (TcpClient Client in clients)
+                    {
+                        if(Client!=localClient)
+                        {
+                            stream = Client.GetStream();
+                            stream.Write(data, 0, data.Length);
+                        }
+                    }
+                    
                 }
             }
             catch(Exception ex)
