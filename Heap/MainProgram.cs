@@ -5,6 +5,7 @@ namespace BDlab1{
     {
         static void Main(string[] args){
             const string filename = "BD.bin";
+            FileInfo fileSize = new FileInfo(filename);
             BinaryWriter writer;
             try{
                 writer = new BinaryWriter(File.Open(filename, FileMode.Open));
@@ -20,6 +21,8 @@ namespace BDlab1{
             OurBlock mainBlock = new OurBlock();
             string a="";
             while (a!="9"){
+                fileSize.Refresh();
+                Console.WriteLine("Размер файла= "+fileSize.Length);
                 Console.Write("\n1-Добавление информации о студент\n2-Изменение информации о студенте\n3-Удаление информации о студенте\n4-Осуществление поиска информации о студенте\nВвод: ");
                 a=Console.ReadLine();
                 switch (a)

@@ -9,11 +9,12 @@ class OurBlock{
         public OurBlock(){}
         public int Search(int idRecordBook,string filename)
         {
-            FileInfo file = new FileInfo(filename);
-            Console.WriteLine(file.Length);
             using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
             {
                 byte[] blockBinary = new byte[440];
+                // Удаление последнего блока
+                /*FileStream fileStream = new FileStream(filename, FileMode.Open);
+                fileStream.SetLength(440);  */
                 int numBlock = Function.ReadNullBlockInt(reader);
                 int numZapFound;
                 for(int i=0;i<numBlock;i++)
@@ -24,9 +25,11 @@ class OurBlock{
                     if((numZapFound=FindStudent(idRecordBook))!=-1)
                     {
                         reader.Close();
+                        Console.WriteLine("tyt"+numZapFound*88);
                         return (numZapFound)*88;
                     }
                 }
+                Console.WriteLine(-1);
                 reader.Close();
                 return -1;
             }
@@ -238,7 +241,7 @@ class OurBlock{
             //int sizeZap = Function.ReadNullBlockInt(filename);
             using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
             {
-                writer.Write(sizeZap+1);
+                /*writer.Write(sizeZap+1);
                 sizeZap--;
                 sizeZap*=88;
                 sizeZap+=4;
@@ -247,7 +250,7 @@ class OurBlock{
                 writer.Write(block.GetZapMass(0).GetLastname());
                 writer.Write(block.GetZapMass(0).GetName());
                 writer.Write(block.GetZapMass(0).GetMiddlename());
-                writer.Write(block.GetZapMass(0).GetIdGroup());
+                writer.Write(block.GetZapMass(0).GetIdGroup());*/
             }
         }
         public int Unique(string filename,int findIdRecordBook)
