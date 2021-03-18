@@ -40,9 +40,9 @@ namespace ServerChat
             clientThread.Start();
         }
 
-        public string ReadClient(TcpClient tcpClient)
+        public string ReadClient(TcpClient tcpClient,NetworkStream stream)
         {
-            NetworkStream stream = tcpClient.GetStream();
+            stream = tcpClient.GetStream();
             byte[] data = new byte[2048];
             int bytes = stream.Read(data, 0, data.Length); 
             return Encoding.Unicode.GetString(data, 0, bytes);
@@ -55,49 +55,75 @@ namespace ServerChat
             TcpClient localClient = client;
             try
             {
-                username = ReadClient(localClient);
+                username = ReadClient(localClient,stream);
                 Console.WriteLine(username);
                 username = username.Substring(0, username.LastIndexOf(':'));
                 userArr.Add(username);
                 UpdateUserOnline(localClient);
                 while (true)
                 {                        
-                    string message = ReadClient(localClient);
-                    Console.WriteLine(message);
-                    if(message=="/Close")
+                    string message = ReadClient(localClient,stream);
+                    if(Commands(message,username,localClient,stream,listener))
                     {
-                        userArr.Remove(username);
-                        clients.Remove(localClient);
-                        UpdateUserOnline(localClient);
-                        localClient.Close();
-                        stream.Close();
-                        Console.WriteLine(username+": вышел");
                         return;
                     }
                     Console.WriteLine(message);
-                    byte[] data = Encoding.Unicode.GetBytes(String.Format(message));
-                    foreach (TcpClient Client in clients)
-                    {
-                        if(Client!=localClient)
-                        {
-                            stream = Client.GetStream();
-                            stream.Write(data, 0, data.Length);
-                        }
-                    }
+                    WriteClient(localClient,stream,message);
                 }
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            finally
+        }
+        bool Commands(string message,string username,TcpClient localClient,NetworkStream stream,TcpListener listener)
+        {
+            if(message=="/Close")
             {
-                if (stream != null)
-                    stream.Close();
-                if (client != null)
-                    client.Close();
+                userArr.Remove(username);
+                UpdateUserOnline(localClient);
+                clients.Remove(localClient);
+                foreach (TcpClient Client in clients)
+                {
+                    Console.WriteLine(Client);
+                }
+                localClient.Close();
+                stream.Close();
+                listener.Stop();
+                Console.WriteLine(username+": вышел");
+                return true;
+            }
+            return false;
+        }
+
+        public void  WriteClient(TcpClient tcpClient,NetworkStream stream,string message)
+        {
+            stream = tcpClient.GetStream();
+            byte[] data = Encoding.Unicode.GetBytes(String.Format(message));
+            foreach (TcpClient Client in clients)
+            {
+                if(Client!=tcpClient)
+                {
+                    stream = Client.GetStream();
+                    stream.Write(data, 0, data.Length);
+                }
             }
         }
+
+        public void WriteLocalClient(TcpClient localClient,NetworkStream stream,string message)
+        {
+            stream = localClient.GetStream();
+            byte[] data = Encoding.Unicode.GetBytes(String.Format(message));
+            foreach (TcpClient Client in clients)
+            {
+                if(Client==localClient)
+                {
+                    stream = Client.GetStream();
+                    stream.Write(data, 0, data.Length);
+                }
+            }
+        }
+
         void UpdateUserOnline(TcpClient localClient)
         {
             NetworkStream stream = localClient.GetStream();
@@ -107,8 +133,6 @@ namespace ServerChat
             {
                 userOnline+=(user+"#");
             }
-            //data = Encoding.Unicode.GetBytes(String.Format("Добро пожаловать в чат!"));
-            //stream.Write(data, 0, data.Length);
             foreach (TcpClient Client in clients)
             {
                 stream.Write(Encoding.Unicode.GetBytes(String.Format(userOnline)));
@@ -122,8 +146,7 @@ namespace ServerChat
 
         public void ClossServer()
         {
-            if(listener!=null)
-                listener.Stop();
+            listener.Stop();
         }
     }
 }

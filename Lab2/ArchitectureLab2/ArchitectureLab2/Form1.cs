@@ -70,7 +70,7 @@ namespace ArchitectureLab2
                 if (!OnlineClient(message))
                 {
                     textBoxChat.AppendText(message);
-                    textBoxChat.AppendText(Environment.NewLine);
+                    //textBoxChat.AppendText(Environment.NewLine);
                 }
             }
         }
@@ -83,7 +83,6 @@ namespace ArchitectureLab2
                 textBoxUserList.Clear();
                 foreach (var word in words)
                 {
-
                     textBoxUserList.AppendText(word);
                     textBoxUserList.AppendText(Environment.NewLine);
                 }
