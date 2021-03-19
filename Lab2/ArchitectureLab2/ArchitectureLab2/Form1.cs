@@ -70,7 +70,7 @@ namespace ArchitectureLab2
                 if (!OnlineClient(message))
                 {
                     textBoxChat.AppendText(message);
-                    //textBoxChat.AppendText(Environment.NewLine);
+                    textBoxChat.AppendText(Environment.NewLine);
                 }
             }
         }
@@ -98,7 +98,6 @@ namespace ArchitectureLab2
             NetworkStream stream = client.GetStream();
             string message = textBoxMsg.Text;
             textBoxChat.AppendText("Вы: " + message);
-            textBoxChat.AppendText(Environment.NewLine);
             byte[] data = Encoding.Unicode.GetBytes(String.Format("{0}: {1}", userName, message));
             stream.Write(data, 0, data.Length);
             textBoxMsg.Clear();

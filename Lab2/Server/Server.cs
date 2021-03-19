@@ -3,7 +3,7 @@ namespace ServerChat
 {
     class Program
     {
-        const string ipAddress = "26.165.89.67";
+        const string ipAddress = "26.146.45.95";
         const int port = 8888;
         static void Main(string[] args)
         {

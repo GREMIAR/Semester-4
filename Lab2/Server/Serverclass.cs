@@ -12,7 +12,7 @@ namespace ServerChat
         static List<TcpClient>  clients = new List<TcpClient>();
         static List<string> userArr = new List<string>();
 
-        TcpListener listener;
+        static TcpListener listener;
 
         TcpClient client;
         
@@ -83,13 +83,8 @@ namespace ServerChat
                 userArr.Remove(username);
                 UpdateUserOnline(localClient);
                 clients.Remove(localClient);
-                foreach (TcpClient Client in clients)
-                {
-                    Console.WriteLine(Client);
-                }
                 localClient.Close();
                 stream.Close();
-                listener.Stop();
                 Console.WriteLine(username+": вышел");
                 return true;
             }
@@ -126,21 +121,15 @@ namespace ServerChat
 
         void UpdateUserOnline(TcpClient localClient)
         {
-            NetworkStream stream = localClient.GetStream();
-            byte[] data = new byte[2048]; 
-            string userOnline= "/user ";
+            string userOnline= "/user";
             foreach (string user in userArr)
             {
                 userOnline+=(user+"#");
             }
             foreach (TcpClient Client in clients)
             {
+                NetworkStream stream = Client.GetStream();
                 stream.Write(Encoding.Unicode.GetBytes(String.Format(userOnline)));
-                if(Client!=localClient)
-                {
-                    stream = Client.GetStream();
-                    stream.Write(data, 0, data.Length);
-                }
             }
         }
 
