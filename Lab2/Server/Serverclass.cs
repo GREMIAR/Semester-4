@@ -25,9 +25,9 @@ namespace ServerChat
 
         }
 
-        public void StartingServer(string ipAddress,int port)
+        public void StartingServer(IPAddress ipAddress,int port)
         {
-            listener = new TcpListener(IPAddress.Parse(ipAddress), port);
+            listener = new TcpListener(ipAddress, port);
             listener.Start();
             Console.WriteLine("Ожидание подключений...");
         }
@@ -63,7 +63,7 @@ namespace ServerChat
                 while (true)
                 {                        
                     string message = ReadClient(localClient,stream);
-                    if(Commands(message,username,localClient,stream,listener))
+                    if(Commands(message,username,localClient,stream))
                     {
                         return;
                     }
@@ -76,7 +76,7 @@ namespace ServerChat
                 Console.WriteLine(ex.Message);
             }
         }
-        bool Commands(string message,string username,TcpClient localClient,NetworkStream stream,TcpListener listener)
+        bool Commands(string message,string username,TcpClient localClient,NetworkStream stream)
         {
             if(message=="/Close")
             {

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gj617q5duf7rqMm1ZzSAlYQ+h06sqL4x4OJSkZJNYNaW6xXEfAZt0sAHZZvST8RIjASkxmaNLYS9UeYyy6C+IQ==",
+  "dgSpecHash": "1545Y9IOkdUoePGIF2UTrgGElHOiSaxcQGorsR8cTTCtQsGPv1lF43UJXUfPBGLDuYbOKfwtF4LQnAImfQMhsQ==",
   "success": true,
-  "projectFilePath": "C:\\Project\\PiAPS-labs\\Lab2\\Server\\Server.csproj",
+  "projectFilePath": "C:\\Project\\PiAPS-labs\\lab2\\server\\Server.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

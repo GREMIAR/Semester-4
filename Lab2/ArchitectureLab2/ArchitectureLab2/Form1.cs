@@ -127,6 +127,7 @@ namespace ArchitectureLab2
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.SuppressKeyPress = true;
                 Send();
             }
         }
@@ -150,6 +151,7 @@ namespace ArchitectureLab2
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.SuppressKeyPress = true;
                 ActiveControl = textBoxPort;
             }
         }
@@ -158,6 +160,7 @@ namespace ArchitectureLab2
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.SuppressKeyPress = true;
                 ActiveControl = textBoxName;
             }
         }
@@ -166,6 +169,7 @@ namespace ArchitectureLab2
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.SuppressKeyPress = true;
                 LogIn();
             }
         }
