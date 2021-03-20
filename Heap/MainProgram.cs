@@ -14,7 +14,7 @@ namespace BDlab1{
             {
                 using (writer = new BinaryWriter(File.Open(filename, FileMode.Create)))
                 {
-                    writer.Write(1);
+                    writer.Write(0);
                 }  
             }
             writer.Close();
@@ -57,9 +57,9 @@ namespace BDlab1{
                         string middlename = Console.ReadLine();
                         Console.Write("Номер группа: ");
                         int idG = Convert.ToInt32(Console.ReadLine());
-                        if(mainBlock.Unique(filename,idZ)!=-1){
+                        /*if(mainBlock.Unique(filename,idZ)!=-1){
                             mainBlock.Edit(filename,oldidz,idZ,lastname,name,middlename,idG);
-                        }
+                        }*/
                         break;
                     }
                     case "3":
