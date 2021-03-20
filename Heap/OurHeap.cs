@@ -7,6 +7,7 @@ namespace BDlab1{
 class OurBlock{
         Block block = new Block();
         public OurBlock(){}
+        //Переделан без return
         public int Search(int idRecordBook,string filename)
         {
             using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
@@ -32,6 +33,7 @@ class OurBlock{
                 return -1;
             }
         }
+        //Переделан
         void ByteArrToBlock(byte[] blockBinary)
         {
             byte[] byteArrByf = new byte[30];
@@ -60,7 +62,7 @@ class OurBlock{
             }
             return; 
         }
-        
+        //Переделан
         int FindStudent(int idRecordBook){
             for(int i=0;i<5;i++)
             {
@@ -71,12 +73,14 @@ class OurBlock{
             }
             return -1;
         }
+        //Переделан
         public void PrintFindStudent(int i)
         {
-            Console.WriteLine("\nСтудент которыго вы искали: Номер зачётки: {0}; Фамилия: {1}; Имя: {2}; Отчество: {3}; Номер группы: {4};\n",
+            Console.WriteLine("Студент которыго вы искали: Номер зачётки: {0}; Фамилия: {1}; Имя: {2}; Отчество: {3}; Номер группы: {4};\n",
             block.GetZapMass(i).GetIdRecordBook(), InString(block.GetZapMass(i).GetLastname(),30), InString(block.GetZapMass(i).GetName(),20), 
             InString(block.GetZapMass(i).GetMiddlename(),30), block.GetZapMass(i).GetIdGroup());
         }
+        //Переделан
         char[] ByteChar(BinaryReader reader,int length)
         {
             string charArr = "";
@@ -92,7 +96,8 @@ class OurBlock{
                 }                 
             }
             return StringinChar(charArr);
-        }   
+        }
+        //Переделан
         char[] StringinChar(string str){
             char[] newChar = new char[str.Length-1];
             for (int i=0;i<str.Length-1;i++){
@@ -100,8 +105,9 @@ class OurBlock{
             }
             return newChar;
         }
+        //Переделан
         public void PrintBlock(){
-            Console.WriteLine("----Весь Блок----\n");
+            Console.WriteLine("\n----Весь Блок----");
             for(int i = 0; i < 5; i++){
                 if(block.GetZapMass(i).GetIsZap())
                 {
@@ -118,6 +124,7 @@ class OurBlock{
             }
             Console.WriteLine();
         }
+        //Не переделан
         public int Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup)
         {
             int numZap=Search(oldidRecordBook,filename);
@@ -139,6 +146,7 @@ class OurBlock{
             Search(idRecordBook,filename);
             return 0;
         }
+        //Переделан
         static char[] InChar(string str, int length)
         {
             char[] charArr = new char[length];
@@ -148,6 +156,7 @@ class OurBlock{
             }
             return charArr;
         }
+        //Переделан
         public static string InString(char[] charArr, int length)
         {
             string str="";
@@ -168,6 +177,7 @@ class OurBlock{
             }
             return str;
         }
+        //Не переделан
         public void Remove(int idRecordBook,string filename)
         {
             int sizeZap;
@@ -195,101 +205,48 @@ class OurBlock{
                 writer.Close();
             }
         }
+        //Переделан только на пустой
         public void AddOnEnd(string filename, int idRecordBook,string lastname,string name,string patronymic,int idGroup)
         {
-            if(idRecordBook==0)
-            {
+            if(idRecordBook==0){
                 Console.WriteLine("Нельзя присвоить этот номер зачётки");
                 return;
             }
-            byte[] blockBinary = new byte[440];
             if(Search(idRecordBook,filename)!=-1){
                 Console.WriteLine("Номер зачётки занят");
                 return;
             }
             int sizeZapLast = Function.ReadNullBlockInt(filename);
-            Console.WriteLine("Размер "+sizeZapLast);
-
-
-                
-                //writer.Seek(0,SeekOrigin.End);
-                //writer.Write(blockBinary);
-                int zapLastItem;
-                if((zapLastItem = Search(0,filename))==-1){//есть свободное место в блоке
-                    using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-                    {
-                        writer.Write(sizeZapLast+1);
-                        Console.WriteLine("bed");
-                        writer.Seek(sizeZapLast,SeekOrigin.Begin);
-                        sizeZapLast--;
-                        sizeZapLast*=440;
-                        sizeZapLast+=4;
-                        sizeZapLast+=88*zapLastItem;
-                        writer.Seek(sizeZapLast,SeekOrigin.Begin);
-                        writer.Write(block.GetZapMass(0).GetIdRecordBook());
-                        writer.Write(block.GetZapMass(0).GetLastname());
-                        writer.Write(block.GetZapMass(0).GetName());
-                        writer.Write(block.GetZapMass(0).GetMiddlename());
-                        writer.Write(block.GetZapMass(0).GetIdGroup());
-                    }
-                }
-                
-                else{
-                    using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-                    {
-                        writer.Write(sizeZapLast+1);
-                        Console.WriteLine("good");
-                        writer.Seek(sizeZapLast*440+4,SeekOrigin.Begin);
-                        block.SetZapMass(0,idRecordBook,InChar(lastname,30),InChar(name,20),InChar(patronymic,30),idGroup);
-                        blockBinary=Combine(block.GetZapMass(0));
-                        Array.Resize(ref blockBinary,440);
-                        writer.Write(blockBinary);
-                    }
+            int zapLastItem;
+            if((zapLastItem = Search(0,filename))==-1){//есть свободное место в блоке
+                using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+                {
+                    writer.Write(sizeZapLast+1);
+                    writer.Seek(sizeZapLast,SeekOrigin.Begin);
+                    sizeZapLast--;
+                    sizeZapLast*=440;
+                    sizeZapLast+=4;
+                    sizeZapLast+=88*zapLastItem;
+                    writer.Seek(sizeZapLast,SeekOrigin.Begin);
+                    writer.Write(block.GetZapMass(0).GetIdRecordBook());
+                    writer.Write(block.GetZapMass(0).GetLastname());
+                    writer.Write(block.GetZapMass(0).GetName());
+                    writer.Write(block.GetZapMass(0).GetMiddlename());
+                    writer.Write(block.GetZapMass(0).GetIdGroup());
                 }
             }
-            /*char [] lastnameChar = InChar(lastname,30);
-            char [] nameChar = InChar(name,20);
-            char [] patronymicChar = InChar(patronymic,30);
-            for(int i=0;i<5;i++)
-            {
-                if(block.GetZapMass(i).GetIsZap()==false)
+            else{
+                using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
-                    block.SetZapMass(i,idRecordBook,lastnameChar,nameChar,patronymicChar,idGroup);
-                    break;
+                    writer.Seek(sizeZapLast*440+4,SeekOrigin.Begin);
+                    block.SetZapMass(0,idRecordBook,InChar(lastname,30),InChar(name,20),InChar(patronymic,30),idGroup);
+                    blockBinary=Combine(block.GetZapMass(0));
+                    Array.Resize(ref blockBinary,440);
+                    writer.Write(blockBinary);
                 }
-            }*/
-            
-            //int sizeZap = Function.ReadNullBlockInt(filename);
-            /*using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-            {
-                /*writer.Write(sizeZap+1);
-                sizeZap--;
-                sizeZap*=88;
-                sizeZap+=4;
-                writer.Seek(sizeZap,SeekOrigin.Begin);
-                writer.Write(block.GetZapMass(0).GetIdRecordBook());
-                writer.Write(block.GetZapMass(0).GetLastname());
-                writer.Write(block.GetZapMass(0).GetName());
-                writer.Write(block.GetZapMass(0).GetMiddlename());
-                writer.Write(block.GetZapMass(0).GetIdGroup());
-            }*/
-        
-
-        /*public byte[] ByteConcat(byte[] main,int intForByte)
-        {
-    
-            byte[] arrByte = BitConverter.GetBytes(intForByte);
-
-            byte[] test= main.Concat(arrByte).ToArray();
-            return main;
+            }
         }
-        public byte[] ByteConcat(byte[] main,string stringForByte)
-        {
-            byte[] arrByte = BitConverter.GetBytes(stringForByte);
-
-            byte[] test= main.Concat(arrByte).ToArray();
-            return main;
-        }*/
+        //Переделан
         public static byte[] Combine(Zap zap)
         {
             byte[] idRecordBookB = BitConverter.GetBytes(zap.GetIdRecordBook());
@@ -301,10 +258,10 @@ class OurBlock{
             Console.WriteLine(test.Length);
             return test;
         }
-        public static byte[] Combine(byte[] first, string second)
+        //Переделан
+        public static byte[] Combine(byte[] first, byte[] second)
         {
-            byte[] arrByte = Encoding.UTF8.GetBytes(second);
-            return first.Concat(arrByte).ToArray();
+            return first.Concat(second).ToArray();
         }
 
     }

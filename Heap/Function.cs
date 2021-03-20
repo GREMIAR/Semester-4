@@ -7,7 +7,6 @@ namespace BDlab1{
            
             try{  
                 int size = reader.ReadInt32();  
-                Console.WriteLine(size);
                 return size;  
             }
             catch(IOException e){
@@ -21,7 +20,6 @@ namespace BDlab1{
             {
                 try{  
                     int size = reader.ReadInt32();  
-                    Console.WriteLine(size);
                     return size;  
                 }
                 catch(IOException e){

@@ -22,7 +22,7 @@ namespace BDlab1{
             string a="";
             while (a!="9"){
                 fileSize.Refresh();
-                Console.WriteLine("Размер файла= "+fileSize.Length);
+                Console.WriteLine("Размер файла = "+fileSize.Length);
                 Console.Write("\n1-Добавление информации о студент\n2-Изменение информации о студенте\n3-Удаление информации о студенте\n4-Осуществление поиска информации о студенте\nВвод: ");
                 a=Console.ReadLine();
                 switch (a)
