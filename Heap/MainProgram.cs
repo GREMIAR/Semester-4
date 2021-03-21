@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 namespace BDlab1{
-    class Program : Function
+    class Program
     {
         static void Main(string[] args){
             const string filename = "BD.bin";
@@ -57,9 +57,6 @@ namespace BDlab1{
                         string middlename = Console.ReadLine();
                         Console.Write("Номер группа: ");
                         int idG = Convert.ToInt32(Console.ReadLine());
-                        /*if(mainBlock.Unique(filename,idZ)!=-1){
-                            mainBlock.Edit(filename,oldidz,idZ,lastname,name,middlename,idG);
-                        }*/
                         break;
                     }
                     case "3":

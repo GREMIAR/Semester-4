@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Project\\BD\\Heap\\Heap.csproj": {}
+    "C:\\Project\\BD\\heap\\Heap.csproj": {}
   },
   "projects": {
-    "C:\\Project\\BD\\Heap\\Heap.csproj": {
+    "C:\\Project\\BD\\heap\\Heap.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Project\\BD\\Heap\\Heap.csproj",
+        "projectUniqueName": "C:\\Project\\BD\\heap\\Heap.csproj",
         "projectName": "Heap",
-        "projectPath": "C:\\Project\\BD\\Heap\\Heap.csproj",
+        "projectPath": "C:\\Project\\BD\\heap\\Heap.csproj",
         "packagesPath": "C:\\Users\\Nikita\\.nuget\\packages\\",
-        "outputPath": "C:\\Project\\BD\\Heap\\obj\\",
+        "outputPath": "C:\\Project\\BD\\heap\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

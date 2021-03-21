@@ -1,7 +1,5 @@
 using System;
 using System.IO;
-using System.Text;
-using System.Linq;
 namespace BDlab1{
     partial class OurBlock{
         //Переделан без return
@@ -10,11 +8,10 @@ namespace BDlab1{
             using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
             {
                 byte[] blockBinary = new byte[440];
-                int numBlock = Function.ReadNullBlockInt(reader);
+                int numBlock = ReadNullBlockInt(reader);
                 int numZapFound;
                 for(int i=0;i<=numBlock;i++)
                 {
-                    block.SetFullRestart();
                     reader.Read(blockBinary, 0, 440);
                     ByteArrToBlock(blockBinary);
                     if((numZapFound=FindStudent(idRecordBook))!=-1)
@@ -94,7 +91,7 @@ namespace BDlab1{
                 Console.WriteLine("Номер зачётки занят");
                 return;
             }
-            int numBlock = Function.ReadNullBlockInt(filename);
+            int numBlock = ReadNullBlockInt(filename);
             int zapLastItem;
             if((zapLastItem = Search(0,filename))==-1){//есть свободное место в блоке
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
@@ -116,6 +113,7 @@ namespace BDlab1{
             else{
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
+                    writer.Write(numBlock+1);
                     writer.Seek(numBlock*440+4,SeekOrigin.Begin);
                     block.SetZapMass(0,idRecordBook,InChar(lastname,30),InChar(name,20),InChar(patronymic,30),idGroup);
                     byte[] blockBinary=Combine(block.GetZapMass(0));

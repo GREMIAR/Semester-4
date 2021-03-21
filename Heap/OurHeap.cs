@@ -78,23 +78,20 @@ namespace BDlab1{
         public void PrintBlock(){
             Console.WriteLine("\n----Весь Блок----");
             for(int i = 0; i < 5; i++){
-                if(block.GetZapMass(i).GetIsZap())
+                if(block.GetZapMass(i).GetIdRecordBook()==0)
                 {
-                    if(block.GetZapMass(i).GetIdRecordBook()==0)
-                    {
-                        Console.WriteLine("Номер записи в блоке: {0}; Пусто",i+1);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Номер записи в блоке: {0}; Номер зачётки: {1}; Фамилия: {2}; Имя: {3}; Отчесвто: {4}; Номер группы: {5};",i+1,block.GetZapMass(i).GetIdRecordBook(),
-                        InString(block.GetZapMass(i).GetLastname(),30),InString(block.GetZapMass(i).GetLastname(),20),InString(block.GetZapMass(i).GetMiddlename(),30),block.GetZapMass(i).GetIdGroup());
-                    }
+                    Console.WriteLine("Номер записи в блоке: {0}; Пусто",i+1);
+                }
+                else
+                {
+                    Console.WriteLine("Номер записи в блоке: {0}; Номер зачётки: {1}; Фамилия: {2}; Имя: {3}; Отчесвто: {4}; Номер группы: {5};",i+1,block.GetZapMass(i).GetIdRecordBook(),
+                    InString(block.GetZapMass(i).GetLastname(),30),InString(block.GetZapMass(i).GetLastname(),20),InString(block.GetZapMass(i).GetMiddlename(),30),block.GetZapMass(i).GetIdGroup());
                 }
             }
             Console.WriteLine();
         }
         
-        static char[] InChar(string str, int length)
+        char[] InChar(string str, int length)
         {
             char[] charArr = new char[length];
             for (int i = 0; i < length&&str.Length > i; i++)
@@ -104,7 +101,7 @@ namespace BDlab1{
             return charArr;
         }
         
-        public string InString(char[] charArr, int length)
+        string InString(char[] charArr, int length)
         {
             string str="";
             try{
@@ -125,7 +122,7 @@ namespace BDlab1{
             return str;
         }
         
-        public byte[] Combine(Zap zap)
+        byte[] Combine(Zap zap)
         {
             byte[] idRecordBookB = BitConverter.GetBytes(zap.GetIdRecordBook());
             byte[] lastnameB = Encoding.UTF8.GetBytes(zap.GetLastname());
@@ -135,9 +132,37 @@ namespace BDlab1{
             return idRecordBookB.Concat(lastnameB.Concat(nameB.Concat(middlenameB.Concat(idIdGroupB)))).ToArray();
         }
         
-        public byte[] Combine(byte[] first, byte[] second)
+        byte[] Combine(byte[] first, byte[] second)
         {
             return first.Concat(second).ToArray();
+        }
+
+        int ReadNullBlockInt(BinaryReader reader){  
+           
+            try{  
+                int size = reader.ReadInt32();  
+                return size;  
+            }
+            catch(IOException e){
+                Console.WriteLine("Исключение при чтении нулевого блока: " + e);
+            }  
+            reader.Close();
+            return -1;
+        }
+
+        int ReadNullBlockInt(string filename){  
+            using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
+            {
+                try{  
+                    int size = reader.ReadInt32();  
+                    return size;  
+                }
+                catch(IOException e){
+                    Console.WriteLine("Исключение при чтении нулевого блока: " + e);
+                }  
+                reader.Close();
+                return -1;
+            }
         }
 
     }
