@@ -25,80 +25,91 @@ namespace BDlab1{
                 Console.WriteLine("Размер файла = "+fileSize.Length);
                 Console.Write("\n1-Добавление информации о студент\n2-Изменение информации о студенте\n3-Удаление информации о студенте\n4-Осуществление поиска информации о студенте\nВвод: ");
                 a=Console.ReadLine();
-                switch (a)
+                try
+                {   
+                    switch (a)
+                    {
+                        case "1":
+                        {
+                            Console.Write("Номер зачётки: ");
+                            int idZ = Convert.ToInt32(Console.ReadLine());
+                            if(idZ<=0){
+                                Console.WriteLine("Нельзя присвоить этот номер зачётки");
+                                break;
+                            }
+                            if((mainBlock.Search(idZ,filename))!=-1){
+                                Console.WriteLine("Номер зачётки {0} занят",idZ);
+                                break;
+                            }
+                            Console.Write("Фамилия: ");
+                            string lastname = Console.ReadLine();
+                            Console.Write("Имя: ");
+                            string name = Console.ReadLine();
+                            Console.Write("Отчество: ");
+                            string middlename = Console.ReadLine();
+                            Console.Write("Номер группа: ");
+                            int idG = Convert.ToInt32(Console.ReadLine());
+                            mainBlock.AddOnEnd(filename, idZ,lastname,name,middlename,idG);
+                            break;
+                        }   
+                        case "2":
+                        {
+                            Console.Write("Введите номер зачётки сткденкта которого хотиие изменить: ");
+                            int oldidz = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("На что засменяем: ");
+                            Console.Write("Номер зачётки: ");
+                            int idZ = Convert.ToInt32(Console.ReadLine());
+                            if(idZ==0){
+                                Console.WriteLine("Нельзя присвоить этот номер зачётки");
+                                break;
+                            }
+                            if((mainBlock.Search(idZ,filename))!=-1){
+                                Console.WriteLine("Номер зачётки {0} занят",idZ);
+                                break;
+                            }
+                            Console.Write("Фамилия: ");
+                            string lastname = Console.ReadLine();
+                            Console.Write("Имя: ");
+                            string name = Console.ReadLine();
+                            Console.Write("Отчество: ");
+                            string middlename = Console.ReadLine();
+                            Console.Write("Номер группа: ");
+                            int idG = Convert.ToInt32(Console.ReadLine());
+                            mainBlock.Edit(filename,oldidz, idZ,lastname,name,middlename,idG);
+                            break;
+                        }
+                        case "3":
+                        {
+                            Console.Write("Введите номер зачётки студента которого вы хотите удалить: ");
+                            int idZ = Convert.ToInt32(Console.ReadLine());
+                            if(idZ==0){
+                                Console.WriteLine("Такого номера нет");
+                                break;
+                            }
+                            mainBlock.Remove(idZ,filename);
+                            break;
+                        }
+                        case "4":
+                        {
+                            Console.Write("Введите номер зачётки студента которого вы ищете: ");
+                            int idZ = Convert.ToInt32(Console.ReadLine());
+                            if((idZ=mainBlock.Search(idZ,filename))!=-1){
+                                mainBlock.PrintBlock();
+                                mainBlock.PrintFindStudent(idZ/88);
+                            }
+                            else{
+                                Console.WriteLine("\nУпс, ничего не удалось найти");
+                            }
+                            break;
+                        }
+                        default:
+                            break;
+                    } 
+                }
+                catch(System.OverflowException)
                 {
-                    case "1":
-                    {
-                        Console.Write("Номер зачётки: ");
-                        int idZ = Convert.ToInt32(Console.ReadLine());
-                        if(idZ==0){
-                            Console.WriteLine("Нельзя присвоить этот номер зачётки");
-                            break;
-                        }
-                        if((mainBlock.Search(idZ,filename))!=-1){
-                            Console.WriteLine("Номер зачётки {0} занят",idZ);
-                            break;
-                        }
-                        Console.Write("Фамилия: ");
-                        string lastname = Console.ReadLine();
-                        Console.Write("Имя: ");
-                        string name = Console.ReadLine();
-                        Console.Write("Отчество: ");
-                        string middlename = Console.ReadLine();
-                        Console.Write("Номер группа: ");
-                        int idG = Convert.ToInt32(Console.ReadLine());
-                        mainBlock.AddOnEnd(filename, idZ,lastname,name,middlename,idG);
-                        break;
-                    }   
-                    case "2":
-                    {
-                        Console.Write("Введите номер зачётки сткденкта которого хотиие изменить: ");
-                        int oldidz = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("На что засменяем: ");
-                        Console.Write("Номер зачётки: ");
-                        int idZ = Convert.ToInt32(Console.ReadLine());
-                        if(idZ==0){
-                            Console.WriteLine("Нельзя присвоить этот номер зачётки");
-                            break;
-                        }
-                        if((mainBlock.Search(idZ,filename))!=-1){
-                            Console.WriteLine("Номер зачётки {0} занят",idZ);
-                            break;
-                        }
-                        Console.Write("Фамилия: ");
-                        string lastname = Console.ReadLine();
-                        Console.Write("Имя: ");
-                        string name = Console.ReadLine();
-                        Console.Write("Отчество: ");
-                        string middlename = Console.ReadLine();
-                        Console.Write("Номер группа: ");
-                        int idG = Convert.ToInt32(Console.ReadLine());
-                        mainBlock.Edit(filename,oldidz, idZ,lastname,name,middlename,idG);
-                        break;
-                    }
-                    case "3":
-                    {
-                        Console.Write("Введите номер зачётки студента которого вы хотите удалить: ");
-                        int idZ = Convert.ToInt32(Console.ReadLine());
-                        mainBlock.Remove(idZ,filename);
-                        break;
-                    }
-                    case "4":
-                    {
-                        Console.Write("Введите номер зачётки студента которого вы ищете: ");
-                        int idZ = Convert.ToInt32(Console.ReadLine());
-                        if((idZ=mainBlock.Search(idZ,filename))!=-1){
-                            mainBlock.PrintBlock();
-                            mainBlock.PrintFindStudent(idZ/88);
-                        }
-                        else{
-                            Console.WriteLine("\nУпс, ничего не удалось найти");
-                        }
-                        break;
-                    }
-                    default:
-                        break;
-                } 
+                    Console.WriteLine("Вы ввели число за рамками возможного");
+                }
             }
         }
     }
