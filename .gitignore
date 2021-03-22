@@ -1,4 +1,7 @@
-/[Vv]scode/
-/Heap/[Bb]in/
-/Heap/[Oo]bj/
+*.vscode/
+*bin/
+*obj/
+*vs/
+*.bin
+
 
