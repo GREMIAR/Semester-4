@@ -31,24 +31,10 @@ namespace BDlab1{
                     {
                         Console.Write("Номер зачётки: ");
                         int idZ = Convert.ToInt32(Console.ReadLine());
-                        Console.Write("Фамилия: ");
-                        string lastname = Console.ReadLine();
-                        Console.Write("Имя: ");
-                        string name = Console.ReadLine();
-                        Console.Write("Отчество: ");
-                        string midlename = Console.ReadLine();
-                        Console.Write("Номер группа: ");
-                        int idG = Convert.ToInt32(Console.ReadLine());
-                        mainBlock.AddOnEnd(filename, idZ,lastname,name,midlename,idG);
-                        break;
-                    }   
-                    case "2":
-                    {
-                        Console.Write("Введите номер зачётки сткденкта которого хотиие изменить: ");
-                        int oldidz = Convert.ToInt32(Console.ReadLine());
-                        Console.Write("На что засменяем: ");
-                        Console.Write("Номер зачётки: ");
-                        int idZ = Convert.ToInt32(Console.ReadLine());
+                        if(idZ==0){
+                            Console.WriteLine("Нельзя присвоить этот номер зачётки");
+                            break;
+                        }
                         Console.Write("Фамилия: ");
                         string lastname = Console.ReadLine();
                         Console.Write("Имя: ");
@@ -57,6 +43,29 @@ namespace BDlab1{
                         string middlename = Console.ReadLine();
                         Console.Write("Номер группа: ");
                         int idG = Convert.ToInt32(Console.ReadLine());
+                        mainBlock.AddOnEnd(filename, idZ,lastname,name,middlename,idG);
+                        break;
+                    }   
+                    case "2":
+                    {
+                        Console.Write("Введите номер зачётки сткденкта которого хотиие изменить: ");
+                        int oldidz = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("На что засменяем: ");
+                        Console.Write("Номер зачётки: ");
+                        int idZ = Convert.ToInt32(Console.ReadLine());
+                        if(idZ==0){
+                            Console.WriteLine("Нельзя присвоить этот номер зачётки");
+                            break;
+                        }
+                        Console.Write("Фамилия: ");
+                        string lastname = Console.ReadLine();
+                        Console.Write("Имя: ");
+                        string name = Console.ReadLine();
+                        Console.Write("Отчество: ");
+                        string middlename = Console.ReadLine();
+                        Console.Write("Номер группа: ");
+                        int idG = Convert.ToInt32(Console.ReadLine());
+                        mainBlock.Edit(filename,oldidz, idZ,lastname,name,middlename,idG);
                         break;
                     }
                     case "3":

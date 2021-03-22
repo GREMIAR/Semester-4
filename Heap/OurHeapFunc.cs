@@ -2,7 +2,7 @@ using System;
 using System.IO;
 namespace BDlab1{
     partial class OurBlock{
-        //Переделан без return
+        //Переделан
         public int Search(int idRecordBook,string filename)
         {
             using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
@@ -17,7 +17,7 @@ namespace BDlab1{
                     if((numZapFound=FindStudent(idRecordBook))!=-1)
                     {
                         reader.Close();
-                        return (numZapFound)*88;
+                        return i;
                     }
                 }
                 reader.Close();
@@ -25,27 +25,39 @@ namespace BDlab1{
             }
         }
 
-        //Не переделан
-        public int Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup)
+        //Переделан
+        public void Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup)
         {
-            int numZap=Search(oldidRecordBook,filename);
-            if(numZap==-1)
-            {
-                return -1;
+            if((Search(idRecordBook,filename))!=-1){
+                Console.WriteLine("Номер зачётки {0} занят",idRecordBook);
+                return;
             }
-            numZap+=4;
+            int numBlock;
+            if((numBlock=Search(oldidRecordBook,filename))==-1){
+                Console.WriteLine("Номера зачётки {0} нету",oldidRecordBook);
+                return;
+            }
+            byte[] blockBinary = new byte[440];
+            Console.WriteLine(numBlock);
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                reader.Seek((numBlock)*440+4, SeekOrigin.Begin);
+                reader.Read(blockBinary, 0, 440);
+            }
+            ByteArrToBlock(blockBinary);
+            for(int i=0;i<5;i++)
+            {
+                if(block.GetZapMass(i).GetIdRecordBook()==oldidRecordBook)
+                {
+                    block.SetZapMass(i,idRecordBook,InChar(lastname,30),InChar(name,20), InChar(patronymic,30),idGroup);
+                }
+            }
+            blockBinary=Combine();
             using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
             {
-                writer.Seek(numZap,SeekOrigin.Begin);
-                writer.Write(idRecordBook);
-                writer.Write(InChar(lastname,30));
-                writer.Write(InChar(name,20));
-                writer.Write(InChar(patronymic,30));
-                writer.Write(idGroup); 
-                writer.Close();              
-            }
-            Search(idRecordBook,filename);
-            return 0;
+                writer.Seek((numBlock)*440+4,SeekOrigin.Begin);
+                writer.Write(blockBinary);
+            } 
         }
 
         //Не переделан
@@ -69,10 +81,11 @@ namespace BDlab1{
                 }
                 reader.Close();
             }
+            /*
             if(Edit(filename,idRecordBook,block.GetZapMass((sizeZap-2)%5).GetIdRecordBook(), InString(block.GetZapMass((sizeZap-2)%5).GetLastname(),30),InString(block.GetZapMass((sizeZap-2)%5).GetName(),20),InString(block.GetZapMass((sizeZap-2)%5).GetMiddlename(),30),block.GetZapMass((sizeZap-2)%5).GetIdGroup())==-1)
             {
                 return;
-            }
+            }*/
             using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
             {
                 writer.Write(sizeZap-1);
@@ -83,12 +96,8 @@ namespace BDlab1{
         //Переделан
         public void AddOnEnd(string filename, int idRecordBook,string lastname,string name,string patronymic,int idGroup)
         {
-            if(idRecordBook==0){
-                Console.WriteLine("Нельзя присвоить этот номер зачётки");
-                return;
-            }
-            if(Search(idRecordBook,filename)!=-1){
-                Console.WriteLine("Номер зачётки занят");
+            if((Search(idRecordBook,filename))!=-1){
+                Console.WriteLine("Номер зачётки {0} занят",idRecordBook);
                 return;
             }
             int numBlock = ReadNullBlockInt(filename);
