@@ -9,7 +9,8 @@ namespace BDlab1{
         
         void ByteArrToBlock(byte[] blockBinary)
         {
-            byte[] byteArrByf = new byte[30];
+            byte[] byteArrByf30 = new byte[30];
+            byte[] byteArrByf20 = new byte[20];
             byte[] intArr = new byte[4];
             int r1,r5;
             char[] r2 = new char[30];
@@ -19,12 +20,12 @@ namespace BDlab1{
             {
                 Array.Copy(blockBinary,i,intArr,0,4);
                 r1 = BitConverter.ToInt32(intArr, 0);
-                Array.Copy(blockBinary,i+4,byteArrByf,0,30);
-                r2 = Encoding.UTF8.GetChars(byteArrByf);
-                Array.Copy(blockBinary,i+34,byteArrByf,0,20);
-                r3 = Encoding.UTF8.GetChars(byteArrByf);
-                Array.Copy(blockBinary,i+54,byteArrByf,0,30);
-                r4 = Encoding.UTF8.GetChars(byteArrByf);
+                Array.Copy(blockBinary,i+4,byteArrByf30,0,30);
+                r2 = Encoding.UTF8.GetChars(byteArrByf30);
+                Array.Copy(blockBinary,i+34,byteArrByf20,0,20);
+                r3 = Encoding.UTF8.GetChars(byteArrByf20);
+                Array.Copy(blockBinary,i+54,byteArrByf30,0,30);
+                r4 = Encoding.UTF8.GetChars(byteArrByf30);
                 Array.Copy(blockBinary,i+84,intArr,0,4);
                 r5 = BitConverter.ToInt32(intArr, 0);
                 block.SetZapMass(i/88,r1,r2,r3,r4,r5);
@@ -136,6 +137,16 @@ namespace BDlab1{
         {
             return first.Concat(second).ToArray();
         }
+        byte[] Combine()
+        {
+            byte[] byteBlock = new byte[0];
+            for(int i = 0;i<5;i++)
+            {
+                byte[] byteZap=Combine(block.GetZapMass(i));
+                byteBlock=Combine(byteBlock,byteZap);
+            }
+            return byteBlock;
+        }
 
         int ReadNullBlockInt(BinaryReader reader){  
            
@@ -163,6 +174,18 @@ namespace BDlab1{
                 reader.Close();
                 return -1;
             }
+        }
+        void AddZapOnEnd(int idRecordBook,string lastname,string name,string patronymic,int idGroup)
+        {
+            for(int i=0;i<5;i++)
+            {
+                if(block.GetZapMass(i).GetIdRecordBook()==0)
+                {
+                    block.SetZapMass(i,idRecordBook,InChar(lastname,30),InChar(name,20),InChar(patronymic,30),idGroup);
+                    break;
+                }
+            }
+            return;
         }
 
     }

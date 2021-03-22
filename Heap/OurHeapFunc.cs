@@ -10,7 +10,7 @@ namespace BDlab1{
                 byte[] blockBinary = new byte[440];
                 int numBlock = ReadNullBlockInt(reader);
                 int numZapFound;
-                for(int i=0;i<=numBlock;i++)
+                for(int i=0;i<numBlock;i++)
                 {
                     reader.Read(blockBinary, 0, 440);
                     ByteArrToBlock(blockBinary);
@@ -80,7 +80,7 @@ namespace BDlab1{
             }
         }
 
-        //Переделан только на пустой
+        //Переделан
         public void AddOnEnd(string filename, int idRecordBook,string lastname,string name,string patronymic,int idGroup)
         {
             if(idRecordBook==0){
@@ -92,23 +92,21 @@ namespace BDlab1{
                 return;
             }
             int numBlock = ReadNullBlockInt(filename);
-            int zapLastItem;
-            if((zapLastItem = Search(0,filename))==-1){//есть свободное место в блоке
+            if(Search(0,filename)!=-1){
+                byte[] blockBinary = new byte[440];
+                using (var reader = File.Open(filename, FileMode.Open))
+                {
+                    reader.Seek((numBlock-1)*440+4, SeekOrigin.Begin);
+                    reader.Read(blockBinary, 0, 440);
+                }
+                ByteArrToBlock(blockBinary);
+                AddZapOnEnd(idRecordBook,lastname,name,patronymic,idGroup);
+                blockBinary=Combine();
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
-                    writer.Write(numBlock+1);
-                    writer.Seek(numBlock,SeekOrigin.Begin);
-                    numBlock--;
-                    numBlock*=440;
-                    numBlock+=4;
-                    numBlock+=88*zapLastItem;
-                    writer.Seek(numBlock,SeekOrigin.Begin);
-                    writer.Write(block.GetZapMass(0).GetIdRecordBook());
-                    writer.Write(block.GetZapMass(0).GetLastname());
-                    writer.Write(block.GetZapMass(0).GetName());
-                    writer.Write(block.GetZapMass(0).GetMiddlename());
-                    writer.Write(block.GetZapMass(0).GetIdGroup());
-                }
+                    writer.Seek((numBlock-1)*440+4,SeekOrigin.Begin);
+                    writer.Write(blockBinary);
+                } 
             }
             else{
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
