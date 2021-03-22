@@ -35,6 +35,10 @@ namespace BDlab1{
                             Console.WriteLine("Нельзя присвоить этот номер зачётки");
                             break;
                         }
+                        if((mainBlock.Search(idZ,filename))!=-1){
+                            Console.WriteLine("Номер зачётки {0} занят",idZ);
+                            break;
+                        }
                         Console.Write("Фамилия: ");
                         string lastname = Console.ReadLine();
                         Console.Write("Имя: ");
@@ -55,6 +59,10 @@ namespace BDlab1{
                         int idZ = Convert.ToInt32(Console.ReadLine());
                         if(idZ==0){
                             Console.WriteLine("Нельзя присвоить этот номер зачётки");
+                            break;
+                        }
+                        if((mainBlock.Search(idZ,filename))!=-1){
+                            Console.WriteLine("Номер зачётки {0} занят",idZ);
                             break;
                         }
                         Console.Write("Фамилия: ");

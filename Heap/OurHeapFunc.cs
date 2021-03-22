@@ -28,10 +28,6 @@ namespace BDlab1{
         //Переделан
         public void Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup)
         {
-            if((Search(idRecordBook,filename))!=-1){
-                Console.WriteLine("Номер зачётки {0} занят",idRecordBook);
-                return;
-            }
             int numBlock;
             if((numBlock=Search(oldidRecordBook,filename))==-1){
                 Console.WriteLine("Номера зачётки {0} нету",oldidRecordBook);
@@ -63,6 +59,7 @@ namespace BDlab1{
         //Не переделан
         public void Remove(int idRecordBook,string filename)
         {
+
             // Удаление последнего блока
                 /*FileStream fileStream = new FileStream(filename, FileMode.Open);
                 fileStream.SetLength(440);*/
@@ -96,10 +93,6 @@ namespace BDlab1{
         //Переделан
         public void AddOnEnd(string filename, int idRecordBook,string lastname,string name,string patronymic,int idGroup)
         {
-            if((Search(idRecordBook,filename))!=-1){
-                Console.WriteLine("Номер зачётки {0} занят",idRecordBook);
-                return;
-            }
             int numBlock = ReadNullBlockInt(filename);
             if(Search(0,filename)!=-1){
                 byte[] blockBinary = new byte[440];
