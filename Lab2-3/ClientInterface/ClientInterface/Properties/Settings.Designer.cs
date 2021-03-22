@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ArchitectureLab2.Properties
+namespace ClientInterface.Properties
 {
 
 

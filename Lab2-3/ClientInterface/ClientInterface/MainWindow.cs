@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace ArchitectureLab2
+namespace ClientInterface
 {
     public partial class ClientForm : Form
     {
@@ -172,6 +172,11 @@ namespace ArchitectureLab2
                 e.SuppressKeyPress = true;
                 LogIn();
             }
+        }
+
+        private void ClientForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
