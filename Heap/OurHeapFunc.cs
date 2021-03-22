@@ -2,7 +2,7 @@ using System;
 using System.IO;
 namespace BDlab1{
     partial class OurBlock{
-        //Переделан
+
         public int Search(int idRecordBook,string filename)
         {
             using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
@@ -25,7 +25,6 @@ namespace BDlab1{
             }
         }
 
-        //Переделан
         public bool Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup)
         {
             int numBlock;
@@ -56,7 +55,6 @@ namespace BDlab1{
             return true;
         }
 
-        //Не переделан
         public void Remove(int idRecordBook,string filename)
         {
             int numBlock;
@@ -109,62 +107,8 @@ namespace BDlab1{
                     writer.Write(blockBinary);
                 }
             }
-
-
-
-
-
-
-
-
-
-
-/*
-            if((numBlock=Search(idRecordBook,filename))==-1){
-                Console.WriteLine("Номера зачётки {0} нету",idRecordBook);
-                return;
-            }
-
-            using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
-            {
-                int numBlock = reader.ReadInt32();
-                for(int i=0;i<numBlock;i++)
-                {
-                    block.SetZapMass(i,reader.ReadInt32(),ByteChar(reader,30),ByteChar(reader,20),ByteChar(reader,30),reader.ReadInt32());
-                }
-                reader.Close();
-            }*/
-            // Удаление последнего блока
-                /*FileStream fileStream = new FileStream(filename, FileMode.Open);
-                fileStream.SetLength(440);*/
-            /*int sizeZap;
-            using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
-            {
-                sizeZap = reader.ReadInt32();
-                if(sizeZap==1)
-                {
-                    Console.WriteLine("Мы ничего не можем удалить, так как БД пуста");
-                    return;
-                }  
-                for(int i=0;i<sizeZap-1;i++)
-                {
-                    block.SetZapMass(i%5,reader.ReadInt32(),ByteChar(reader,30),ByteChar(reader,20),ByteChar(reader,30),reader.ReadInt32());
-                }
-                reader.Close();
-            }*/
-            /*
-            if(Edit(filename,idRecordBook,block.GetZapMass((sizeZap-2)%5).GetIdRecordBook(), InString(block.GetZapMass((sizeZap-2)%5).GetLastname(),30),InString(block.GetZapMass((sizeZap-2)%5).GetName(),20),InString(block.GetZapMass((sizeZap-2)%5).GetMiddlename(),30),block.GetZapMass((sizeZap-2)%5).GetIdGroup())==-1)
-            {
-                return;
-            }*/
-           /* using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-            {
-                writer.Write(sizeZap-1);
-                writer.Close();
-            }*/
         }
 
-        //Переделан
         public void AddOnEnd(string filename, int idRecordBook,string lastname,string name,string patronymic,int idGroup)
         {
             int numBlock = ReadNullBlockInt(filename);
