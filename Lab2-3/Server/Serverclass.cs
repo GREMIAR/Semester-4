@@ -16,10 +16,6 @@ namespace ServerChat
 
         TcpClient client;
         
-        public Server(TcpClient client)
-        {
-            this.client = client;
-        }
         public Server()
         {
 
