@@ -1,8 +1,4 @@
-.vscode/
-*/bin/
-Lab2-3/Server/obj/
-Lab2-3/Client/obj/
-Lab2-3/ClientInterface/ClientInterface/obj/
-Lab2-3/ClientInterface/.vs/
-Lab1/obj/
-.vs/
+*.vscode/
+*bin/
+*obj/
+*vs/
