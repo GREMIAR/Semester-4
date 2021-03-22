@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 namespace PiAPS_labs{
-    internal class Eratosthenes
+    class Eratosthenes
     {
         public static void WriteEratosthenes(int upTo)
         {

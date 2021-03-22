@@ -1,7 +1,7 @@
 using System;
 namespace PiAPS_labs
 {
-    public class Fibonacci
+    class Fibonacci
     {
         public static void WriteFibonacci(ulong upTo)
         {

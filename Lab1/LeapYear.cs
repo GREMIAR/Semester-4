@@ -1,7 +1,7 @@
 using System;
 namespace PiAPS_labs
 {
-    public class LeapYear
+    class LeapYear
     {
         public static void FindLeapYear(int from,int upTo)
         {

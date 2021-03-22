@@ -1,7 +1,7 @@
 using System;
 namespace PiAPS_labs
 {
-    public class Args
+    class Args
     {
         public static void ArgsWriter(string [] args)
         {
