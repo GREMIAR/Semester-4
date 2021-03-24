@@ -17,7 +17,7 @@ namespace BDlab1{
                     if((numZapFound=FindStudent(idRecordBook))!=-1)
                     {
                         reader.Close();
-                        return i;
+                        return i*5+numZapFound;
                     }
                 }
                 reader.Close();
@@ -32,6 +32,7 @@ namespace BDlab1{
                 Console.WriteLine("Номера зачётки {0} нету",oldidRecordBook);
                 return false;
             }
+            numBlock=(numBlock-numBlock%5)/5;
             byte[] blockBinary = new byte[440];
             using (var reader = File.Open(filename, FileMode.Open))
             {

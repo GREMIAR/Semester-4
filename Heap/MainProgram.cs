@@ -4,7 +4,7 @@ namespace BDlab1{
     class Program
     {
         static void Main(string[] args){
-            const string filename = "BD.bin";
+            const string filename = "Heap.bin";
             FileInfo fileSize = new FileInfo(filename);
             BinaryWriter writer;
             try{
@@ -95,7 +95,7 @@ namespace BDlab1{
                             int idZ = Convert.ToInt32(Console.ReadLine());
                             if((idZ=mainBlock.Search(idZ,filename))!=-1){
                                 mainBlock.PrintBlock();
-                                mainBlock.PrintFindStudent(idZ/88);
+                                mainBlock.PrintFindStudent(idZ%5);
                             }
                             else{
                                 Console.WriteLine("\nУпс, ничего не удалось найти");
