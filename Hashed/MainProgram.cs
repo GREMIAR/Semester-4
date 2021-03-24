@@ -14,8 +14,8 @@ namespace Heshed{
             {
                 using (writer = new BinaryWriter(File.Open(filename, FileMode.Create)))
                 {
-                    writer.Write(0);
-                    writer.Write(0);
+                    writer.Write(0);//СКОЛЬОК БЛОКОВ 
+                    writer.Write(0);//АДРЕС НАЧАЛА 
                     writer.Write(0);
                     writer.Write(0);
                     writer.Write(0);
@@ -31,7 +31,7 @@ namespace Heshed{
             while (a!="9"){
                 fileSize.Refresh();
                 Console.WriteLine("Размер файла = "+fileSize.Length);
-                Console.Write("\n1-Добавление информации о студент\n2-Изменение информации о студенте\n3-Удаление информации о студенте\n4-Осуществление поиска информации о студенте\nВвод: ");
+                Console.Write("\n1-Осуществление добавления информации о студенте\n2-Осуществление изменения информации о студенте\n3-Осуществление удаление информации о студенте\n4-Осуществление поиска информации о студенте\nВвод: ");
                 a=Console.ReadLine();
                 try
                 {   

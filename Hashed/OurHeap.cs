@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Linq;
 namespace Heshed{
-    //88 ntgthm 92
+    //blockSize/5 ntgthm 92
     partial class OurBlock{
         Block block = new Block();
         public OurBlock(){}
@@ -17,8 +17,9 @@ namespace Heshed{
             char[] r2 = new char[30];
             char[] r3 = new char[20];
             char[] r4 = new char[30];
-            for (int i=0;i<440;i+=92)
+            for (int i=0;i<blockSize-4;i+=(blockSize-4)/5)
             {
+                Console.WriteLine(i);
                 Array.Copy(blockBinary,i,intArr,0,4);
                 r1 = BitConverter.ToInt32(intArr, 0);
                 Array.Copy(blockBinary,i+4,byteArrByf30,0,30);
@@ -29,11 +30,11 @@ namespace Heshed{
                 r4 = Encoding.UTF8.GetChars(byteArrByf30);
                 Array.Copy(blockBinary,i+84,intArr,0,4);
                 r5 = BitConverter.ToInt32(intArr, 0);
-                block.SetZapMass(i/88,r1,r2,r3,r4,r5);
-                Array.Copy(blockBinary,i+88,intArr,0,4);
-                r6 = BitConverter.ToInt32(intArr,0);
-                block.SetNextb(r6);
+                block.SetZapMass(i/((blockSize-4)/5),r1,r2,r3,r4,r5);
             }
+            Array.Copy(blockBinary,blockSize-4,intArr,0,4);
+            r6 = BitConverter.ToInt32(intArr,0);
+            block.SetNextb(r6);
             return; 
         }
         //не надо переделывать
@@ -187,7 +188,11 @@ namespace Heshed{
             }
             return BitConverter.ToInt32(blockBinary, 0);
         }
-/*
+        int HashFunction(int num)
+        {
+            return num%4;
+        }
+
         void AddZapOnEnd(int idRecordBook,string lastname,string name,string patronymic,int idGroup)
         {
             for(int i=0;i<5;i++)
@@ -199,7 +204,29 @@ namespace Heshed{
                 }
             }
             return;
-        }*/
+        }
+        bool CheckLastBlock(string filename,int end)
+        {
+            if(end==0)
+            {
+                return false;
+            }
+            byte[] blockBinary = new byte[blockSize];
+            int numZapFound;
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                reader.Seek(end, SeekOrigin.Begin);
+                reader.Read(blockBinary, 0, blockSize);
+                ByteArrToBlock(blockBinary);
+
+                    if((numZapFound=FindStudent(0))!=-1)
+                    {
+                        reader.Close();
+                        return true;//return i*5+numZapFound;
+                    }
+            }
+            return false;
+        }
 
     }
 }

@@ -53,7 +53,7 @@ namespace Heshed{
 
 
         public Block(Zap[] zapMass, int Nextb){
-            this.Nextb=Nextb;
+            Nextb=0;
             for(int i=0;i<5;i++)
             { 
                 this.zapMass[i] = zapMass[i];
