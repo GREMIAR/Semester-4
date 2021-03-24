@@ -156,10 +156,25 @@ namespace Heshed{
 
         public void AddOnEnd(string filename, int idRecordBook,string lastname,string name,string patronymic,int idGroup)
         {
-            int numBlock = ReadNullBlockSize(filename);
-            
+            int size = ReadNullBlock(filename);
+            int begin = ReadFirstBlock(filename,idRecordBook%4);
+            int end = ReadEndBlock(filename,idRecordBook%4);
+            if (begin==0)
+            {
+                
+            }
+           /* using (var reader = File.Open(filename, FileMode.Open))
+            {
 
+            }*/
+            using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+            {
+                writer.Seek(0,SeekOrigin.Begin);
+                writer.Write(size++);
 
+                writer.Seek(idRecordBook%4*4+4,SeekOrigin.Begin);
+                writer.Write(size++);
+            } 
 
 
 

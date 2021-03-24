@@ -15,6 +15,14 @@ namespace Heshed{
                 using (writer = new BinaryWriter(File.Open(filename, FileMode.Create)))
                 {
                     writer.Write(0);
+                    writer.Write(0);
+                    writer.Write(0);
+                    writer.Write(0);
+                    writer.Write(0);
+                    writer.Write(0);
+                    writer.Write(0);
+                    writer.Write(0);
+                    writer.Write(0);
                 }  
             }
             writer.Close();

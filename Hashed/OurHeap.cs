@@ -155,33 +155,39 @@ namespace Heshed{
             return byteBlock;
         }
         // 
-        int ReadNullBlockSize(BinaryReader reader){  
-           
-            try{  
-                int size = reader.ReadInt32();  
-                return size;  
+
+        int ReadNullBlock(string filename){  
+            byte[] blockBinary = new byte[4];
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                reader.Seek(0, SeekOrigin.Begin);
+                reader.Read(blockBinary, 0, 4);
             }
-            catch(IOException e){
-                Console.WriteLine("Исключение при чтении нулевого блока: " + e);
-            }  
-            reader.Close();
-            return -1;
+            return BitConverter.ToInt32(blockBinary, 0);
         }
 
-        int ReadNullBlockSize(string filename){  
-            using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
+        int ReadFirstBlock(string filename,int i)
+        {
+            byte[] blockBinary = new byte[4];
+            using (var reader = File.Open(filename, FileMode.Open))
             {
-                try{  
-                    int size = reader.ReadInt32();  
-                    return size;  
-                }
-                catch(IOException e){
-                    Console.WriteLine("Исключение при чтении нулевого блока: " + e);
-                }  
-                reader.Close();
-                return -1;
+                reader.Seek(4+i*8, SeekOrigin.Begin);
+                reader.Read(blockBinary, 0, 4);
             }
+            return BitConverter.ToInt32(blockBinary, 0);
         }
+
+        int ReadEndBlock(string filename,int i)
+        {
+            byte[] blockBinary = new byte[4];
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                reader.Seek(4+i*8+4, SeekOrigin.Begin);
+                reader.Read(blockBinary, 0, 4);
+            }
+            return BitConverter.ToInt32(blockBinary, 0);
+        }
+/*
         void AddZapOnEnd(int idRecordBook,string lastname,string name,string patronymic,int idGroup)
         {
             for(int i=0;i<5;i++)
@@ -193,7 +199,7 @@ namespace Heshed{
                 }
             }
             return;
-        }
+        }*/
 
     }
 }
