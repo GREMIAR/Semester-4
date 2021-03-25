@@ -27,6 +27,13 @@ namespace Heshed{
             this.patronymic = patronymic;
             this.idGroup = idGroup;
         }
+        public Zap(Zap record){
+            this.idRecordBook = record.idRecordBook;
+            this.lastname = record.lastname;
+            this.name = record.name;
+            this.patronymic = record.patronymic;
+            this.idGroup = record.idGroup;
+        }
         public Zap()
         {
             idRecordBook=0;
@@ -43,11 +50,15 @@ namespace Heshed{
         public void SetNextb(int Nextb){
             this.Nextb=Nextb;
             }
-        public Zap GetZapMass(int i){ 
+        public Zap GetZapMass(int i){
             return zapMass[i];
         }
         public void SetZapMass(int i,int idRecordBook,char[] lastname,char[] name,char[] patronymic,int idGroup){
             zapMass[i] = new Zap(idRecordBook,lastname,name,patronymic,idGroup);
+        }
+        public void SetZapMass(int i, Zap record)
+        {
+          zapMass[i] = new Zap(record.GetIdRecordBook(),record.GetLastname(),record.GetName(),record.GetMiddlename(),record.GetIdGroup());
         }
 
 
@@ -55,7 +66,7 @@ namespace Heshed{
         public Block(Zap[] zapMass, int Nextb){
             Nextb=0;
             for(int i=0;i<5;i++)
-            { 
+            {
                 this.zapMass[i] = zapMass[i];
             }
         }
@@ -67,8 +78,8 @@ namespace Heshed{
             }
         }
     }
-    class Block0{
+   /* class Block0{
         int size;
-        
-    }
+
+    }*/
 }

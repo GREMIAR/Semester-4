@@ -19,7 +19,6 @@ namespace Heshed{
             char[] r4 = new char[30];
             for (int i=0;i<blockSize-4;i+=(blockSize-4)/5)
             {
-                Console.WriteLine(i);
                 Array.Copy(blockBinary,i,intArr,0,4);
                 r1 = BitConverter.ToInt32(intArr, 0);
                 Array.Copy(blockBinary,i+4,byteArrByf30,0,30);
@@ -155,7 +154,6 @@ namespace Heshed{
             byteBlock=Combine(byteBlock,nextB );
             return byteBlock;
         }
-        // 
 
         int ReadNullBlock(string filename){  
             byte[] blockBinary = new byte[4];
@@ -188,6 +186,7 @@ namespace Heshed{
             }
             return BitConverter.ToInt32(blockBinary, 0);
         }
+
         int HashFunction(int num)
         {
             return num%4;
@@ -205,6 +204,7 @@ namespace Heshed{
             }
             return;
         }
+
         bool CheckLastBlock(string filename,int end)
         {
             if(end==0)
@@ -222,7 +222,7 @@ namespace Heshed{
                     if((numZapFound=FindStudent(0))!=-1)
                     {
                         reader.Close();
-                        return true;//return i*5+numZapFound;
+                        return true;
                     }
             }
             return false;

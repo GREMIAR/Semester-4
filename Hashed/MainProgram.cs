@@ -14,16 +14,9 @@ namespace Heshed{
             {
                 using (writer = new BinaryWriter(File.Open(filename, FileMode.Create)))
                 {
-                    writer.Write(0);//СКОЛЬОК БЛОКОВ 
-                    writer.Write(0);//АДРЕС НАЧАЛА 
-                    writer.Write(0);
-                    writer.Write(0);
-                    writer.Write(0);
-                    writer.Write(0);
-                    writer.Write(0);
-                    writer.Write(0);
-                    writer.Write(0);
-                }  
+                    byte[] nullBlock = new byte[36];
+                    writer.Write(nullBlock);
+                }
             }
             writer.Close();
             OurBlock mainBlock = new OurBlock();
@@ -34,7 +27,7 @@ namespace Heshed{
                 Console.Write("\n1-Осуществление добавления информации о студенте\n2-Осуществление изменения информации о студенте\n3-Осуществление удаление информации о студенте\n4-Осуществление поиска информации о студенте\nВвод: ");
                 a=Console.ReadLine();
                 try
-                {   
+                {
                     switch (a)
                     {
                         case "1":
@@ -59,7 +52,7 @@ namespace Heshed{
                             int idG = Convert.ToInt32(Console.ReadLine());
                             mainBlock.AddOnEnd(filename, idZ,lastname,name,middlename,idG);
                             break;
-                        }   
+                        }
                         case "2":
                         {
                             Console.Write("Введите номер зачётки сткденкта которого хотиие изменить: ");
@@ -112,7 +105,7 @@ namespace Heshed{
                         }
                         default:
                             break;
-                    } 
+                    }
                 }
                 catch(System.OverflowException)
                 {

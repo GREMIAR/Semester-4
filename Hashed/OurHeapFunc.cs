@@ -13,10 +13,8 @@ namespace Heshed{
             {
                 byte[] blockBinary = new byte[blockSize];
                 int numZapFound;
-                Console.WriteLine("f="+first);
                 while(first!=0)
                 {
-                    Console.WriteLine(1);
                     reader.Seek(first, SeekOrigin.Begin);
                     reader.Read(blockBinary, 0, blockSize);
                     ByteArrToBlock(blockBinary);
@@ -24,40 +22,41 @@ namespace Heshed{
                     if((numZapFound=FindStudent(idRecordBook))!=-1)
                     {
                         reader.Close();
-                        return numZapFound;//return i*5+numZapFound;
+                        return numZapFound;
                     }
                     first=block.GetNextb;
                 }
 
             }
             return -1;
-
-
-
-
-
-            /*using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
+        }
+        public int Search2(int idRecordBook,string filename)
+        {
+            int idHashed = HashFunction(idRecordBook);
+            int end = ReadEndBlock(filename,idHashed);
+            int first = ReadFirstBlock(filename,idHashed);
+            int size = ReadNullBlock(filename);
+            using (var reader = File.Open(filename, FileMode.Open))
             {
                 byte[] blockBinary = new byte[blockSize];
-                
-
-
-                int numBlock = ReadNullBlockSize(reader);
-                
                 int numZapFound;
-                for(int i=0;i<numBlock;i++)
+                Console.WriteLine("f="+first);
+                while(first!=0)
                 {
+                    reader.Seek(first, SeekOrigin.Begin);
                     reader.Read(blockBinary, 0, blockSize);
                     ByteArrToBlock(blockBinary);
+
                     if((numZapFound=FindStudent(idRecordBook))!=-1)
                     {
                         reader.Close();
-                        return i;
+                        return first;
                     }
+                    first=block.GetNextb;
                 }
-                reader.Close();
-                return -1;
-            }*/
+
+            }
+            return -1;
         }
 
         public bool Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup)
@@ -71,7 +70,7 @@ namespace Heshed{
             byte[] blockBinary = new byte[blockSize];
             using (var reader = File.Open(filename, FileMode.Open))
             {
-                reader.Seek((numBlock)*blockSize+4, SeekOrigin.Begin);
+                reader.Seek((numBlock)*blockSize+36, SeekOrigin.Begin);
                 reader.Read(blockBinary, 0, blockSize);
             }
             ByteArrToBlock(blockBinary);
@@ -85,33 +84,74 @@ namespace Heshed{
             blockBinary=Combine();
             using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
             {
-                writer.Seek((numBlock)*blockSize+4,SeekOrigin.Begin);
+                writer.Seek((numBlock)*blockSize+36,SeekOrigin.Begin);
                 writer.Write(blockBinary);
-            } 
+            }
             return true;
+        }
+        public bool Reset(string filename,int oldidRecordBook)
+        {
+            int addr = Search2(oldidRecordBook,filename);
+            int i;
+            for(i=0;i<5;i++)
+            {
+                if(block.GetZapMass(i).GetIdRecordBook()==oldidRecordBook)
+                {
+                    break;
+                }
+            }
+            block.SetZapMass(i,0,InChar("0",30),InChar("0",20), InChar("0",30),0);
+            using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+            {
+                writer.Seek(addr,SeekOrigin.Begin);
+                byte[] blockBinary = new byte[blockSize];
+                blockBinary = Combine();
+                writer.Write(blockBinary);
+            }
+            return true;
+            /*int numBlock;
+            if((numBlock=Search(oldidRecordBook,filename))==-1){
+                Console.WriteLine("Номера зачётки {0} нету",oldidRecordBook);
+                return false;
+            }
+            numBlock=(numBlock-numBlock%5)/5;
+            byte[] blockBinary = new byte[blockSize];
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                reader.Seek((numBlock)*blockSize+36, SeekOrigin.Begin);
+                reader.Read(blockBinary, 0, blockSize);
+            }
+            ByteArrToBlock(blockBinary);
+            for(int i=0;i<5;i++)
+            {
+                if(block.GetZapMass(i).GetIdRecordBook()==oldidRecordBook)
+                {
+                    block.SetZapMass(i,0,InChar("0",30),InChar("0",20), InChar("0",30),0);
+                }
+            }
+            blockBinary=Combine();
+            using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+            {
+                writer.Seek((numBlock)*blockSize+36,SeekOrigin.Begin);
+                writer.Write(blockBinary);
+            }
+            return true;*/
         }
 
         public void Remove(int idRecordBook,string filename)
         {
-            int numBlock;
-            using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
-            {
-                numBlock = reader.ReadInt32();
-            }
-            if(numBlock==0)
-            {
-                Console.WriteLine("В БД нечего нет");
-                return;
-            }
-            byte[] blockBinary = new byte[blockSize];
+            int idHashed = HashFunction(idRecordBook);
+            int end = ReadEndBlock(filename,idHashed);
             using (var reader = File.Open(filename, FileMode.Open))
             {
-                reader.Seek((numBlock-1)*blockSize+4, SeekOrigin.Begin);
+                byte[] blockBinary = new byte[blockSize];
+                reader.Seek(end, SeekOrigin.Begin);
                 reader.Read(blockBinary, 0, blockSize);
-            }
-            ByteArrToBlock(blockBinary);
-            int i;
-            for(i=0;i<5;i++)
+                ByteArrToBlock(blockBinary);
+            } // the last block is taken
+
+            int i = 0;
+            for(;i<5;i++)
             {
                 if(block.GetZapMass(i).GetIdRecordBook()==0)
                 {
@@ -119,29 +159,38 @@ namespace Heshed{
                 }
             }
             i--;
-            if(Edit(filename,idRecordBook,block.GetZapMass(i).GetIdRecordBook(),InString(block.GetZapMass(i).GetLastname(),30),InString(block.GetZapMass(i).GetName(),20),InString(block.GetZapMass(i).GetMiddlename(),30),block.GetZapMass(i).GetIdGroup())==false)
+            Console.WriteLine("i= "+i);
+            Zap lastZap = new Zap(block.GetZapMass(i)); // the last record is taken
+            Reset(filename, block.GetZapMass(i).GetIdRecordBook()); // the last record is now marked as deleted
+            // now it's time to get the block that is going to be changed
+            int addr = Search2(idRecordBook,filename); // got the block, time to find the index of the record to be changed
+            for(i=0;i<5;i++)
             {
-                return;
-            }
-            if(i==0)
-            {
-                FileStream fileStream = new FileStream(filename, FileMode.Open);
-                fileStream.SetLength((numBlock-1)*blockSize+4);
-                fileStream.Close();
-                using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+                if(block.GetZapMass(i).GetIdRecordBook()==idRecordBook)
                 {
-                    writer.Write(numBlock-1);
+                    break;
                 }
+            }
+            Console.WriteLine("i= "+i);
+            block.SetZapMass(i, lastZap); // the block is changed, time to put it back in the file
+            using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+            {
+                    writer.Seek(addr,SeekOrigin.Begin);
+                    byte[] blockBinary = new byte[blockSize];
+                    blockBinary = Combine();
+                    writer.Write(blockBinary);
+            }
+
+            //now it's time to play with the memory and move blocks here and there
+
+
+            if(i==0) // case in which the record in the block is the last
+            {
+                // here it is needed to delete the whole block, not only mark a record as deleted
             }
             else
             {
-                block.SetZapMass(i,0,InChar("0",30),InChar("0",20),InChar("0",30),0);
-                blockBinary=Combine();
-                using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-                {
-                    writer.Seek((numBlock-1)*blockSize+4,SeekOrigin.Begin);
-                    writer.Write(blockBinary);
-                }
+
             }
         }
 
@@ -151,22 +200,6 @@ namespace Heshed{
             int size = ReadNullBlock(filename);
             int first = ReadFirstBlock(filename,idHashed);
             int end = ReadEndBlock(filename,idHashed);
-            if (first==0)
-            {
-                
-            }
-           /* using (var reader = File.Open(filename, FileMode.Open))
-            {
-
-            }
-            using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-            {
-                writer.Seek(0,SeekOrigin.Begin);
-                writer.Write(size++);
-
-                writer.Seek(idRecordBook%4*4+4,SeekOrigin.Begin);
-                writer.Write(size++);
-            } */
             if(CheckLastBlock(filename,end)){
                 byte[] blockBinary = new byte[blockSize];
                 using (var reader = File.Open(filename, FileMode.Open))
@@ -181,7 +214,7 @@ namespace Heshed{
                 {
                     writer.Seek(end,SeekOrigin.Begin);
                     writer.Write(blockBinary);
-                } 
+                }
             }
             else{
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
