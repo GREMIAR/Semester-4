@@ -7,6 +7,7 @@ namespace Heshed{
             const string filename = "Heshed.bin";
             FileInfo fileSize = new FileInfo(filename);
             BinaryWriter writer;
+            OurBlock mainBlock = new OurBlock();
             try{
                 writer = new BinaryWriter(File.Open(filename, FileMode.Open));
             }
@@ -19,7 +20,23 @@ namespace Heshed{
                 }
             }
             writer.Close();
-            OurBlock mainBlock = new OurBlock();
+            /*for(int i=1;i<50;i++)
+            {
+                mainBlock.AddOnEnd(filename,i,i.ToString(),i.ToString(),i.ToString(),i);
+            }*/
+            /*for(int i=1;i<4;i++)
+            {
+                mainBlock.AddOnEnd(filename,i,i.ToString(),i.ToString(),i.ToString(),i);
+            }
+            int w=5;
+            mainBlock.AddOnEnd(filename,w,w.ToString(),w.ToString(),w.ToString(),w);
+            mainBlock.AddOnEnd(filename,7,7.ToString(),7.ToString(),7.ToString(),7);
+            w=9;
+            mainBlock.AddOnEnd(filename,w,w.ToString(),w.ToString(),w.ToString(),w);
+            w=8;
+            mainBlock.AddOnEnd(filename,w,w.ToString(),w.ToString(),w.ToString(),w);
+            w=4;
+            mainBlock.AddOnEnd(filename,w,w.ToString(),w.ToString(),w.ToString(),w);*/
             string a="";
             while (a!="9"){
                 fileSize.Refresh();
@@ -96,13 +113,18 @@ namespace Heshed{
                             int idZ = Convert.ToInt32(Console.ReadLine());
                             if((idZ=mainBlock.Search(idZ,filename))!=-1){
                                 mainBlock.PrintBlock();
-                                mainBlock.PrintFindStudent(idZ%5);
+                                mainBlock.PrintFindStudent(idZ%4);
                             }
                             else{
                                 Console.WriteLine("\nУпс, ничего не удалось найти");
                             }
                             break;
                         }
+                        case "5":
+                            {
+                                mainBlock.test11(filename);
+                                break;
+                            }
                         default:
                             break;
                     }

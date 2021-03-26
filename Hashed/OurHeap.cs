@@ -6,6 +6,8 @@ namespace Heshed{
     //blockSize/5 ntgthm 92
     partial class OurBlock{
         Block block = new Block();
+        Back Mid = new Back();
+        Back Back = new Back();
         public OurBlock(){}
         //переделатд
         void ByteArrToBlock(byte[] blockBinary)
@@ -54,6 +56,8 @@ namespace Heshed{
             block.GetZapMass(i).GetIdRecordBook(), InString(block.GetZapMass(i).GetLastname(),30), InString(block.GetZapMass(i).GetName(),20), 
             InString(block.GetZapMass(i).GetMiddlename(),30), block.GetZapMass(i).GetIdGroup());
         }
+        
+
 //не надо переделывать
         char[] ByteChar(BinaryReader reader,int length)
         {
