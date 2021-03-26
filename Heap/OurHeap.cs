@@ -6,7 +6,27 @@ namespace BDlab1{
     partial class OurBlock{
         Block block = new Block();
         public OurBlock(){}
-        
+        bool SpaceFinder(string filename,int size)
+        {
+            byte[] blockBinary = new byte[440];
+            if(size==0)
+            {
+                return false;
+            }
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                reader.Seek((size-1)*440+4, SeekOrigin.Begin);
+                reader.Read(blockBinary, 0, 440);
+                ByteArrToBlock(blockBinary);
+
+                if(FindStudent(0)!=-1)
+                {
+                    reader.Close();
+                    return true;
+                }
+            }
+            return false;
+        }
         void ByteArrToBlock(byte[] blockBinary)
         {
             byte[] byteArrByf30 = new byte[30];

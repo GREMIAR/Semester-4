@@ -24,14 +24,39 @@ namespace BDlab1{
                 return -1;
             }
         }
-
-        public bool Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup)
+        public int Search(int idRecordBook,int oldidRecordBook,string filename)
         {
-            int numBlock;
-            if((numBlock=Search(oldidRecordBook,filename))==-1){
-                Console.WriteLine("Номера зачётки {0} нету",oldidRecordBook);
-                return false;
+            using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
+            {
+                byte[] blockBinary = new byte[440];
+                int numBlock = ReadNullBlockInt(reader);
+                int numZapFound, numZap = 0;
+                bool oldFound = false, idFound = false;
+                for(int i=0;i<numBlock;i++)
+                {
+                    reader.Read(blockBinary, 0, 440);
+                    ByteArrToBlock(blockBinary);
+                    if(FindStudent(idRecordBook)!=-1)
+                    {
+                        idFound=true;
+                    }
+                    if((numZapFound=FindStudent(oldidRecordBook))!=-1)
+                    {
+                        oldFound=true;
+                        numZap=i*5+numZapFound;
+                    }
+                }
+                reader.Close();
+                if ((!idFound)&&oldFound)
+                {
+                    return numZap;
+                }
+                return -1;
             }
+        }
+
+        public bool Edit(string filename,int numBlock,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup)
+        {
             numBlock=(numBlock-numBlock%5)/5;
             byte[] blockBinary = new byte[440];
             using (var reader = File.Open(filename, FileMode.Open))
@@ -58,6 +83,11 @@ namespace BDlab1{
 
         public void Remove(int idRecordBook,string filename)
         {
+            int size;
+            if((size=Search(idRecordBook,filename))==-1){
+                Console.WriteLine("Номер зачётки не найден",idRecordBook);
+                return;
+            }
             int numBlock;
             using (BinaryReader reader = new BinaryReader(File.Open(filename, FileMode.Open)))
             {
@@ -84,7 +114,7 @@ namespace BDlab1{
                 }
             }
             i--;
-            if(Edit(filename,idRecordBook,block.GetZapMass(i).GetIdRecordBook(),InString(block.GetZapMass(i).GetLastname(),30),InString(block.GetZapMass(i).GetName(),20),InString(block.GetZapMass(i).GetMiddlename(),30),block.GetZapMass(i).GetIdGroup())==false)
+            if(Edit(filename,size,idRecordBook,block.GetZapMass(i).GetIdRecordBook(),InString(block.GetZapMass(i).GetLastname(),30),InString(block.GetZapMass(i).GetName(),20),InString(block.GetZapMass(i).GetMiddlename(),30),block.GetZapMass(i).GetIdGroup())==false)
             {
                 return;
             }
@@ -113,7 +143,7 @@ namespace BDlab1{
         public void AddOnEnd(string filename, int idRecordBook,string lastname,string name,string patronymic,int idGroup)
         {
             int numBlock = ReadNullBlockInt(filename);
-            if(Search(0,filename)!=-1){
+            if(SpaceFinder(filename, numBlock)){
                 byte[] blockBinary = new byte[440];
                 using (var reader = File.Open(filename, FileMode.Open))
                 {
