@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-namespace Heshed{
+namespace Hashed{
     partial class OurBlock{
         const int blockSize = 444;
 

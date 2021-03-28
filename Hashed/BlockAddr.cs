@@ -1,12 +1,12 @@
-namespace Heshed{
-    class Back{
+namespace Hashed{
+    class BlockAddr{
         public int addrMain;
         public int addrbackMain;
         public int nextB;
         public int idZ;
         public bool end;
         public bool first;
-        public Back(int addrMain,int addrbackMain,int nextB,int idZ)
+        public BlockAddr(int addrMain,int addrbackMain,int nextB,int idZ)
         {
             this.addrMain=addrMain;
             this.addrbackMain=addrbackMain;
@@ -22,7 +22,7 @@ namespace Heshed{
             end=false;
             first=false;
         }
-        public Back()
+        public BlockAddr()
         {
             end=false;
             first=false;

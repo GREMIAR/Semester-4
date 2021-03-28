@@ -2,12 +2,11 @@ using System;
 using System.IO;
 using System.Text;
 using System.Linq;
-namespace Heshed{
-    //blockSize/5 ntgthm 92
+namespace Hashed{
     partial class OurBlock{
         Block block = new Block();
-        Back Mid = new Back();
-        Back Back = new Back();
+        BlockAddr Mid = new BlockAddr();
+        BlockAddr Back = new BlockAddr();
         public OurBlock(){}
         //переделатд
         void ByteArrToBlock(byte[] blockBinary)

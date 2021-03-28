@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-namespace Heshed{
+namespace Hashed{
     partial class OurBlock{
         public void MovingPointers(int start,string filename)
         {
@@ -41,85 +41,6 @@ namespace Heshed{
                     writer.Write(Mid.nextB);
                 }
             }
-            /*
-            Console.WriteLine("H={0}Start={1}END={2}nextB={3}addr={4}",idHashed, start,end,nextB,addr);
-            byte[] intArr = new byte[4];
-            byte[] blockBinary = new byte[blockSize];
-            if(addr==start)
-            {
-                using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-                {
-                    writer.Seek(idHashed*8+4,SeekOrigin.Begin);
-                    writer.Write(nextB);
-                }
-            }  
-            if(nextB==0)
-            {
-                int backpoint=0;
-                using (var reader = File.Open(filename, FileMode.Open))
-                {   
-                    int first = start;
-                    byte[] blockBinary1 = new byte[blockSize];
-                    while(first!=0)
-                    {
-                        reader.Seek(first, SeekOrigin.Begin);
-                        reader.Read(blockBinary, 0, blockSize);
-                        ByteArrToBlock(blockBinary);
-                        if(addr==block.GetNextb)
-                        {
-                            backpoint=first;
-                            break;
-                        }
-
-                        first=block.GetNextb;
-                    }
-                }
-
-                using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-                {
-                    writer.Seek(idHashed*8+8,SeekOrigin.Begin);
-                    writer.Write(backpoint);  
-
-                }
-            }  
-            Console.WriteLine("tyt");
-            test11(filename);
-               */ 
-            /*using (var reader = File.Open(filename, FileMode.Open))
-            {
-                while(start!=0)
-                {
-                    reader.Seek(start, SeekOrigin.Begin);
-                    reader.Read(blockBinary, 0, blockSize);
-                    Array.Copy(blockBinary,88,intArr,0,4);
-                    int r1 = BitConverter.ToInt32(intArr, 0);
-                    if(r1==addr)
-                    {
-                        ByteArrToBlock(blockBinary);
-                        block.SetNextb(addr);
-                        blockBinary=Combine();
-                        if(nextB==0)
-                        {
-                            using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-                            {
-                                writer.Seek(idHashed*8+8,SeekOrigin.Begin);
-                                writer.Write(r1);  
-
-                            }
-                        }    
-                        Console.WriteLine("tytyt");
-                        test11(filename);
-                        break;
-                    }
-                    start=r1;
-                }
-                
-            }
-            using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-            {
-                writer.Seek(start,SeekOrigin.Begin);
-                writer.Write(blockBinary);
-            }*/
         }
         public void MovingPointers1(string filename)//addr тот который удаляем
         {

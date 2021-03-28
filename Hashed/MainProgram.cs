@@ -1,10 +1,10 @@
 using System;
 using System.IO;
-namespace Heshed{
+namespace Hashed{
     class Program
     {
         static void Main(string[] args){
-            const string filename = "Heshed.bin";
+            const string filename = "Hashed.bin";
             FileInfo fileSize = new FileInfo(filename);
             BinaryWriter writer;
             OurBlock mainBlock = new OurBlock();

@@ -1,4 +1,4 @@
-namespace Heshed{
+namespace Hashed{
     class Zap{
         int idRecordBook;
         char[] lastname;
@@ -78,8 +78,4 @@ namespace Heshed{
             }
         }
     }
-   /* class Block0{
-        int size;
-
-    }*/
 }
