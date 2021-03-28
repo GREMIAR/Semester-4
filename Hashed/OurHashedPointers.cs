@@ -2,6 +2,7 @@ using System;
 using System.IO;
 namespace Hashed{
     partial class OurBlock{
+        
         public void MovingPointers(int start,string filename)
         {
             /*Console.WriteLine("Mid");
@@ -42,6 +43,7 @@ namespace Hashed{
                 }
             }
         }
+
         public void MovingPointers1(string filename)//addr тот который удаляем
         {
             /*Console.WriteLine("Back");
@@ -84,7 +86,6 @@ namespace Hashed{
             }
         }
 
-
         public void Debuging(string filename)
         {
             Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -108,12 +109,11 @@ namespace Hashed{
                     ByteArrToBlock(blockBinary);
                     Console.WriteLine("------------------------------------------------------------");
                     Console.WriteLine("Номер блока = "+i);
-                    Console.WriteLine("Cсылка на блок = "+block.GetNextb/444);
+                    Console.WriteLine("Cсылка на блок = "+block.Nextb/444);
                     PrintBlock();
                 }
                 reader.Close();
             }
         }
     }
-    
 }

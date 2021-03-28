@@ -2,6 +2,7 @@ using System;
 using System.IO;
 namespace Hashed{
     partial class OurBlock{
+
         const int blockSize = 444;
         Block block = new Block();
         BlockAddr Mid = new BlockAddr();
@@ -84,7 +85,7 @@ namespace Hashed{
             int i = 0;
             for(;i<5;i++)
             {
-                if(block.GetZapMass(i).GetIdRecordBook()==0)
+                if(block.GetZapMass(i).IdRecordBook==0)
                 {
                     break;
                 }
@@ -97,7 +98,7 @@ namespace Hashed{
             int addrDelBlock = Search2(idRecordBook,filename);
             for(i=0;i<5;i++)
             {
-                if(block.GetZapMass(i).GetIdRecordBook()==idRecordBook)
+                if(block.GetZapMass(i).IdRecordBook==idRecordBook)
                 {
                     break;
                 }
@@ -131,7 +132,7 @@ namespace Hashed{
             }
             for(i=0;i<5;i++)
             {
-                if(block.GetZapMass(i).GetIdRecordBook()==0)
+                if(block.GetZapMass(i).IdRecordBook==0)
                 {
                     break;
                 }
@@ -150,7 +151,7 @@ namespace Hashed{
                     reader.Read(blockBinary, 0, blockSize);
                 }
                 ByteArrToBlock(blockBinary);
-                Search3(block.GetZapMass(0).GetIdRecordBook(),filename);
+                Search3(block.GetZapMass(0).IdRecordBook,filename);
 
                 MovingPointers1(filename);
 
@@ -194,12 +195,13 @@ namespace Hashed{
                         reader.Close();
                         return numZapFound;
                     }
-                    first=block.GetNextb;
+                    first=block.Nextb;
                 }
 
             }
             return -1;
         }
+        
         public int Search2(int idRecordBook,string filename)
         {
             Mid.idZ=idRecordBook;
@@ -222,12 +224,12 @@ namespace Hashed{
                     {
                         Mid.addrbackMain=backAddr;
                         Mid.addrMain=first;
-                        Mid.nextB=block.GetNextb;
+                        Mid.nextB=block.Nextb;
                         if(temp==0)
                         {
                             Mid.first=false;
                         }
-                        if(block.GetNextb==0)
+                        if(block.Nextb==0)
                         {
                             Mid.end=true;
                         }
@@ -235,7 +237,7 @@ namespace Hashed{
                         return first;
                     }
                     backAddr=first;
-                    first=block.GetNextb;
+                    first=block.Nextb;
                     temp+=1;
                 }
 
@@ -268,12 +270,12 @@ namespace Hashed{
                     {
                         Back.addrbackMain=backAddr;
                         Back.addrMain=first;
-                        Back.nextB=block.GetNextb;
+                        Back.nextB=block.Nextb;
                         if(temp==0)
                         {
                             Back.first=true;
                         }
-                        if(block.GetNextb==0)
+                        if(block.Nextb==0)
                         {
                             Back.end=true;
                         }
@@ -281,7 +283,7 @@ namespace Hashed{
                         return first;
                     }
                     backAddr=first;
-                    first=block.GetNextb;
+                    first=block.Nextb;
                     temp+=1;
                 }
 

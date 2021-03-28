@@ -5,21 +5,12 @@ namespace Hashed{
         char[] name;
         char[] patronymic;
         int idGroup;
-        public int GetIdRecordBook(){
-            return idRecordBook;
-        }
-        public char[] GetLastname(){
-            return lastname;
-        }
-        public char[] GetName(){
-            return name;
-        }
-        public char[] GetMiddlename(){
-            return patronymic;
-        }
-        public int GetIdGroup(){
-            return idGroup;
-        }
+        public int IdRecordBook{get => this.idRecordBook;}
+        public char[] Lastname{get => this.lastname;}
+        public char[] Name{get => this.name;}
+        public char[] Middlename{get => this.patronymic;}
+        public int IdGroup{get => this.idGroup;}
+
         public Zap(int idRecordBook,char[] lastname,char[] name,char[] patronymic,int idGroup){
             this.idRecordBook = idRecordBook;
             this.lastname = lastname;
@@ -45,11 +36,11 @@ namespace Hashed{
     }
     class Block {
         Zap[] zapMass = new Zap[5];
-        int Nextb;
-        public int GetNextb {get => this.Nextb;}
-        public void SetNextb(int Nextb){
-            this.Nextb=Nextb;
-            }
+        int nextb;
+        public int Nextb {get => this.nextb;}
+        public void SetNextb(int nextb){
+            this.nextb=nextb;
+        }
         public Zap GetZapMass(int i){
             return zapMass[i];
         }
@@ -58,20 +49,18 @@ namespace Hashed{
         }
         public void SetZapMass(int i, Zap record)
         {
-          zapMass[i] = new Zap(record.GetIdRecordBook(),record.GetLastname(),record.GetName(),record.GetMiddlename(),record.GetIdGroup());
+          zapMass[i] = new Zap(record.IdRecordBook,record.Lastname,record.Name,record.Middlename,record.IdGroup);
         }
 
-
-
-        public Block(Zap[] zapMass, int Nextb){
-            Nextb=0;
+        public Block(Zap[] zapMass){
+            nextb=0;
             for(int i=0;i<5;i++)
             {
                 this.zapMass[i] = zapMass[i];
             }
         }
         public Block(){
-            Nextb=0;
+            nextb=0;
             for(int i=0;i<5;i++)
             {
                 zapMass[i] = new Zap();

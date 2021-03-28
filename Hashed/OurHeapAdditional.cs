@@ -39,7 +39,7 @@ namespace Hashed{
         int FindStudent(int idRecordBook){
             for(int i=0;i<5;i++)
             {
-                if(block.GetZapMass(i).GetIdRecordBook()==idRecordBook)
+                if(block.GetZapMass(i).IdRecordBook==idRecordBook)
                 {
                     return i;
                 }
@@ -50,8 +50,8 @@ namespace Hashed{
         public void PrintFindStudent(int i)
         {
             Console.WriteLine("Студент которыго вы искали: Номер зачётки: {0}; Фамилия: {1}; Имя: {2}; Отчество: {3}; Номер группы: {4};\n",
-            block.GetZapMass(i).GetIdRecordBook(), InString(block.GetZapMass(i).GetLastname(),30), InString(block.GetZapMass(i).GetName(),20), 
-            InString(block.GetZapMass(i).GetMiddlename(),30), block.GetZapMass(i).GetIdGroup());
+            block.GetZapMass(i).IdRecordBook, InString(block.GetZapMass(i).Lastname,30), InString(block.GetZapMass(i).Name,20), 
+            InString(block.GetZapMass(i).Middlename,30), block.GetZapMass(i).IdGroup);
         }
 
         public bool Reset(string filename,int oldidRecordBook)
@@ -61,7 +61,7 @@ namespace Hashed{
             int i;
             for(i=0;i<5;i++)
             {
-                if(block.GetZapMass(i).GetIdRecordBook()==oldidRecordBook)
+                if(block.GetZapMass(i).IdRecordBook==oldidRecordBook)
                 {
                     break;
                 }
@@ -105,14 +105,14 @@ namespace Hashed{
         public void PrintBlock(){
             Console.WriteLine("\n----Весь Блок----");
             for(int i = 0; i < 5; i++){
-                if(block.GetZapMass(i).GetIdRecordBook()==0)
+                if(block.GetZapMass(i).IdRecordBook==0)
                 {
                     Console.WriteLine("Номер записи в блоке: {0}; Пусто",i+1);
                 }
                 else
                 {
-                    Console.WriteLine("Номер записи в блоке: {0}; Номер зачётки: {1}; Фамилия: {2}; Имя: {3}; Отчесвто: {4}; Номер группы: {5};",i+1,block.GetZapMass(i).GetIdRecordBook(),
-                    InString(block.GetZapMass(i).GetLastname(),30),InString(block.GetZapMass(i).GetLastname(),20),InString(block.GetZapMass(i).GetMiddlename(),30),block.GetZapMass(i).GetIdGroup());
+                    Console.WriteLine("Номер записи в блоке: {0}; Номер зачётки: {1}; Фамилия: {2}; Имя: {3}; Отчесвто: {4}; Номер группы: {5};",i+1,block.GetZapMass(i).IdRecordBook,
+                    InString(block.GetZapMass(i).Lastname,30),InString(block.GetZapMass(i).Lastname,20),InString(block.GetZapMass(i).Middlename,30),block.GetZapMass(i).IdGroup);
                 }
             }
             Console.WriteLine();
@@ -151,11 +151,11 @@ namespace Hashed{
 
         byte[] Combine(Zap zap)
         {
-            byte[] idRecordBookB = BitConverter.GetBytes(zap.GetIdRecordBook());
-            byte[] lastnameB = Encoding.UTF8.GetBytes(zap.GetLastname());
-            byte[] nameB = Encoding.UTF8.GetBytes(zap.GetName());
-            byte[] middlenameB = Encoding.UTF8.GetBytes(zap.GetMiddlename());
-            byte[] idIdGroupB = BitConverter.GetBytes(zap.GetIdGroup());
+            byte[] idRecordBookB = BitConverter.GetBytes(zap.IdRecordBook);
+            byte[] lastnameB = Encoding.UTF8.GetBytes(zap.Lastname);
+            byte[] nameB = Encoding.UTF8.GetBytes(zap.Name);
+            byte[] middlenameB = Encoding.UTF8.GetBytes(zap.Middlename);
+            byte[] idIdGroupB = BitConverter.GetBytes(zap.IdGroup);
             return idRecordBookB.Concat(lastnameB.Concat(nameB.Concat(middlenameB.Concat(idIdGroupB)))).ToArray();
         }
 
@@ -172,8 +172,8 @@ namespace Hashed{
                 byte[] byteZap=Combine(block.GetZapMass(i));
                 byteBlock=Combine(byteBlock,byteZap);
             }
-            byte[] nextB = BitConverter.GetBytes(block.GetNextb);
-            byteBlock=Combine(byteBlock,nextB );
+            byte[] nextB = BitConverter.GetBytes(block.Nextb);
+            byteBlock=Combine(byteBlock,nextB);
             return byteBlock;
         }
 
@@ -218,7 +218,7 @@ namespace Hashed{
         {
             for(int i=0;i<5;i++)
             {
-                if(block.GetZapMass(i).GetIdRecordBook()==0)
+                if(block.GetZapMass(i).IdRecordBook==0)
                 {
                     block.SetZapMass(i,idRecordBook,InChar(lastname,30),InChar(name,20),InChar(patronymic,30),idGroup);
                     break;
@@ -249,6 +249,5 @@ namespace Hashed{
             }
             return false;
         }
-
     }
 }
