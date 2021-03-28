@@ -85,7 +85,7 @@ namespace Hashed{
         }
 
 
-        public void test11(string filename)
+        public void Debuging(string filename)
         {
             Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             for(int i=0;i<4;i++)
@@ -113,13 +113,6 @@ namespace Hashed{
                 }
                 reader.Close();
             }
-        }
-        
-        public bool Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup)
-        {
-            Remove(oldidRecordBook, filename);
-            AddOnEnd(filename, idRecordBook, lastname,name, patronymic, idGroup);
-            return true;
         }
     }
     

@@ -122,7 +122,7 @@ namespace Hashed{
                         }
                         case "5":
                             {
-                                mainBlock.test11(filename);
+                                mainBlock.Debuging(filename);
                                 break;
                             }
                         default:

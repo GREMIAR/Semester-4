@@ -4,11 +4,9 @@ using System.Text;
 using System.Linq;
 namespace Hashed{
     partial class OurBlock{
-        Block block = new Block();
-        BlockAddr Mid = new BlockAddr();
-        BlockAddr Back = new BlockAddr();
+
         public OurBlock(){}
-        //переделатд
+
         void ByteArrToBlock(byte[] blockBinary)
         {
             byte[] byteArrByf30 = new byte[30];
@@ -37,7 +35,7 @@ namespace Hashed{
             block.SetNextb(r6);
             return; 
         }
-        //не надо переделывать
+
         int FindStudent(int idRecordBook){
             for(int i=0;i<5;i++)
             {
@@ -48,16 +46,37 @@ namespace Hashed{
             }
             return -1;
         }
-//не надо переделывать
+
         public void PrintFindStudent(int i)
         {
             Console.WriteLine("Студент которыго вы искали: Номер зачётки: {0}; Фамилия: {1}; Имя: {2}; Отчество: {3}; Номер группы: {4};\n",
             block.GetZapMass(i).GetIdRecordBook(), InString(block.GetZapMass(i).GetLastname(),30), InString(block.GetZapMass(i).GetName(),20), 
             InString(block.GetZapMass(i).GetMiddlename(),30), block.GetZapMass(i).GetIdGroup());
         }
-        
 
-//не надо переделывать
+        public bool Reset(string filename,int oldidRecordBook)
+        {
+            int size = ReadNullBlock(filename);
+            int addrDelBlock = Search2(oldidRecordBook,filename);
+            int i;
+            for(i=0;i<5;i++)
+            {
+                if(block.GetZapMass(i).GetIdRecordBook()==oldidRecordBook)
+                {
+                    break;
+                }
+            }
+            block.SetZapMass(i,0,InChar("0",30),InChar("0",20), InChar("0",30),0);
+            using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+            {
+                writer.Seek(addrDelBlock,SeekOrigin.Begin);
+                byte[] blockBinary = new byte[blockSize];
+                blockBinary = Combine();
+                writer.Write(blockBinary);
+            }
+            return true;
+        }
+        
         char[] ByteChar(BinaryReader reader,int length)
         {
             string charArr = "";
@@ -74,7 +93,7 @@ namespace Hashed{
             }
             return StringinChar(charArr);
         }
-   //не надо переделывать     
+    
         char[] StringinChar(string str){
             char[] newChar = new char[str.Length-1];
             for (int i=0;i<str.Length-1;i++){
@@ -82,7 +101,7 @@ namespace Hashed{
             }
             return newChar;
         }
-        //не надо переделывать
+
         public void PrintBlock(){
             Console.WriteLine("\n----Весь Блок----");
             for(int i = 0; i < 5; i++){
@@ -98,7 +117,7 @@ namespace Hashed{
             }
             Console.WriteLine();
         }
-        //не надо переделывать
+
         char[] InChar(string str, int length)
         {
             char[] charArr = new char[length];
@@ -108,7 +127,7 @@ namespace Hashed{
             }
             return charArr;
         }
-        //не надо переделывать
+
         string InString(char[] charArr, int length)
         {
             string str="";
@@ -129,7 +148,7 @@ namespace Hashed{
             }
             return str;
         }
-        //не надо переделывать
+
         byte[] Combine(Zap zap)
         {
             byte[] idRecordBookB = BitConverter.GetBytes(zap.GetIdRecordBook());
@@ -139,12 +158,12 @@ namespace Hashed{
             byte[] idIdGroupB = BitConverter.GetBytes(zap.GetIdGroup());
             return idRecordBookB.Concat(lastnameB.Concat(nameB.Concat(middlenameB.Concat(idIdGroupB)))).ToArray();
         }
-        //не надо переделывать
+
         byte[] Combine(byte[] first, byte[] second)
         {
             return first.Concat(second).ToArray();
         }
-        //Вроде переделал
+
         byte[] Combine()
         {
             byte[] byteBlock = new byte[0];
