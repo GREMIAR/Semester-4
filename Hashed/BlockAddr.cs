@@ -5,7 +5,7 @@ namespace Hashed{
         public int nextB;
         public int idZ;
         public bool end;
-        public bool first;
+        public bool start;
         public void Resize()
         {
             addrMain=0;
@@ -13,7 +13,7 @@ namespace Hashed{
             nextB=0;
             idZ=0;
             end=false;
-            first=false;
+            start=false;
         }
         public BlockAddr(int addrMain,int addrbackMain,int nextB,int idZ)
         {
@@ -25,7 +25,7 @@ namespace Hashed{
         public BlockAddr()
         {
             end=false;
-            first=false;
+            start=false;
         }
     }
 }

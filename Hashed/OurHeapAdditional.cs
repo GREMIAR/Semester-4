@@ -36,6 +36,18 @@ namespace Hashed{
             return; 
         }
 
+        public void ReadFullNullBlock(byte[] nullBlockBinary)
+        {
+            byte[] intArr = new byte[4];
+            int[] intArr1 = new int[9];
+            for(int i=0;i<9;i++)
+            {
+                Array.Copy(nullBlockBinary,i*4,intArr,0,4);
+                intArr1[i] = BitConverter.ToInt32(intArr, 0);
+            }
+            nullBlock = new NullBlock(intArr1[0],intArr1[1],intArr1[2],intArr1[3],intArr1[4],intArr1[5],intArr1[6],intArr1[7],intArr1[8]);
+        }
+
         int FindStudent(int idRecordBook){
             for(int i=0;i<5;i++)
             {
@@ -159,9 +171,9 @@ namespace Hashed{
             return idRecordBookB.Concat(lastnameB.Concat(nameB.Concat(middlenameB.Concat(idIdGroupB)))).ToArray();
         }
 
-        byte[] Combine(byte[] first, byte[] second)
+        byte[] Combine(byte[] start, byte[] second)
         {
-            return first.Concat(second).ToArray();
+            return start.Concat(second).ToArray();
         }
 
         byte[] Combine()
@@ -225,6 +237,95 @@ namespace Hashed{
                 }
             }
             return;
+        }
+
+        public int Search2(int idRecordBook,string filename)
+        {
+            Mid.idZ=idRecordBook;
+            int idRBHashed = HashFunction(idRecordBook);
+            int end = ReadEndBlock(filename,idRBHashed);
+            int start = ReadFirstBlock(filename,idRBHashed);
+            int quantityBlock = ReadNullBlock(filename);
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                byte[] blockBinary = new byte[blockSize];
+                int numZapFound;
+                int backAddr=0;
+                int temp=0;
+                while(start!=0)
+                {   
+                    reader.Seek(start, SeekOrigin.Begin);
+                    reader.Read(blockBinary, 0, blockSize);
+                    ByteArrToBlock(blockBinary);
+                    if((numZapFound=FindStudent(idRecordBook))!=-1)
+                    {
+                        Mid.addrbackMain=backAddr;
+                        Mid.addrMain=start;
+                        Mid.nextB=block.Nextb;
+                        if(temp==0)
+                        {
+                            Mid.start=false;
+                        }
+                        if(block.Nextb==0)
+                        {
+                            Mid.end=true;
+                        }
+                        reader.Close();
+                        return start;
+                    }
+                    backAddr=start;
+                    start=block.Nextb;
+                    temp+=1;
+                }
+
+            }
+            return -1;
+        }
+
+        public int Search3(int idRecordBook,string filename)
+        {
+            Back.idZ=idRecordBook;
+
+            int idRBHashed = HashFunction(idRecordBook);
+            int end = ReadEndBlock(filename,idRBHashed);
+            int start = ReadFirstBlock(filename,idRBHashed);
+            int quantityBlock = ReadNullBlock(filename);
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                byte[] blockBinary = new byte[blockSize];
+                int numZapFound;
+                int backAddr=0;
+                int temp=0;
+                while(start!=0)
+                {
+                    reader.Seek(start, SeekOrigin.Begin);
+                    reader.Read(blockBinary, 0, blockSize);
+                    
+                    ByteArrToBlock(blockBinary);
+
+                    if((numZapFound=FindStudent(idRecordBook))!=-1)
+                    {
+                        Back.addrbackMain=backAddr;
+                        Back.addrMain=start;
+                        Back.nextB=block.Nextb;
+                        if(temp==0)
+                        {
+                            Back.start=true;
+                        }
+                        if(block.Nextb==0)
+                        {
+                            Back.end=true;
+                        }
+                        reader.Close();
+                        return start;
+                    }
+                    backAddr=start;
+                    start=block.Nextb;
+                    temp+=1;
+                }
+
+            }
+            return -1;
         }
 
         bool CheckLastBlock(string filename,int end)

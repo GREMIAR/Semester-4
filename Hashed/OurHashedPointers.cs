@@ -10,7 +10,7 @@ namespace Hashed{
             Console.WriteLine(Mid.addrMain/blockSize);
             Console.WriteLine(Mid.addrbackMain/blockSize);
             Console.WriteLine(Mid.nextB/blockSize);
-            Console.WriteLine(Mid.first);
+            Console.WriteLine(Mid.start);
             Console.WriteLine(Mid.end);*/
             int idRBHashed=Mid.idZ%4;
             if(Mid.addrMain==start)
@@ -33,7 +33,7 @@ namespace Hashed{
                     writer.Write(Mid.nextB);
                 }
             }
-            if(Mid.first==false&&Mid.end==false)
+            if(Mid.start==false&&Mid.end==false)
             {
                 //Console.WriteLine("SEREDINA_m");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
@@ -51,11 +51,11 @@ namespace Hashed{
             Console.WriteLine(Back.addrMain/blockSize);
             Console.WriteLine(Back.addrbackMain/blockSize);
             Console.WriteLine(Back.nextB/blockSize);
-            Console.WriteLine(Back.first);
+            Console.WriteLine(Back.start);
             Console.WriteLine(Back.end);
             Console.WriteLine();*/
             int idRBHashed=Back.idZ%4;
-            if(Back.first==true)
+            if(Back.start==true)
             {
                 //Console.WriteLine("Start_b");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
@@ -75,7 +75,7 @@ namespace Hashed{
                     writer.Write(Mid.addrMain);
                 }
             }
-            if(Back.first==false&&Back.end==false)
+            if(Back.start==false&&Back.end==false)
             {
                 //Console.WriteLine("SEREDINA_b");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
@@ -92,8 +92,8 @@ namespace Hashed{
             for(int i=0;i<4;i++)
             {
                 int end = ReadEndBlock(filename,i);
-                int first = ReadFirstBlock(filename,i);
-                Console.WriteLine("Первый №{0} = {1}", i,first/blockSize );
+                int start = ReadFirstBlock(filename,i);
+                Console.WriteLine("Первый №{0} = {1}", i,start/blockSize );
                 Console.WriteLine("Последий №{0} = {1}", i,end/blockSize);
             }
             Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");

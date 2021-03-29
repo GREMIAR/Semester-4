@@ -20,6 +20,12 @@ namespace Hashed{
                 }
             }
             writer.Close();
+            byte[] nullBlockBinary = new byte[36];
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                reader.Read(nullBlockBinary, 0, nullBlockBinary.Length);
+            }
+            mainBlock.ReadFullNullBlock(nullBlockBinary);
             /*for(int i=1;i<50;i++)
             {
                 mainBlock.AddOnEnd(filename,i,i.ToString(),i.ToString(),i.ToString(),i);
@@ -72,9 +78,9 @@ namespace Hashed{
                         }
                         case "2":
                         {
-                            Console.Write("Введите номер зачётки сткденкта которого хотиие изменить: ");
+                            Console.Write("Введите номер зачётки студента которого хотите изменить: ");
                             int oldidz = Convert.ToInt32(Console.ReadLine());
-                            Console.WriteLine("На что засменяем: ");
+                            Console.WriteLine("На что заменяем: ");
                             Console.Write("Номер зачётки: ");
                             int idZ = Convert.ToInt32(Console.ReadLine());
                             if(idZ==0){

@@ -67,4 +67,98 @@ namespace Hashed{
             }
         }
     }
+    class NullBlock{
+        int quantityBlock;
+        int zeroStart;
+        int zeroEnd;
+        int oneStart;
+        int oneEnd;
+        int twoStart;
+        int twoEnd;
+        int threeStart;
+        int threeEnd;
+        public int QuantityBlock => quantityBlock;
+        public void SetQuantityBlock(int quantityBlock)
+        {
+            this.quantityBlock=quantityBlock;
+        }
+        public int GetPointersStart(int mod)
+        {
+            int pointers=0;
+            if(mod==0)
+            {
+                pointers = zeroStart;
+            }
+            else if(mod==1)
+            {
+                pointers = oneStart;
+            }
+            else if(mod==2)
+            {
+                pointers = twoStart;
+            }
+            else if(mod==3)
+            {
+                pointers = threeStart;
+            }
+            return pointers;
+        }
+        public int GetPointersEnd(int mod)
+        {
+            int pointers=0;
+            if(mod==0)
+            {
+                pointers = zeroEnd;
+            }
+            else if(mod==1)
+            {
+                pointers = oneEnd;
+            }
+            else if(mod==2)
+            {
+                pointers = twoEnd;
+            }
+            else if(mod==3)
+            {
+                pointers = threeEnd;
+            }
+            return pointers;
+        }
+        public void SetPointers(int mod,int start,int end)
+        {
+            if(mod==0)
+            {
+                zeroStart=start;
+                zeroEnd=end;
+            }
+            else if(mod==1)
+            {
+                oneStart=start;
+                oneEnd=end;
+            }
+            else if(mod==2)
+            {
+                twoStart=start;
+                twoEnd=end;
+            }
+            else if(mod==3)
+            {
+                threeStart=start;
+                threeEnd=end;
+            }
+        }
+        public NullBlock(int zeroStart,int zeroEnd,int quantityBlock,int oneStart,int oneEnd,int twoStart,int twoEnd,int threeStart,int threeEnd)
+        {
+            this.quantityBlock=quantityBlock;
+            this.zeroStart=zeroStart;
+            this.zeroEnd=zeroEnd;
+            this.oneStart=oneStart;
+            this.oneEnd=oneEnd;
+            this.twoStart=twoStart;
+            this.twoEnd=twoEnd;
+            this.threeStart=threeStart;
+            this.threeEnd=threeEnd;
+        }
+        public NullBlock(){}
+    }
 }
