@@ -7,7 +7,7 @@ namespace Hashed{
         Block block = new Block();
         BlockAddr Mid = new BlockAddr();
         BlockAddr Back = new BlockAddr();
-        
+
         public void AddOnEnd(string filename, int idRecordBook,string lastname,string name,string patronymic,int idGroup)
         {
             int idRBHashed = HashFunction(idRecordBook);
@@ -54,11 +54,10 @@ namespace Hashed{
             }
         }
 
-        public bool Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup)
+        public void Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup)
         {
             Remove(oldidRecordBook, filename);
             AddOnEnd(filename, idRecordBook, lastname,name, patronymic, idGroup);
-            return true;
         }
 
         public void Remove(int idRecordBook,string filename)
