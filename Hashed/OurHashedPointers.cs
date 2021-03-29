@@ -7,18 +7,18 @@ namespace Hashed{
         {
             /*Console.WriteLine("Mid");
             Console.WriteLine(Mid.idZ);
-            Console.WriteLine(Mid.addrMain/444);
-            Console.WriteLine(Mid.addrbackMain/444);
-            Console.WriteLine(Mid.nextB/444);
+            Console.WriteLine(Mid.addrMain/blockSize);
+            Console.WriteLine(Mid.addrbackMain/blockSize);
+            Console.WriteLine(Mid.nextB/blockSize);
             Console.WriteLine(Mid.first);
             Console.WriteLine(Mid.end);*/
-            int idHashed=Mid.idZ%4;
+            int idRBHashed=Mid.idZ%4;
             if(Mid.addrMain==start)
             {
                 //Console.WriteLine("Start_m");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
-                    writer.Seek(idHashed*8+4+440,SeekOrigin.Begin);
+                    writer.Seek(idRBHashed*8+4+440,SeekOrigin.Begin);
                     writer.Write(Mid.nextB);
                 }
             }
@@ -27,7 +27,7 @@ namespace Hashed{
                 //Console.WriteLine("END_m");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
-                    writer.Seek(idHashed*8+8,SeekOrigin.Begin);
+                    writer.Seek(idRBHashed*8+8,SeekOrigin.Begin);
                     writer.Write(Mid.addrbackMain);
                     writer.Seek(Mid.addrbackMain+440,SeekOrigin.Begin);
                     writer.Write(Mid.nextB);
@@ -44,23 +44,23 @@ namespace Hashed{
             }
         }
 
-        public void MovingPointers1(string filename)//addr тот который удаляем
+        public void MovingPointers(string filename)//addr тот который удаляем
         {
             /*Console.WriteLine("Back");
             Console.WriteLine(Back.idZ);
-            Console.WriteLine(Back.addrMain/444);
-            Console.WriteLine(Back.addrbackMain/444);
-            Console.WriteLine(Back.nextB/444);
+            Console.WriteLine(Back.addrMain/blockSize);
+            Console.WriteLine(Back.addrbackMain/blockSize);
+            Console.WriteLine(Back.nextB/blockSize);
             Console.WriteLine(Back.first);
             Console.WriteLine(Back.end);
             Console.WriteLine();*/
-            int idHashed=Back.idZ%4;
+            int idRBHashed=Back.idZ%4;
             if(Back.first==true)
             {
                 //Console.WriteLine("Start_b");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
-                    writer.Seek(idHashed*8+4,SeekOrigin.Begin);
+                    writer.Seek(idRBHashed*8+4,SeekOrigin.Begin);
                     writer.Write(Back.addrMain);
                 }
             }
@@ -69,7 +69,7 @@ namespace Hashed{
                 //Console.WriteLine("END_b");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
-                    writer.Seek(idHashed*8+8,SeekOrigin.Begin);
+                    writer.Seek(idRBHashed*8+8,SeekOrigin.Begin);
                     writer.Write(Back.addrbackMain);
                     writer.Seek(Back.addrbackMain+440,SeekOrigin.Begin);
                     writer.Write(Mid.addrMain);
@@ -93,8 +93,8 @@ namespace Hashed{
             {
                 int end = ReadEndBlock(filename,i);
                 int first = ReadFirstBlock(filename,i);
-                Console.WriteLine("Первый №{0} = {1}", i,first/444 );
-                Console.WriteLine("Последий №{0} = {1}", i,end/444);
+                Console.WriteLine("Первый №{0} = {1}", i,first/blockSize );
+                Console.WriteLine("Последий №{0} = {1}", i,end/blockSize);
             }
             Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             int numBlock = ReadNullBlock(filename);
@@ -109,7 +109,7 @@ namespace Hashed{
                     ByteArrToBlock(blockBinary);
                     Console.WriteLine("------------------------------------------------------------");
                     Console.WriteLine("Номер блока = "+i);
-                    Console.WriteLine("Cсылка на блок = "+block.Nextb/444);
+                    Console.WriteLine("Cсылка на блок = "+block.Nextb/blockSize);
                     PrintBlock();
                 }
                 reader.Close();

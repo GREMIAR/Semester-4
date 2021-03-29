@@ -56,7 +56,7 @@ namespace Hashed{
 
         public bool Reset(string filename,int oldidRecordBook)
         {
-            int size = ReadNullBlock(filename);
+            int quantityBlock = ReadNullBlock(filename);
             int addrDelBlock = Search2(oldidRecordBook,filename);
             int i;
             for(i=0;i<5;i++)
@@ -234,18 +234,16 @@ namespace Hashed{
                 return false;
             }
             byte[] blockBinary = new byte[blockSize];
-            int numZapFound;
             using (var reader = File.Open(filename, FileMode.Open))
             {
                 reader.Seek(end, SeekOrigin.Begin);
                 reader.Read(blockBinary, 0, blockSize);
                 ByteArrToBlock(blockBinary);
-
-                    if((numZapFound=FindStudent(0))!=-1)
-                    {
-                        reader.Close();
-                        return true;
-                    }
+                if(FindStudent(0)!=-1)
+                {
+                    reader.Close();
+                    return true;
+                }
             }
             return false;
         }
