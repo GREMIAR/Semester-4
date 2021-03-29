@@ -88,21 +88,22 @@ namespace Hashed{
 
         public void Debuging(string filename)
         {
+            int idRBHashed = HashFunction(0);
             Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             for(int i=0;i<4;i++)
             {
-                int end = ReadEndBlock(filename,i);
-                int start = ReadFirstBlock(filename,i);
+                int end = nullBlock.GetPointersStart(i);
+                int start = nullBlock.GetPointersEnd(i);
                 Console.WriteLine("Первый №{0} = {1}", i,start/blockSize );
                 Console.WriteLine("Последий №{0} = {1}", i,end/blockSize);
             }
             Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            int numBlock = ReadNullBlock(filename);
-            Console.WriteLine("Всего блоков = "+ numBlock);
+            int quantityBlock = nullBlock.QuantityBlock;
+            Console.WriteLine("Всего блоков = "+ quantityBlock);
             using (var reader = File.Open(filename, FileMode.Open))
             {
                 byte[] blockBinary = new byte[blockSize];
-                for(int i=0;i<numBlock;i++)
+                for(int i=0;i<quantityBlock;i++)
                 {
                     reader.Seek(i*blockSize+36, SeekOrigin.Begin);
                     reader.Read(blockBinary, 0, blockSize);

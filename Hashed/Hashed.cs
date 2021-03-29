@@ -67,6 +67,7 @@ namespace Hashed{
             }
         }
     }
+    
     class NullBlock{
         int quantityBlock;
         int zeroStart;
@@ -147,7 +148,7 @@ namespace Hashed{
                 threeEnd=end;
             }
         }
-        public NullBlock(int zeroStart,int zeroEnd,int quantityBlock,int oneStart,int oneEnd,int twoStart,int twoEnd,int threeStart,int threeEnd)
+        public NullBlock(int quantityBlock,int zeroStart,int zeroEnd,int oneStart,int oneEnd,int twoStart,int twoEnd,int threeStart,int threeEnd)
         {
             this.quantityBlock=quantityBlock;
             this.zeroStart=zeroStart;

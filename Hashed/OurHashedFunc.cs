@@ -37,9 +37,9 @@ namespace Hashed{
                     writer.Write(blockBinary);
                     if(start==0)
                     {
-                        nullBlock.SetPointers(idRBHashed,quantityBlock*blockSize+36,quantityBlock*blockSize+36);
                         start = quantityBlock*blockSize+36;
-                        end = quantityBlock*blockSize+36;
+                        end = start;
+                        nullBlock.SetPointers(idRBHashed,start,end);
                         writer.Seek(idRBHashed*8+4,SeekOrigin.Begin);
                         writer.Write(start);
                         writer.Seek(idRBHashed*8+8,SeekOrigin.Begin);
@@ -47,10 +47,10 @@ namespace Hashed{
                     }
                     else
                     {
-                        nullBlock.SetPointers(idRBHashed,start,quantityBlock*blockSize+36);
                         writer.Seek(end+440,SeekOrigin.Begin);
-                        writer.Write(quantityBlock*blockSize+36);
                         end = quantityBlock*blockSize+36;
+                        writer.Write(end);
+                        nullBlock.SetPointers(idRBHashed,start,end);
                         writer.Seek(idRBHashed*8+8,SeekOrigin.Begin);
                         writer.Write(end);
                     }
@@ -173,9 +173,9 @@ namespace Hashed{
         public int Search(int idRecordBook,string filename)
         {
             int idRBHashed = HashFunction(idRecordBook);
-            int end = ReadEndBlock(filename,idRBHashed);
-            int start = ReadFirstBlock(filename,idRBHashed);
-            int quantityBlock = ReadNullBlock(filename);
+            int quantityBlock = nullBlock.QuantityBlock;
+            int start = nullBlock.GetPointersStart(idRBHashed);
+            int end = nullBlock.GetPointersEnd(idRBHashed);
             using (var reader = File.Open(filename, FileMode.Open))
             {
                 byte[] blockBinary = new byte[blockSize];
@@ -185,7 +185,6 @@ namespace Hashed{
                     reader.Seek(start, SeekOrigin.Begin);
                     reader.Read(blockBinary, 0, blockSize);
                     ByteArrToBlock(blockBinary);
-
                     if((numZapFound=FindStudent(idRecordBook))!=-1)
                     {
                         reader.Close();
