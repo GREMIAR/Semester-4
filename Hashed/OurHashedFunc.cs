@@ -66,10 +66,8 @@ namespace Hashed{
 
         public void Remove(int idRecordBook,string filename)
         {
-            int quantityBlock = ReadNullBlock(filename);
             int idRBHashed = HashFunction(idRecordBook);
-            int end = ReadEndBlock(filename,idRBHashed);
-            int start = ReadFirstBlock(filename,idRBHashed);
+            int end = nullBlock.GetPointersEnd(idRBHashed);
             byte[] blockBinary1;
             using (var reader = File.Open(filename, FileMode.Open))
             {
@@ -92,7 +90,7 @@ namespace Hashed{
             int num=i;
             Zap lastZap = new Zap(block.GetZapMass(i));
 
-            int addrDelBlock = Search2(idRecordBook,filename);
+            int addrDelBlock = SearchMid(idRecordBook,filename);
             for(i=0;i<5;i++)
             {
                 if(block.GetZapMass(i).IdRecordBook==idRecordBook)
@@ -136,9 +134,9 @@ namespace Hashed{
             }
             if(i==0) 
             {
-                idRBHashed = HashFunction(idRecordBook);
-                end = ReadEndBlock(filename,idRBHashed);
-                start = ReadFirstBlock(filename,idRBHashed);
+                int quantityBlock = nullBlock.QuantityBlock;
+                int start = nullBlock.GetPointersStart(idRBHashed);
+                
                 MovingPointers(start,filename);
 
                 byte[] blockBinary = new byte[blockSize];
@@ -148,7 +146,7 @@ namespace Hashed{
                     reader.Read(blockBinary, 0, blockSize);
                 }
                 ByteArrToBlock(blockBinary);
-                Search3(block.GetZapMass(0).IdRecordBook,filename);
+                SearchBack(block.GetZapMass(0).IdRecordBook,filename);
 
                 MovingPointers(filename);
 
