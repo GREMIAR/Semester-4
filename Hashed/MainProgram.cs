@@ -70,10 +70,10 @@ namespace Hashed{
                             Console.Write("Имя: ");
                             string name = Console.ReadLine();
                             Console.Write("Отчество: ");
-                            string middlename = Console.ReadLine();
+                            string patronymic = Console.ReadLine();
                             Console.Write("Номер группа: ");
                             int idG = Convert.ToInt32(Console.ReadLine());
-                            mainBlock.AddOnEnd(filename, idZ,lastname,name,middlename,idG);
+                            mainBlock.AddOnEnd(filename, idZ,lastname,name,patronymic,idG);
                             break;
                         }
                         case "2":
@@ -96,10 +96,10 @@ namespace Hashed{
                             Console.Write("Имя: ");
                             string name = Console.ReadLine();
                             Console.Write("Отчество: ");
-                            string middlename = Console.ReadLine();
+                            string patronymic = Console.ReadLine();
                             Console.Write("Номер группа: ");
                             int idG = Convert.ToInt32(Console.ReadLine());
-                            mainBlock.Edit(filename,oldidz, idZ,lastname,name,middlename,idG);
+                            mainBlock.Edit(filename,oldidz, idZ,lastname,name,patronymic,idG);
                             break;
                         }
                         case "3":
@@ -119,7 +119,7 @@ namespace Hashed{
                             int idZ = Convert.ToInt32(Console.ReadLine());
                             if((idZ=mainBlock.Search(idZ,filename))!=-1){
                                 mainBlock.PrintBlock();
-                                mainBlock.PrintFindStudent(idZ%4);
+                                mainBlock.PrintFindStudent(idZ);
                             }
                             else{
                                 Console.WriteLine("\nУпс, ничего не удалось найти");
@@ -127,10 +127,10 @@ namespace Hashed{
                             break;
                         }
                         case "5":
-                            {
-                                mainBlock.Debuging(filename);
-                                break;
-                            }
+                        {
+                            mainBlock.Debuging(filename);
+                            break;
+                        }
                         default:
                             break;
                     }

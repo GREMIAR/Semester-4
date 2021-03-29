@@ -5,17 +5,9 @@ namespace Hashed{
         
         public void MovingPointers(int start,string filename)
         {
-            /*Console.WriteLine("Mid");
-            Console.WriteLine(Mid.idZ);
-            Console.WriteLine(Mid.addrMain/blockSize);
-            Console.WriteLine(Mid.addrbackMain/blockSize);
-            Console.WriteLine(Mid.nextB/blockSize);
-            Console.WriteLine(Mid.start);
-            Console.WriteLine(Mid.end);*/
-            int idRBHashed=Mid.idZ%4;
+            int idRBHashed=HashFunction(Mid.idZ);
             if(Mid.addr==start)
             {
-                //Console.WriteLine("Start_m");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
                     writer.Seek(idRBHashed*8+4+440,SeekOrigin.Begin);
@@ -24,7 +16,6 @@ namespace Hashed{
             }
             if(Mid.next==0)
             {
-                //Console.WriteLine("END_m");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
                     writer.Seek(idRBHashed*8+8,SeekOrigin.Begin);
@@ -35,7 +26,6 @@ namespace Hashed{
             }
             if(!Mid.start&&!Mid.end)
             {
-                //Console.WriteLine("SEREDINA_m");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
                     writer.Seek(Mid.back+440,SeekOrigin.Begin);
@@ -46,18 +36,9 @@ namespace Hashed{
 
         public void MovingPointers(string filename)//addr тот который удаляем
         {
-            /*Console.WriteLine("Back");
-            Console.WriteLine(Back.idZ);
-            Console.WriteLine(Back.addrMain/blockSize);
-            Console.WriteLine(Back.addrbackMain/blockSize);
-            Console.WriteLine(Back.nextB/blockSize);
-            Console.WriteLine(Back.start);
-            Console.WriteLine(Back.end);
-            Console.WriteLine();*/
-            int idRBHashed=Back.idZ%4;
+            int idRBHashed=HashFunction(Back.idZ);
             if(Back.start)
             {
-                //Console.WriteLine("Start_b");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
                     writer.Seek(idRBHashed*8+4,SeekOrigin.Begin);
@@ -66,7 +47,6 @@ namespace Hashed{
             }
             if(Back.end)
             {
-                //Console.WriteLine("END_b");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
                     writer.Seek(idRBHashed*8+8,SeekOrigin.Begin);
@@ -77,7 +57,6 @@ namespace Hashed{
             }
             if(!Back.start&&!Back.end)
             {
-                //Console.WriteLine("SEREDINA_b");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
                     writer.Seek(Back.back+440,SeekOrigin.Begin);
