@@ -1,25 +1,25 @@
 namespace Hashed{
     class BlockAddr{
-        public int addrMain;
-        public int addrbackMain;
-        public int nextB;
+        public int addr;
+        public int back;
+        public int next;
         public int idZ;
         public bool end;
         public bool start;
         public void Resize()
         {
-            addrMain=0;
-            addrbackMain=0;
-            nextB=0;
+            addr=0;
+            back=0;
+            next=0;
             idZ=0;
             end=false;
             start=false;
         }
         public BlockAddr(int addrMain,int addrbackMain,int nextB,int idZ)
         {
-            this.addrMain=addrMain;
-            this.addrbackMain=addrbackMain;
-            this.nextB=nextB;
+            this.addr=addrMain;
+            this.back=addrbackMain;
+            this.next=nextB;
             this.idZ=idZ;
         }
         public BlockAddr()

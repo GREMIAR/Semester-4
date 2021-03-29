@@ -13,33 +13,33 @@ namespace Hashed{
             Console.WriteLine(Mid.start);
             Console.WriteLine(Mid.end);*/
             int idRBHashed=Mid.idZ%4;
-            if(Mid.addrMain==start)
+            if(Mid.addr==start)
             {
                 //Console.WriteLine("Start_m");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
                     writer.Seek(idRBHashed*8+4+440,SeekOrigin.Begin);
-                    writer.Write(Mid.nextB);
+                    writer.Write(Mid.next);
                 }
             }
-            if(Mid.nextB==0)
+            if(Mid.next==0)
             {
                 //Console.WriteLine("END_m");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
                     writer.Seek(idRBHashed*8+8,SeekOrigin.Begin);
-                    writer.Write(Mid.addrbackMain);
-                    writer.Seek(Mid.addrbackMain+440,SeekOrigin.Begin);
-                    writer.Write(Mid.nextB);
+                    writer.Write(Mid.back);
+                    writer.Seek(Mid.back+440,SeekOrigin.Begin);
+                    writer.Write(Mid.next);
                 }
             }
-            if(Mid.start==false&&Mid.end==false)
+            if(!Mid.start&&!Mid.end)
             {
                 //Console.WriteLine("SEREDINA_m");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
-                    writer.Seek(Mid.addrbackMain+440,SeekOrigin.Begin);
-                    writer.Write(Mid.nextB);
+                    writer.Seek(Mid.back+440,SeekOrigin.Begin);
+                    writer.Write(Mid.next);
                 }
             }
         }
@@ -55,33 +55,33 @@ namespace Hashed{
             Console.WriteLine(Back.end);
             Console.WriteLine();*/
             int idRBHashed=Back.idZ%4;
-            if(Back.start==true)
+            if(Back.start)
             {
                 //Console.WriteLine("Start_b");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
                     writer.Seek(idRBHashed*8+4,SeekOrigin.Begin);
-                    writer.Write(Back.addrMain);
+                    writer.Write(Back.addr);
                 }
             }
-            if(Back.end==true)
+            if(Back.end)
             {
                 //Console.WriteLine("END_b");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
                     writer.Seek(idRBHashed*8+8,SeekOrigin.Begin);
-                    writer.Write(Back.addrbackMain);
-                    writer.Seek(Back.addrbackMain+440,SeekOrigin.Begin);
-                    writer.Write(Mid.addrMain);
+                    writer.Write(Back.back);
+                    writer.Seek(Back.back+440,SeekOrigin.Begin);
+                    writer.Write(Mid.addr);
                 }
             }
-            if(Back.start==false&&Back.end==false)
+            if(!Back.start&&!Back.end)
             {
                 //Console.WriteLine("SEREDINA_b");
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
-                    writer.Seek(Back.addrbackMain+440,SeekOrigin.Begin);
-                    writer.Write(Mid.addrMain);
+                    writer.Seek(Back.back+440,SeekOrigin.Begin);
+                    writer.Write(Mid.addr);
                 }
             }
         }

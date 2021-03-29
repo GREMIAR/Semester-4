@@ -259,9 +259,9 @@ namespace Hashed{
                     ByteArrToBlock(blockBinary);
                     if((numZapFound=FindStudent(idRecordBook))!=-1)
                     {
-                        Mid.addrbackMain=backAddr;
-                        Mid.addrMain=start;
-                        Mid.nextB=block.Nextb;
+                        Mid.back=backAddr;
+                        Mid.addr=start;
+                        Mid.next=block.Nextb;
                         if(temp==0)
                         {
                             Mid.start=false;
@@ -305,9 +305,9 @@ namespace Hashed{
 
                     if((numZapFound=FindStudent(idRecordBook))!=-1)
                     {
-                        Back.addrbackMain=backAddr;
-                        Back.addrMain=start;
-                        Back.nextB=block.Nextb;
+                        Back.back=backAddr;
+                        Back.addr=start;
+                        Back.next=block.Nextb;
                         if(temp==0)
                         {
                             Back.start=true;
