@@ -10,7 +10,7 @@ namespace Hashed{
         const int pointerSize=4;
 
         Block block = new Block();
-        
+
         NullBlock nullBlock = new NullBlock();
 
         public void AddOnEnd(string filename, int idRecordBook,string lastname,string name,string patronymic,int idGroup,int searchEndCheckResult)
@@ -94,9 +94,9 @@ namespace Hashed{
                 Mid=SearchInfoOnBlock(idRecordBook,filename,Mid);
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {  
-                    if (Mid.back!=0)
+                    if (Mid.Back!=0)
                     {
-                        writer.Seek(Mid.back+440,SeekOrigin.Begin);
+                        writer.Seek(Mid.Back+440,SeekOrigin.Begin);
                         writer.Write(0);
                     }
                     else
@@ -106,8 +106,8 @@ namespace Hashed{
                         writer.Write(0);
                     }
                     writer.Seek(idRBHashed*quantityPointersNullBlock+pointerSize+firstPointerSize,SeekOrigin.Begin);
-                    writer.Write(Mid.back);
-                    nullBlock.SetPointersEnd(idRBHashed,Mid.back);
+                    writer.Write(Mid.Back);
+                    nullBlock.SetPointersEnd(idRBHashed,Mid.Back);
                 }
                 byte[] blockBinary = new byte[blockSize];
                 using (var reader = File.Open(filename, FileMode.Open))
@@ -117,26 +117,26 @@ namespace Hashed{
                     ByteArrToBlock(blockBinary);
                 }
                 Back=SearchInfoOnBlock(block.GetZapMass(0).IdRecordBook,filename,Back);
-                if(Mid.addr!=(quantityBlock-1)*blockSize+nullBlockSize)
+                if(Mid.Addr!=(quantityBlock-1)*blockSize+nullBlockSize)
                 {
                     using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                     {
-                        writer.Seek(Mid.addr,SeekOrigin.Begin);
+                        writer.Seek(Mid.Addr,SeekOrigin.Begin);
                         writer.Write(blockBinary); 
-                        if (Back.back!=0)
+                        if (Back.Back!=0)
                         {
-                            writer.Seek(Back.back+440,SeekOrigin.Begin);
-                            writer.Write(Mid.addr);
+                            writer.Seek(Back.Back+440,SeekOrigin.Begin);
+                            writer.Write(Mid.Addr);
                         }
                         else
                         {
                             writer.Seek((block.GetZapMass(0).IdRecordBook)*quantityPointersNullBlock+firstPointerSize,SeekOrigin.Begin);
-                            nullBlock.SetPointersStart(HashFunction(block.GetZapMass(0).IdRecordBook),Mid.addr);
-                            writer.Write(Mid.addr);
+                            nullBlock.SetPointersStart(HashFunction(block.GetZapMass(0).IdRecordBook),Mid.Addr);
+                            writer.Write(Mid.Addr);
                         }
                         writer.Seek(HashFunction(block.GetZapMass(0).IdRecordBook)*quantityPointersNullBlock+pointerSize+firstPointerSize,SeekOrigin.Begin);
-                        writer.Write(Mid.addr);
-                        nullBlock.SetPointersEnd(HashFunction(block.GetZapMass(0).IdRecordBook),Mid.addr);
+                        writer.Write(Mid.Addr);
+                        nullBlock.SetPointersEnd(HashFunction(block.GetZapMass(0).IdRecordBook),Mid.Addr);
                     }
                 }
                 FileStream fileStream = new FileStream(filename, FileMode.Open);
@@ -166,7 +166,7 @@ namespace Hashed{
                     block.SetZapMass(numStu, lastZap); 
                     using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                     {
-                        writer.Seek(Mid.addr,SeekOrigin.Begin);
+                        writer.Seek(Mid.Addr,SeekOrigin.Begin);
                         byte[] blockBinary = Combine();
                         writer.Write(blockBinary);
                     }

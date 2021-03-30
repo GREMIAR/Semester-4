@@ -93,7 +93,8 @@ namespace Hashed{
             return str;
         }
 
-        public void PrintBlock(){
+        public void PrintBlock()
+        {
             Console.WriteLine("\n----Весь Блок----");
             for(int i = 0; i < 5; i++){
                 if(block.GetZapMass(i).IdRecordBook==0)
@@ -158,41 +159,28 @@ namespace Hashed{
 
         public BlockAddr SearchInfoOnBlock(int idRecordBook,string filename,BlockAddr findBlock)
         {
-            findBlock.idZ=idRecordBook;
+            findBlock.IdZ=idRecordBook;
             int idRBHashed = HashFunction(idRecordBook);
-            int quantityBlock = nullBlock.QuantityBlock;
             int start = nullBlock.GetPointersStart(idRBHashed);
-            int end = nullBlock.GetPointersEnd(idRBHashed);
             using (var reader = File.Open(filename, FileMode.Open))
             {
                 byte[] blockBinary = new byte[blockSize];
-                int numZapFound;
                 int backAddr=0;
-                int temp=0;
                 while(start!=0)
                 {   
                     reader.Seek(start, SeekOrigin.Begin);
                     reader.Read(blockBinary, 0, blockSize);
                     ByteArrToBlock(blockBinary);
-                    if((numZapFound=FindStudent(idRecordBook))!=-1)
+                    if(FindStudent(idRecordBook)!=-1)
                     {
-                        findBlock.back=backAddr;
-                        findBlock.addr=start;
-                        findBlock.next=block.Nextb;
-                        if(temp==0)
-                        {
-                            findBlock.start=true;
-                        }
-                        if(block.Nextb==0)
-                        {
-                            findBlock.end=true;
-                        }
+                        findBlock.Back=backAddr;
+                        findBlock.Addr=start;
+                        findBlock.Next=block.Nextb;
                         reader.Close();
                         return findBlock;
                     }
                     backAddr=start;
                     start=block.Nextb;
-                    temp+=1;
                 }
             }
             return findBlock;
