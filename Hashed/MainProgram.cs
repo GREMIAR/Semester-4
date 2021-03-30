@@ -26,28 +26,6 @@ namespace Hashed{
                 reader.Read(nullBlockBinary, 0, nullBlockBinary.Length);
             }
             mainBlock.ReadFullNullBlock(nullBlockBinary);
-            for(int i=1;i<26;i+=4)
-            {
-                int searchEndCheckResult= mainBlock.SearchEndCheck(i,filename);
-                if(searchEndCheckResult!=-1&&searchEndCheckResult!=-2){
-                    Console.WriteLine("Номер зачётки {0} занят",i);
-                    //break;
-                }
-                mainBlock.AddOnEnd(filename,i,i.ToString(),i.ToString(),i.ToString(),i,searchEndCheckResult);
-            }
-            /*for(int i=1;i<4;i++)
-            {
-                mainBlock.AddOnEnd(filename,i,i.ToString(),i.ToString(),i.ToString(),i);
-            }
-            int w=5;
-            mainBlock.AddOnEnd(filename,w,w.ToString(),w.ToString(),w.ToString(),w);
-            mainBlock.AddOnEnd(filename,7,7.ToString(),7.ToString(),7.ToString(),7);
-            w=9;
-            mainBlock.AddOnEnd(filename,w,w.ToString(),w.ToString(),w.ToString(),w);
-            w=8;
-            mainBlock.AddOnEnd(filename,w,w.ToString(),w.ToString(),w.ToString(),w);
-            w=4;
-            mainBlock.AddOnEnd(filename,w,w.ToString(),w.ToString(),w.ToString(),w);*/
             string a="";
             while (a!="9"){
                 fileSize.Refresh();
@@ -63,12 +41,12 @@ namespace Hashed{
                             Console.Write("Номер зачётки: ");
                             int idZ = Convert.ToInt32(Console.ReadLine());
                             if(idZ<=0){
-                                Console.WriteLine("Нельзя присвоить этот номер зачётки");
+                                Console.WriteLine("Нельзя присвоить этот номер зачётки!");
                                 break;
                             }
                             int searchEndCheckResult= mainBlock.SearchEndCheck(idZ,filename);
                             if(searchEndCheckResult!=-1&&searchEndCheckResult!=-2){
-                                Console.WriteLine("Номер зачётки {0} занят",idZ);
+                                Console.WriteLine("Номер зачётки {0} занят!",idZ);
                                 break;
                             }
                             Console.Write("Фамилия: ");
@@ -90,12 +68,12 @@ namespace Hashed{
                             Console.Write("Номер зачётки: ");
                             int idZ = Convert.ToInt32(Console.ReadLine());
                             if(idZ==0){
-                                Console.WriteLine("Нельзя присвоить этот номер зачётки");
+                                Console.WriteLine("Нельзя присвоить этот номер зачётки!");
                                 break;
                             }
                             int searchEndCheckResult= mainBlock.SearchEndCheck(idZ,filename);
                             if(searchEndCheckResult!=-1&&searchEndCheckResult!=-2){
-                                Console.WriteLine("Номер зачётки {0} занят",idZ);
+                                Console.WriteLine("Номер зачётки {0} занят!",idZ);
                                 break;
                             }
                             Console.Write("Фамилия: ");
@@ -119,7 +97,7 @@ namespace Hashed{
                             }
                             if(mainBlock.Search(idZ,filename)==-1)
                             {
-                                Console.WriteLine("Номер зачётки {0} занят",idZ);
+                                Console.WriteLine("Номер зачётки {0} занят!",idZ);
                                 break;
                             }
                             mainBlock.Remove(idZ,filename);
@@ -134,7 +112,7 @@ namespace Hashed{
                                 mainBlock.PrintFindStudent(idZ);
                             }
                             else{
-                                Console.WriteLine("\nУпс, ничего не удалось найти");
+                                Console.WriteLine("\nУпс, ничего не удалось найти!");
                             }
                             break;
                         }
@@ -149,7 +127,7 @@ namespace Hashed{
                 }
                 catch(System.OverflowException)
                 {
-                    Console.WriteLine("Вы ввели число за рамками возможного");
+                    Console.WriteLine("Вы ввели число за рамками возможного!");
                 }
             }
         }

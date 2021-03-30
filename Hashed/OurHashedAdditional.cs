@@ -37,7 +37,7 @@ namespace Hashed{
             }
             Array.Copy(blockBinary,blockSize-4,intArrB,0,4);
             nextB = BitConverter.ToInt32(intArrB,0);
-            block.SetNextb(nextB); 
+            block.SetNextb(nextB);
         }
 
         public void ReadFullNullBlock(byte[] nullBlockBinary)
@@ -63,53 +63,6 @@ namespace Hashed{
             return -1;
         }
 
-        public void Reset(string filename,int oldidRecordBook)
-        {
-            int quantityBlock = nullBlock.QuantityBlock;
-            int addrDelBlock = SearchMid(oldidRecordBook,filename);
-            int i;
-            for(i=0;i<5;i++)
-            {
-                if(block.GetZapMass(i).IdRecordBook==oldidRecordBook)
-                {
-                    break;
-                }
-            }
-            block.SetZapMass(i,0,InChar("0",30),InChar("0",20), InChar("0",30),0);
-            using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-            {
-                writer.Seek(addrDelBlock,SeekOrigin.Begin);
-                byte[] blockBinary = new byte[blockSize];
-                blockBinary = Combine();
-                writer.Write(blockBinary);
-            }
-        }
-        
-        char[] ByteChar(BinaryReader reader,int length)
-        {
-            string charArr = "";
-            for (int i=0;i<length;i++)
-            {
-                charArr+=reader.ReadChar();          
-                if(charArr[i]=='\0'){
-                    for(int f=i+1;f<length;f++)
-                    {
-                        reader.ReadChar();
-                    }
-                    break;
-                }                 
-            }
-            return StringinChar(charArr);
-        }
-    
-        char[] StringinChar(string str){
-            char[] newChar = new char[str.Length-1];
-            for (int i=0;i<str.Length-1;i++){
-                newChar[i]=str[i];
-            }
-            return newChar;
-        }
-
         char[] InChar(string str, int length)
         {
             char[] charArr = new char[length];
@@ -131,7 +84,6 @@ namespace Hashed{
                         break;
                     }
                     str+= charArr[i];
-
                 }
             }
             catch (Exception)
@@ -204,9 +156,9 @@ namespace Hashed{
             }
         }
 
-        public int SearchMid(int idRecordBook,string filename)
+        public BlockAddr SearchInfoOnBlock(int idRecordBook,string filename,BlockAddr findBlock)
         {
-            Mid.idZ=idRecordBook;
+            findBlock.idZ=idRecordBook;
             int idRBHashed = HashFunction(idRecordBook);
             int quantityBlock = nullBlock.QuantityBlock;
             int start = nullBlock.GetPointersStart(idRBHashed);
@@ -224,94 +176,26 @@ namespace Hashed{
                     ByteArrToBlock(blockBinary);
                     if((numZapFound=FindStudent(idRecordBook))!=-1)
                     {
-                        Mid.back=backAddr;
-                        Mid.addr=start;
-                        Mid.next=block.Nextb;
+                        findBlock.back=backAddr;
+                        findBlock.addr=start;
+                        findBlock.next=block.Nextb;
                         if(temp==0)
                         {
-                            Mid.start=true;
+                            findBlock.start=true;
                         }
                         if(block.Nextb==0)
                         {
-                            Mid.end=true;
+                            findBlock.end=true;
                         }
                         reader.Close();
-                        return start;
+                        return findBlock;
                     }
                     backAddr=start;
                     start=block.Nextb;
                     temp+=1;
                 }
-
             }
-            return -1;
-        }
-
-        public int SearchBack(int idRecordBook,string filename)
-        {
-            Back.idZ=idRecordBook;
-
-            int idRBHashed = HashFunction(idRecordBook);
-            int quantityBlock = nullBlock.QuantityBlock;
-            int start = nullBlock.GetPointersStart(idRBHashed);
-            int end = nullBlock.GetPointersEnd(idRBHashed);
-            using (var reader = File.Open(filename, FileMode.Open))
-            {
-                byte[] blockBinary = new byte[blockSize];
-                int numZapFound;
-                int backAddr=0;
-                int temp=0;
-                while(start!=0)
-                {
-                    reader.Seek(start, SeekOrigin.Begin);
-                    reader.Read(blockBinary, 0, blockSize);
-                    
-                    ByteArrToBlock(blockBinary);
-
-                    if((numZapFound=FindStudent(idRecordBook))!=-1)
-                    {
-                        Back.back=backAddr;
-                        Back.addr=start;
-                        Back.next=block.Nextb;
-                        if(temp==0)
-                        {
-                            Back.start=true;
-                        }
-                        if(block.Nextb==0)
-                        {
-                            Back.end=true;
-                        }
-                        reader.Close();
-                        return start;
-                    }
-                    backAddr=start;
-                    start=block.Nextb;
-                    temp+=1;
-                }
-
-            }
-            return -1;
-        }
-
-        bool CheckLastBlock(string filename,int end)
-        {
-            if(end==0)
-            {
-                return false;
-            }
-            byte[] blockBinary = new byte[blockSize];
-            using (var reader = File.Open(filename, FileMode.Open))
-            {
-                reader.Seek(end, SeekOrigin.Begin);
-                reader.Read(blockBinary, 0, blockSize);
-                ByteArrToBlock(blockBinary);
-                if(FindStudent(0)!=-1)
-                {
-                    reader.Close();
-                    return true;
-                }
-            }
-            return false;
+            return findBlock;
         }
 
         public int SearchEndCheck(int idRecordBook,string filename)
@@ -341,41 +225,7 @@ namespace Hashed{
                     return -1;
                 }
             }
-            
             return -2;
         }
-        int ReadNullBlock(string filename){  
-            byte[] blockBinary = new byte[4];
-            using (var reader = File.Open(filename, FileMode.Open))
-            {
-                reader.Seek(0, SeekOrigin.Begin);
-                reader.Read(blockBinary, 0, 4);
-            }
-            return BitConverter.ToInt32(blockBinary, 0);
-        }
-
-        int ReadFirstBlock(string filename,int i)
-        {
-            byte[] blockBinary = new byte[4];
-            using (var reader = File.Open(filename, FileMode.Open))
-            {
-                reader.Seek(4+i*8, SeekOrigin.Begin);
-                reader.Read(blockBinary, 0, 4);
-            }
-            return BitConverter.ToInt32(blockBinary, 0);
-        }
-
-        int ReadEndBlock(string filename,int i)
-        {
-            byte[] blockBinary = new byte[4];
-            using (var reader = File.Open(filename, FileMode.Open))
-            {
-                reader.Seek(4+i*8+4, SeekOrigin.Begin);
-                reader.Read(blockBinary, 0, 4);
-            }
-            return BitConverter.ToInt32(blockBinary, 0);
-        }
     }
-
-    
 }

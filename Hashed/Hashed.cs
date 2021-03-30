@@ -51,14 +51,6 @@ namespace Hashed{
         {
           zapMass[i] = new Zap(record.IdRecordBook,record.Lastname,record.Name,record.Middlename,record.IdGroup);
         }
-
-        public Block(Zap[] zapMass){
-            nextb=0;
-            for(int i=0;i<5;i++)
-            {
-                this.zapMass[i] = zapMass[i];
-            }
-        }
         public Block(){
             nextb=0;
             for(int i=0;i<5;i++)
