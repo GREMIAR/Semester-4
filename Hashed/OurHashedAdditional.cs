@@ -229,7 +229,7 @@ namespace Hashed{
                         Mid.next=block.Nextb;
                         if(temp==0)
                         {
-                            Mid.start=false;
+                            Mid.start=true;
                         }
                         if(block.Nextb==0)
                         {
@@ -313,5 +313,69 @@ namespace Hashed{
             }
             return false;
         }
+
+        public int SearchEndCheck(int idRecordBook,string filename)
+        {
+            int idRBHashed = HashFunction(idRecordBook);
+            int quantityBlock = nullBlock.QuantityBlock;
+            int start = nullBlock.GetPointersStart(idRBHashed);
+            int end = nullBlock.GetPointersEnd(idRBHashed);
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                byte[] blockBinary = new byte[blockSize];
+                int numZapFound;
+                while(start!=0)
+                {
+                    reader.Seek(start, SeekOrigin.Begin);
+                    reader.Read(blockBinary, 0, blockSize);
+                    ByteArrToBlock(blockBinary);
+                    if((numZapFound=FindStudent(idRecordBook))!=-1)
+                    {
+                        reader.Close();
+                        return numZapFound;
+                    }
+                    start=block.Nextb;
+                }
+                if (FindStudent(0)==-1)
+                {
+                    return -1;
+                }
+            }
+            
+            return -2;
+        }
+        int ReadNullBlock(string filename){  
+            byte[] blockBinary = new byte[4];
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                reader.Seek(0, SeekOrigin.Begin);
+                reader.Read(blockBinary, 0, 4);
+            }
+            return BitConverter.ToInt32(blockBinary, 0);
+        }
+
+        int ReadFirstBlock(string filename,int i)
+        {
+            byte[] blockBinary = new byte[4];
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                reader.Seek(4+i*8, SeekOrigin.Begin);
+                reader.Read(blockBinary, 0, 4);
+            }
+            return BitConverter.ToInt32(blockBinary, 0);
+        }
+
+        int ReadEndBlock(string filename,int i)
+        {
+            byte[] blockBinary = new byte[4];
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                reader.Seek(4+i*8+4, SeekOrigin.Begin);
+                reader.Read(blockBinary, 0, 4);
+            }
+            return BitConverter.ToInt32(blockBinary, 0);
+        }
     }
+
+    
 }

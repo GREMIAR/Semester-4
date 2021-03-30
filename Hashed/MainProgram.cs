@@ -26,10 +26,15 @@ namespace Hashed{
                 reader.Read(nullBlockBinary, 0, nullBlockBinary.Length);
             }
             mainBlock.ReadFullNullBlock(nullBlockBinary);
-            /*for(int i=1;i<50;i++)
+            for(int i=1;i<22;i+=4)
             {
-                mainBlock.AddOnEnd(filename,i,i.ToString(),i.ToString(),i.ToString(),i);
-            }*/
+                int searchEndCheckResult= mainBlock.SearchEndCheck(i,filename);
+                if(searchEndCheckResult!=-1&&searchEndCheckResult!=-2){
+                    Console.WriteLine("Номер зачётки {0} занят",i);
+                    //break;
+                }
+                mainBlock.AddOnEnd(filename,i,i.ToString(),i.ToString(),i.ToString(),i,searchEndCheckResult);
+            }
             /*for(int i=1;i<4;i++)
             {
                 mainBlock.AddOnEnd(filename,i,i.ToString(),i.ToString(),i.ToString(),i);
@@ -61,7 +66,8 @@ namespace Hashed{
                                 Console.WriteLine("Нельзя присвоить этот номер зачётки");
                                 break;
                             }
-                            if((mainBlock.Search(idZ,filename))!=-1){
+                            int searchEndCheckResult= mainBlock.SearchEndCheck(idZ,filename);
+                            if(searchEndCheckResult!=-1&&searchEndCheckResult!=-2){
                                 Console.WriteLine("Номер зачётки {0} занят",idZ);
                                 break;
                             }
@@ -73,7 +79,7 @@ namespace Hashed{
                             string patronymic = Console.ReadLine();
                             Console.Write("Номер группа: ");
                             int idG = Convert.ToInt32(Console.ReadLine());
-                            mainBlock.AddOnEnd(filename, idZ,lastname,name,patronymic,idG);
+                            mainBlock.AddOnEnd(filename, idZ,lastname,name,patronymic,idG,searchEndCheckResult);
                             break;
                         }
                         case "2":
@@ -87,7 +93,8 @@ namespace Hashed{
                                 Console.WriteLine("Нельзя присвоить этот номер зачётки");
                                 break;
                             }
-                            if((mainBlock.Search(idZ,filename))!=-1){
+                            int searchEndCheckResult= mainBlock.SearchEndCheck(idZ,filename);
+                            if(searchEndCheckResult!=-1&&searchEndCheckResult!=-2){
                                 Console.WriteLine("Номер зачётки {0} занят",idZ);
                                 break;
                             }
@@ -99,7 +106,7 @@ namespace Hashed{
                             string patronymic = Console.ReadLine();
                             Console.Write("Номер группа: ");
                             int idG = Convert.ToInt32(Console.ReadLine());
-                            mainBlock.Edit(filename,oldidz, idZ,lastname,name,patronymic,idG);
+                            mainBlock.Edit(filename,oldidz, idZ,lastname,name,patronymic,idG,searchEndCheckResult);
                             break;
                         }
                         case "3":

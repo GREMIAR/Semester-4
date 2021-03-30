@@ -125,29 +125,45 @@ namespace Hashed{
             }
             return pointers;
         }
-        public void SetPointers(int mod,int start,int end)
+        public void SetPointersStart(int mod,int start)
         {
             if(mod==0)
             {
                 zeroStart=start;
-                zeroEnd=end;
             }
             else if(mod==1)
             {
                 oneStart=start;
-                oneEnd=end;
             }
             else if(mod==2)
             {
                 twoStart=start;
-                twoEnd=end;
             }
             else if(mod==3)
             {
                 threeStart=start;
-                threeEnd=end;
             }
         }
+        public void SetPointersEnd(int mod,int end)
+        {
+            if(mod==0)
+            {
+                zeroEnd=end;
+            }
+            else if(mod==1)
+            {
+                oneEnd=end;
+            }
+            else if(mod==2)
+            {
+                twoEnd=end;
+            }
+            else if(mod==3)
+            {
+                threeEnd=end;
+            }
+        } 
+
         public NullBlock(int quantityBlock,int zeroStart,int zeroEnd,int oneStart,int oneEnd,int twoStart,int twoEnd,int threeStart,int threeEnd)
         {
             this.quantityBlock=quantityBlock;
