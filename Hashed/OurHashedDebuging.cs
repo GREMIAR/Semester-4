@@ -14,7 +14,7 @@ namespace Hashed{
                 int start = nullBlock.GetPointersStart(i);
                 int end = nullBlock.GetPointersEnd(i);
                 Console.WriteLine("Первый №{0} = {1}", i,start);
-                Console.WriteLine("Последий №{0} = {1}", i,end);
+                Console.WriteLine("Последний №{0} = {1}", i,end);
             }
             Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             using (var reader = File.Open(filename, FileMode.Open))

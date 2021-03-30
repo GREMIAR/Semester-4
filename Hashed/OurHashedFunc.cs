@@ -150,10 +150,10 @@ namespace Hashed{
             }
             else
             {
+                numlast--;
+                Zap lastZap = new Zap(block.GetZapMass(numlast));
                 if(numStu==-1)
                 {
-                    numlast--;
-                    Zap lastZap = new Zap(block.GetZapMass(numlast));
                     block.SetZapMass(numlast,0,InChar("0",30),InChar("0",20), InChar("0",30),0);
                     using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                     {
@@ -173,8 +173,6 @@ namespace Hashed{
                 }
                 else
                 {
-                    numlast--;
-                    Zap lastZap = new Zap(block.GetZapMass(numlast));
                     block.SetZapMass(numStu, block.GetZapMass(numlast)); 
                     block.SetZapMass(numlast,0,InChar("0",30),InChar("0",20), InChar("0",30),0);
                     using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))

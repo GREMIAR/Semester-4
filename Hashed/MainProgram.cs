@@ -55,7 +55,7 @@ namespace Hashed{
                             string name = Console.ReadLine();
                             Console.Write("Отчество: ");
                             string patronymic = Console.ReadLine();
-                            Console.Write("Номер группа: ");
+                            Console.Write("Номер группы: ");
                             int idG = Convert.ToInt32(Console.ReadLine());
                             mainBlock.AddOnEnd(filename, idZ,lastname,name,patronymic,idG,searchEndCheckResult);
                             break;
@@ -82,14 +82,14 @@ namespace Hashed{
                             string name = Console.ReadLine();
                             Console.Write("Отчество: ");
                             string patronymic = Console.ReadLine();
-                            Console.Write("Номер группа: ");
+                            Console.Write("Номер группы: ");
                             int idG = Convert.ToInt32(Console.ReadLine());
                             mainBlock.Edit(filename,oldidz, idZ,lastname,name,patronymic,idG,searchEndCheckResult);
                             break;
                         }
                         case "3":
                         {
-                            Console.Write("Введите номер зачётки студента которого вы хотите удалить: ");
+                            Console.Write("Введите номер зачётки студента которого хотите удалить: ");
                             int idZ = Convert.ToInt32(Console.ReadLine());
                             if(idZ==0){
                                 Console.WriteLine("Такого номера нет");
@@ -105,7 +105,7 @@ namespace Hashed{
                         }
                         case "4":
                         {
-                            Console.Write("Введите номер зачётки студента которого вы ищете: ");
+                            Console.Write("Введите номер зачётки студента которого ищете: ");
                             int idZ = Convert.ToInt32(Console.ReadLine());
                             if((idZ=mainBlock.Search(idZ,filename))!=-1){
                                 mainBlock.PrintBlock();
