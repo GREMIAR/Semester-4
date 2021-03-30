@@ -26,7 +26,7 @@ namespace Hashed{
                 reader.Read(nullBlockBinary, 0, nullBlockBinary.Length);
             }
             mainBlock.ReadFullNullBlock(nullBlockBinary);
-            for(int i=1;i<22;i+=4)
+            for(int i=1;i<26;i+=4)
             {
                 int searchEndCheckResult= mainBlock.SearchEndCheck(i,filename);
                 if(searchEndCheckResult!=-1&&searchEndCheckResult!=-2){
@@ -115,6 +115,11 @@ namespace Hashed{
                             int idZ = Convert.ToInt32(Console.ReadLine());
                             if(idZ==0){
                                 Console.WriteLine("Такого номера нет");
+                                break;
+                            }
+                            if(mainBlock.Search(idZ,filename)==-1)
+                            {
+                                Console.WriteLine("Номер зачётки {0} занят",idZ);
                                 break;
                             }
                             mainBlock.Remove(idZ,filename);

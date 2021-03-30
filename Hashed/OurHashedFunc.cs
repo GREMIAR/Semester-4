@@ -72,26 +72,38 @@ namespace Hashed{
         public void Remove(int idRecordBook,string filename)
         {
             int idRBHashed = HashFunction(idRecordBook);
+            int quantityBlock = nullBlock.QuantityBlock;
             int start = nullBlock.GetPointersEnd(idRBHashed);
             int end = nullBlock.GetPointersEnd(idRBHashed);
-            int quantityBlock = nullBlock.QuantityBlock;
-            SearchMid(idRecordBook,filename);
-            int numdel=FindStudent(idRecordBook);
-            if (numdel==0)
-            {
-                using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-                {
-                    Console.WriteLine(Mid.back+440);
-                    
-                    int test=Mid.back;
-                    if (test==0)
-                    {
-                        test=36;
-                    }
-                    writer.Seek(test+440,SeekOrigin.Begin);
-                    writer.Write(0);
-                    writer.Seek(idRBHashed*8+4+4,SeekOrigin.Begin);
 
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                byte[] blockBinary = new byte[blockSize];
+                reader.Seek(end, SeekOrigin.Begin);
+                reader.Read(blockBinary, 0, blockSize);
+                ByteArrToBlock(blockBinary);
+            }
+            int numStu=FindStudent(idRecordBook);
+            int numlast=FindStudent(0);
+            if (numStu==0&&numlast==1)
+            {
+                SearchMid(idRecordBook,filename);
+                using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+                {  
+                    if (Mid.back!=0)
+                    {
+                        Console.WriteLine("!@");
+                        writer.Seek(Mid.back+440,SeekOrigin.Begin);
+                        writer.Write(0);
+                    }
+                    else
+                    {
+                        writer.Seek(idRBHashed*8+4,SeekOrigin.Begin);
+                        nullBlock.SetPointersStart(idRBHashed,0);
+                        writer.Write(0);
+                    }
+                    writer.Seek(idRBHashed*8+4+4,SeekOrigin.Begin);
+                    Console.WriteLine(Mid.back);
                     writer.Write(Mid.back);
                     nullBlock.SetPointersEnd(idRBHashed,Mid.back);
 
@@ -106,131 +118,91 @@ namespace Hashed{
                 }
 
                 SearchBack(block.GetZapMass(0).IdRecordBook,filename);
-                using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+                Console.WriteLine(Mid.addr+"fdsfdsf"+((quantityBlock-1)*blockSize+36));
+                if(Mid.addr!=(quantityBlock-1)*blockSize+36)
                 {
-                    writer.Seek(Mid.addr,SeekOrigin.Begin);
-                    
-                    writer.Write(blockBinary); 
-                    int test=Back.back;
-                    if (test==0)
+                    Console.WriteLine("!!!!!");
+                    using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                     {
-                        test=36;
+                        writer.Seek(Mid.addr,SeekOrigin.Begin);
+                        
+                        writer.Write(blockBinary); 
+                        if (Back.back!=0)
+                        {
+                            writer.Seek(Back.back+440,SeekOrigin.Begin);
+                            writer.Write(Mid.addr);
+                        }
+                        else
+                        {
+                            writer.Seek((block.GetZapMass(0).IdRecordBook)*8+4,SeekOrigin.Begin);
+                            nullBlock.SetPointersStart(HashFunction(block.GetZapMass(0).IdRecordBook),Mid.addr);
+                            writer.Write(Mid.addr);
+                        }
+                        
+                        writer.Seek(HashFunction(block.GetZapMass(0).IdRecordBook)*8+4+4,SeekOrigin.Begin);
+                        
+                        writer.Write(Mid.addr);
+                        nullBlock.SetPointersEnd(HashFunction(block.GetZapMass(0).IdRecordBook),Mid.addr);
                     }
-                    writer.Seek(test+440,SeekOrigin.Begin);
-                    
-                    writer.Write(Mid.addr);
-                    
-                    writer.Seek(HashFunction(block.GetZapMass(0).IdRecordBook)*8+4+4,SeekOrigin.Begin);
-                    
-                    writer.Write(Mid.addr);
-                    nullBlock.SetPointersEnd(HashFunction(block.GetZapMass(0).IdRecordBook),Mid.addr);
+                    FileStream fileStream = new FileStream(filename, FileMode.Open);
+                    fileStream.SetLength((quantityBlock-1)*blockSize+36);
+                    fileStream.Close();
+                    using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+                    {
+                        nullBlock.SetQuantityBlock(quantityBlock-1);
+                        writer.Write(quantityBlock-1);
+                    }
                 }
-                FileStream fileStream = new FileStream(filename, FileMode.Open);
-                fileStream.SetLength((quantityBlock-1)*blockSize+36);
-                fileStream.Close();
-                using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+                else
                 {
-                    nullBlock.SetQuantityBlock(quantityBlock-1);
-                    writer.Write(quantityBlock-1);
+                    FileStream fileStream = new FileStream(filename, FileMode.Open);
+                    fileStream.SetLength((quantityBlock-1)*blockSize+36);
+                    fileStream.Close();
+                    using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+                    {
+                        nullBlock.SetQuantityBlock(quantityBlock-1);
+                        writer.Write(quantityBlock-1);
+                    }
                 }
 
             }
             else
             {
-                byte[] blockBinaryLast = new byte[blockSize];
-                byte[] blockBinaryDel = new byte[blockSize];
-                using (var reader = File.Open(filename, FileMode.Open))
+                if(numStu==-1)
                 {
-                    reader.Seek(end, SeekOrigin.Begin);
-                    reader.Read(blockBinaryLast, 0, blockSize);
-                    ByteArrToBlock(blockBinaryLast);
-                }
-                int numlast=FindStudent(0);
-                numlast--;
-                if(numlast==-1)
-                {
-                    Console.WriteLine("WARNING!!!!!");
-                    return;
-                }
-                Zap lastZap = new Zap(block.GetZapMass(numlast));
-                SearchMid(idRecordBook,filename);
-                numdel=FindStudent(idRecordBook);
-                if(numdel==-1)
-                {
-                    Console.WriteLine("WARNING!!!!!");
-                    return;
-                }
-                block.SetZapMass(numdel, lastZap); 
-                using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-                {
-                    writer.Seek(Mid.addr,SeekOrigin.Begin);
-                    blockBinaryDel = Combine();
-                    writer.Write(blockBinaryDel);
-                }
-                ByteArrToBlock(blockBinaryLast);
-                block.SetZapMass(numlast,0,InChar("0",30),InChar("0",20), InChar("0",30),0);
-                using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-                {
-                    writer.Seek(end,SeekOrigin.Begin);
-                    blockBinaryLast = Combine();
-                    writer.Write(blockBinaryLast);
-                }
-        
-
-            
-
-            if(FindStudent(0)==0)
-            {
-                start = nullBlock.GetPointersStart(idRBHashed);
-
-                MovingPointers(start,filename);
-
-                byte[] blockBinary = new byte[blockSize];
-                /*if(end==(quantityBlock-1)*blockSize+36){
-                    blockBinary=blockBinaryDel;
-                    ByteArrToBlock(blockBinary);
-                }
-                else
-                {
-                    using (var reader = File.Open(filename, FileMode.Open))
+                    numlast--;
+                    Zap lastZap = new Zap(block.GetZapMass(numlast));
+                    block.SetZapMass(numlast,0,InChar("0",30),InChar("0",20), InChar("0",30),0);
+                    using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                     {
-                        reader.Seek((quantityBlock-1)*blockSize+36, SeekOrigin.Begin);
-                        reader.Read(blockBinary, 0, blockSize);
+                        writer.Seek(end,SeekOrigin.Begin);
+                        byte[] blockBinary = Combine();
+                        writer.Write(blockBinary);
                     }
-                    ByteArrToBlock(blockBinary);
-                }*/
-                Console.WriteLine("Back="+block.GetZapMass(0).IdRecordBook);
-                SearchBack(block.GetZapMass(0).IdRecordBook,filename);
-                if(Back.addr!=0)
-                {
-
-                    MovingPointers(filename);
-
+                    SearchMid(idRecordBook,filename);
+                    numStu=FindStudent(idRecordBook);
+                    block.SetZapMass(numStu, lastZap); 
                     using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                     {
                         writer.Seek(Mid.addr,SeekOrigin.Begin);
+                        byte[] blockBinary = Combine();
                         writer.Write(blockBinary);
                     }
                 }
                 else
                 {
-                    Console.WriteLine(block.GetZapMass(0).IdRecordBook);
+                    Console.WriteLine(numStu);
+                    numlast--;
+                    Zap lastZap = new Zap(block.GetZapMass(numlast));
+                    block.SetZapMass(numStu, block.GetZapMass(numlast)); 
+                    block.SetZapMass(numlast,0,InChar("0",30),InChar("0",20), InChar("0",30),0);
+                    using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+                    {
+                        writer.Seek(end,SeekOrigin.Begin);
+                        byte[] blockBinary = Combine();
+                        writer.Write(blockBinary);
+                    }
                 }
-                
-                Debuging(filename);
-
-                FileStream fileStream = new FileStream(filename, FileMode.Open);
-                fileStream.SetLength((quantityBlock-1)*blockSize+36);
-                fileStream.Close();
-                using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-                {
-                    nullBlock.SetQuantityBlock(quantityBlock-1);
-                    writer.Write(quantityBlock-1);
-                }
-
-                Mid.Resize();
-                Back.Resize();
-            }
             }
         }
 
