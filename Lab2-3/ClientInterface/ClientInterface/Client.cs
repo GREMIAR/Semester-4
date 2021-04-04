@@ -32,12 +32,19 @@ namespace ClientInterface
             NetworkStream stream = client.GetStream();
             while (true)
             {
-                byte[] data = new byte[1024];
-                int bytes = stream.Read(data, 0, data.Length);
-                string message = Encoding.Unicode.GetString(data, 0, bytes);
-                if (!form.OnlineClient(message))
+                try
                 {
-                    form.WriteTextBoxChat(message);
+                    byte[] data = new byte[1024];
+                    int bytes = stream.Read(data, 0, data.Length);
+                    string message = Encoding.Unicode.GetString(data, 0, bytes);
+                    if (!form.OnlineClient(message))
+                    {
+                        form.WriteTextBoxChat(message);
+                    }
+                }
+                catch
+                {
+                    return;
                 }
             }
         }
@@ -51,10 +58,17 @@ namespace ClientInterface
         //отправка команды отключения клиента на сервер
         public void CloseClient()
         {
-            NetworkStream stream = client.GetStream();
-            string message = "/Close";
-            byte[] data = Encoding.Unicode.GetBytes(String.Format(message));
-            stream.Write(data, 0, data.Length);
+            try
+            {
+                NetworkStream stream = client.GetStream();
+                string message = "/Close";
+                byte[] data = Encoding.Unicode.GetBytes(String.Format(message));
+                stream.Write(data, 0, data.Length);
+            }
+            catch
+            {
+                return;
+            }
         }
     }
 }

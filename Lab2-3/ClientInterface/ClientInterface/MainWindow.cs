@@ -47,8 +47,16 @@ namespace ClientInterface
         //записывает текст в текстовое поле textBoxChat
         public void WriteTextBoxChat(string message)
         {
-            textBoxChat.AppendText(message);
-            textBoxChat.AppendText(Environment.NewLine);
+            Action action = () => textBoxChat.AppendText(message);
+            if (this.InvokeRequired)
+                Invoke(action);
+            else
+                action();
+            action = () => textBoxChat.AppendText(Environment.NewLine);
+            if (this.InvokeRequired)
+                Invoke(action);
+            else
+                action();
         }
         /*Обновляет информацию у TCP-клиента, о ползователях онлайн
          true - если это комнада об обновленни пользователей 
@@ -59,11 +67,23 @@ namespace ClientInterface
             {
                 user = user.Substring(5);
                 string[] words = user.Split('#');
-                textBoxUserList.Clear();
+                Action action = () => textBoxUserList.Clear();
+                if (this.InvokeRequired)
+                    Invoke(action);
+                else
+                    action();
                 foreach (var word in words)
                 {
-                    textBoxUserList.AppendText(word);
-                    textBoxUserList.AppendText(Environment.NewLine);
+                    action = () => textBoxUserList.AppendText(word);
+                    if (this.InvokeRequired)
+                        Invoke(action);
+                    else
+                        action();
+                    action = () => textBoxUserList.AppendText(Environment.NewLine);
+                    if (this.InvokeRequired)
+                        Invoke(action);
+                    else
+                        action();
                 }
                 return true;
             }
