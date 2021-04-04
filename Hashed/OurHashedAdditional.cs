@@ -157,7 +157,7 @@ namespace Hashed{
             }
         }
 
-        public BlockAddr SearchInfoOnBlock(int idRecordBook,string filename,BlockAddr findBlock)
+        BlockAddr SearchInfoOnBlock(int idRecordBook,string filename,BlockAddr findBlock)
         {
             findBlock.IdZ=idRecordBook;
             int idRBHashed = HashFunction(idRecordBook);
@@ -191,7 +191,6 @@ namespace Hashed{
             int idRBHashed = HashFunction(idRecordBook);
             int quantityBlock = nullBlock.QuantityBlock;
             int start = nullBlock.GetPointersStart(idRBHashed);
-            int end = nullBlock.GetPointersEnd(idRBHashed);
             using (var reader = File.Open(filename, FileMode.Open))
             {
                 byte[] blockBinary = new byte[blockSize];
