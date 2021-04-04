@@ -159,6 +159,7 @@ namespace Hashed{
 
         BlockAddr SearchInfoOnBlock(int idRecordBook,string filename,BlockAddr findBlock)
         {
+            Console.WriteLine(idRecordBook);
             findBlock.IdZ=idRecordBook;
             int idRBHashed = HashFunction(idRecordBook);
             int start = nullBlock.GetPointersStart(idRBHashed);
@@ -183,6 +184,7 @@ namespace Hashed{
                     start=block.Nextb;
                 }
             }
+            Console.WriteLine("WARNING");
             return findBlock;
         }
 

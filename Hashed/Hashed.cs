@@ -18,6 +18,13 @@ namespace Hashed{
             this.patronymic = patronymic;
             this.idGroup = idGroup;
         }
+        public void SetZap(Zap record){
+            this.idRecordBook = record.idRecordBook;
+            this.lastname = record.lastname;
+            this.name = record.name;
+            this.patronymic = record.patronymic;
+            this.idGroup = record.idGroup;
+        }
         public Zap(Zap record){
             this.idRecordBook = record.idRecordBook;
             this.lastname = record.lastname;
