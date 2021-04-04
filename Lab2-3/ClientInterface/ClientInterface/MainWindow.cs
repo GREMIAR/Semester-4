@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.Sockets;
 using System.Threading;
@@ -14,26 +8,22 @@ namespace ClientInterface
 {
     public partial class ClientForm : Form
     {
-        static TcpClient client = null;
-        static string userName;
-
+        TcpClient client = null;
+        string userName;
         public ClientForm()
         {
             InitializeComponent();
-            AutoCompleteStringCollection source = new AutoCompleteStringCollection()
-            {
-            "8888"
-            };
+            AutoCompleteStringCollection source = new AutoCompleteStringCollection(){"8888"};
             textBoxPort.AutoCompleteCustomSource = source;
             textBoxPort.AutoCompleteMode = AutoCompleteMode.Append;
             textBoxPort.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
-
+        //при клике на кнопку войти происходит попытка TCP-клиента соединиться с сервером
         private void buttonLogIn_Click(object sender, EventArgs e)
         {
             LogIn();
         }
-
+        //попытка TCP-клиента соединиться с сервером
         public void LogIn()
         {
             try
@@ -58,7 +48,7 @@ namespace ClientInterface
                 MessageBoxOptions.DefaultDesktopOnly);
             }
         }
-
+        //поток получения и обработки сообщений от сервера 
         public void Receive()
         {
             NetworkStream stream = client.GetStream();
@@ -74,6 +64,9 @@ namespace ClientInterface
                 }
             }
         }
+        /*Обновляет информацию у TCP-клиента, о ползователях онлайн
+         true - если это комнада об обновленни пользователей 
+         false - если это не комнада об обновленни пользователей */
         public bool OnlineClient(string user)
         {
             if (user[0] == '/')
@@ -93,36 +86,37 @@ namespace ClientInterface
                 return false;
             }
         }
+        //Отправляет на сервер массив байт
         public void Send()
         {
             NetworkStream stream = client.GetStream();
             string message = textBoxMsg.Text;
             textBoxChat.AppendText("Вы: " + message);
+            textBoxChat.AppendText(Environment.NewLine);
             byte[] data = Encoding.Unicode.GetBytes(String.Format("{0}: {1}", userName, message));
             stream.Write(data, 0, data.Length);
             textBoxMsg.Clear();
         }
-
+        //при клике на кнопку отправить отправляется массив байт на сервер
         private void buttonSend_Click(object sender, EventArgs e)
         {
             Send();
         }
-
+        //Очистка поле ввода при клике на них
         private void textBoxAddress_Click(object sender, EventArgs e)
         {
             textBoxAddress.Clear();
         }
-
         private void textBoxPort_Click(object sender, EventArgs e)
         {
             textBoxPort.Clear();
         }
-
         private void textBoxName_Click(object sender, EventArgs e)
         {
             textBoxName.Clear();
         }
 
+        //при нажатии кнопки Enter откправлет массив байт на сервер 
         private void textBoxMsg_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -131,7 +125,7 @@ namespace ClientInterface
                 Send();
             }
         }
-
+        //при закрытии окна отправляет серверу команду об отключении клиента
         private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             try
@@ -146,7 +140,7 @@ namespace ClientInterface
                 return;
             }
         }
-
+        //при нажатии кнопки Enter переключает фокус на поле с вводом порта
         private void textBoxAddress_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -155,7 +149,7 @@ namespace ClientInterface
                 ActiveControl = textBoxPort;
             }
         }
-
+        //при нажатии кнопки Enter переключает фокус на поле с вводом имени
         private void textBoxPort_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -164,7 +158,7 @@ namespace ClientInterface
                 ActiveControl = textBoxName;
             }
         }
-
+        //при нажатии кнопки Enter происходит попытка подключения к серверу
         private void textBoxName_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -172,11 +166,6 @@ namespace ClientInterface
                 e.SuppressKeyPress = true;
                 LogIn();
             }
-        }
-
-        private void ClientForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
