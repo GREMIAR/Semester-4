@@ -8,33 +8,29 @@ namespace ClientInterface
 {
     public partial class ClientForm : Form
     {
-        TcpClient client = null;
-        string userName;
+        //конструктор
         public ClientForm()
         {
             InitializeComponent();
+            client = new Client(this);
             AutoCompleteStringCollection source = new AutoCompleteStringCollection(){"8888"};
             textBoxPort.AutoCompleteCustomSource = source;
             textBoxPort.AutoCompleteMode = AutoCompleteMode.Append;
             textBoxPort.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
+        Client client;
         //при клике на кнопку войти происходит попытка TCP-клиента соединиться с сервером
         private void buttonLogIn_Click(object sender, EventArgs e)
         {
             LogIn();
         }
         //попытка TCP-клиента соединиться с сервером
-        public void LogIn()
+        void LogIn()
         {
             try
             {
-                userName = textBoxName.Text;
-                client = new TcpClient(textBoxAddress.Text, int.Parse(textBoxPort.Text));
-                NetworkStream stream = client.GetStream();
-                byte[] data = Encoding.Unicode.GetBytes(String.Format(userName + ": вошёл в чат "));
-                stream.Write(data, 0, data.Length);
-                Thread ReceThread = new Thread(Receive);
-                ReceThread.Start();
+                string userName = textBoxName.Text;
+                client.LogIn(userName, textBoxAddress.Text, textBoxPort.Text);
                 buttonSend.Enabled = true;
             }
             catch
@@ -48,21 +44,11 @@ namespace ClientInterface
                 MessageBoxOptions.DefaultDesktopOnly);
             }
         }
-        //поток получения и обработки сообщений от сервера 
-        public void Receive()
+        //записывает текст в текстовое поле textBoxChat
+        public void WriteTextBoxChat(string message)
         {
-            NetworkStream stream = client.GetStream();
-            while (true)
-            {
-                byte[] data = new byte[1024];
-                int bytes = stream.Read(data, 0, data.Length);
-                string message = Encoding.Unicode.GetString(data, 0, bytes);
-                if (!OnlineClient(message))
-                {
-                    textBoxChat.AppendText(message);
-                    textBoxChat.AppendText(Environment.NewLine);
-                }
-            }
+            textBoxChat.AppendText(message);
+            textBoxChat.AppendText(Environment.NewLine);
         }
         /*Обновляет информацию у TCP-клиента, о ползователях онлайн
          true - если это комнада об обновленни пользователей 
@@ -86,21 +72,14 @@ namespace ClientInterface
                 return false;
             }
         }
-        //Отправляет на сервер массив байт
-        public void Send()
-        {
-            NetworkStream stream = client.GetStream();
-            string message = textBoxMsg.Text;
-            textBoxChat.AppendText("Вы: " + message);
-            textBoxChat.AppendText(Environment.NewLine);
-            byte[] data = Encoding.Unicode.GetBytes(String.Format("{0}: {1}", userName, message));
-            stream.Write(data, 0, data.Length);
-            textBoxMsg.Clear();
-        }
         //при клике на кнопку отправить отправляется массив байт на сервер
         private void buttonSend_Click(object sender, EventArgs e)
         {
-            Send();
+            string message = textBoxMsg.Text;
+            textBoxChat.AppendText("Вы: " + message);
+            textBoxChat.AppendText(Environment.NewLine);
+            textBoxMsg.Clear();
+            client.Send(message);
         }
         //Очистка поле ввода при клике на них
         private void textBoxAddress_Click(object sender, EventArgs e)
@@ -122,7 +101,11 @@ namespace ClientInterface
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true;
-                Send();
+                string message = textBoxMsg.Text;
+                textBoxChat.AppendText("Вы: " + message);
+                textBoxChat.AppendText(Environment.NewLine);
+                textBoxMsg.Clear();
+                client.Send(message);
             }
         }
         //при закрытии окна отправляет серверу команду об отключении клиента
@@ -130,10 +113,7 @@ namespace ClientInterface
         {
             try
             {
-                NetworkStream stream = client.GetStream();
-                string message = "/Close";
-                byte[] data = Encoding.Unicode.GetBytes(String.Format(message));
-                stream.Write(data, 0, data.Length);
+                client.CloseClient();
             }
             catch
             {
