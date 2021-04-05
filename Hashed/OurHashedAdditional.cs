@@ -147,7 +147,6 @@ namespace Hashed{
             byte[] nextB = BitConverter.GetBytes(block.Next);
             byteBlock=Combine(byteBlock,nextB);
             byte[] back = BitConverter.GetBytes(block.Back);
-            Console.WriteLine(block.Back);
             return Combine(byteBlock,back);
         }
 

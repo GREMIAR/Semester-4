@@ -26,17 +26,6 @@ namespace Hashed{
                 reader.Read(nullBlockBinary, 0, nullBlockBinary.Length);
             }
             mainBlock.ReadFullNullBlock(nullBlockBinary);
-
-            test(mainBlock,filename,1);
-            test(mainBlock,filename,5);
-            test(mainBlock,filename,9);
-            test(mainBlock,filename,13);
-            test(mainBlock,filename,17);
-            test(mainBlock,filename,2);
-            test(mainBlock,filename,3);
-            test(mainBlock,filename,21);
-            test(mainBlock,filename,4);
-
             string a="";
             while (a!="9"){
                 fileSize.Refresh();
