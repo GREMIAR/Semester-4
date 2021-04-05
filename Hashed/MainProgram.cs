@@ -26,6 +26,17 @@ namespace Hashed{
                 reader.Read(nullBlockBinary, 0, nullBlockBinary.Length);
             }
             mainBlock.ReadFullNullBlock(nullBlockBinary);
+
+            test(mainBlock,filename,1);
+            test(mainBlock,filename,5);
+            test(mainBlock,filename,9);
+            test(mainBlock,filename,13);
+            test(mainBlock,filename,17);
+            test(mainBlock,filename,2);
+            test(mainBlock,filename,3);
+            test(mainBlock,filename,21);
+            test(mainBlock,filename,4);
+
             string a="";
             while (a!="9"){
                 fileSize.Refresh();
@@ -92,15 +103,15 @@ namespace Hashed{
                             Console.Write("Введите номер зачётки студента которого хотите удалить: ");
                             int idZ = Convert.ToInt32(Console.ReadLine());
                             if(idZ==0){
-                                Console.WriteLine("Такого номера нет");
+                                Console.WriteLine("Такого номера нет!");
                                 break;
                             }
-                            if(mainBlock.Search(idZ,filename)==-1)
-                            {
-                                Console.WriteLine("Номер зачётки {0} занят!",idZ);
+                            int addr=mainBlock.SearchForDell(idZ,filename);
+                            if(addr==-1){
+                                Console.WriteLine("Номер зачётки {0} нет!",idZ);
                                 break;
                             }
-                            mainBlock.Remove(idZ,filename);
+                            mainBlock.Remove(idZ,filename,addr);
                             break;
                         }
                         case "4":
@@ -129,6 +140,15 @@ namespace Hashed{
                 {
                     Console.WriteLine("Вы ввели число за рамками возможного!");
                 }
+            }
+        }
+        public static void test(OurBlock mainBlock,string filename,int num)
+        {
+            int searchEndCheckResult= mainBlock.SearchEndCheck(num,filename);
+            if(searchEndCheckResult!=-1&&searchEndCheckResult!=-2){
+            }
+            else{
+                mainBlock.AddOnEnd(filename, num,num.ToString(),num.ToString(),num.ToString(),num,searchEndCheckResult);
             }
         }
     }

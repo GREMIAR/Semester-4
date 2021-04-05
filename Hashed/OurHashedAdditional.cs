@@ -17,11 +17,11 @@ namespace Hashed{
             byte[] byteArrByf30 = new byte[30];
             byte[] byteArrByf20 = new byte[20];
             byte[] intArrB = new byte[4];
-            int idRB,idG,nextB;
+            int idRB,idG,nextB,back;
             char[] lastName = new char[30];
             char[] name = new char[20];
             char[] patronymic = new char[30];
-            for (int i=0;i<blockSize-4;i+=(blockSize-4)/5)
+            for (int i=0;i<blockSize-8;i+=(blockSize-8)/5)
             {
                 Array.Copy(blockBinary,i,intArrB,0,4);
                 idRB = BitConverter.ToInt32(intArrB, 0);
@@ -35,9 +35,12 @@ namespace Hashed{
                 idG = BitConverter.ToInt32(intArrB, 0);
                 block.SetZapMass(i/((blockSize-4)/5),idRB,lastName,name,patronymic,idG);
             }
-            Array.Copy(blockBinary,blockSize-4,intArrB,0,4);
+            Array.Copy(blockBinary,blockSize-8,intArrB,0,4);
             nextB = BitConverter.ToInt32(intArrB,0);
-            block.SetNextb(nextB);
+            block.Next = nextB;
+            Array.Copy(blockBinary,blockSize-4,intArrB,0,4);
+            back= BitConverter.ToInt32(intArrB,0);
+            block.Back = back;
         }
 
         public void ReadFullNullBlock(byte[] nullBlockBinary)
@@ -141,8 +144,11 @@ namespace Hashed{
                 byte[] byteZap=Combine(block.GetZapMass(i));
                 byteBlock=Combine(byteBlock,byteZap);
             }
-            byte[] nextB = BitConverter.GetBytes(block.Nextb);
-            return Combine(byteBlock,nextB);
+            byte[] nextB = BitConverter.GetBytes(block.Next);
+            byteBlock=Combine(byteBlock,nextB);
+            byte[] back = BitConverter.GetBytes(block.Back);
+            Console.WriteLine(block.Back);
+            return Combine(byteBlock,back);
         }
 
         void AddZapOnEnd(int idRecordBook,string lastname,string name,string patronymic,int idGroup)
@@ -155,37 +161,6 @@ namespace Hashed{
                     break;
                 }
             }
-        }
-
-        BlockAddr SearchInfoOnBlock(int idRecordBook,string filename,BlockAddr findBlock)
-        {
-            Console.WriteLine(idRecordBook);
-            findBlock.IdZ=idRecordBook;
-            int idRBHashed = HashFunction(idRecordBook);
-            int start = nullBlock.GetPointersStart(idRBHashed);
-            using (var reader = File.Open(filename, FileMode.Open))
-            {
-                byte[] blockBinary = new byte[blockSize];
-                int backAddr=0;
-                while(start!=0)
-                {   
-                    reader.Seek(start, SeekOrigin.Begin);
-                    reader.Read(blockBinary, 0, blockSize);
-                    ByteArrToBlock(blockBinary);
-                    if(FindStudent(idRecordBook)!=-1)
-                    {
-                        findBlock.Back=backAddr;
-                        findBlock.Addr=start;
-                        findBlock.Next=block.Nextb;
-                        reader.Close();
-                        return findBlock;
-                    }
-                    backAddr=start;
-                    start=block.Nextb;
-                }
-            }
-            Console.WriteLine("WARNING");
-            return findBlock;
         }
 
         public int SearchEndCheck(int idRecordBook,string filename)
@@ -207,7 +182,7 @@ namespace Hashed{
                         reader.Close();
                         return numZapFound;
                     }
-                    start=block.Nextb;
+                    start=block.Next;
                 }
                 if (FindStudent(0)==-1)
                 {
@@ -216,5 +191,36 @@ namespace Hashed{
             }
             return -2;
         }
+        public int SearchForDell(int idRecordBook,string filename)
+        {
+            int idRBHashed = HashFunction(idRecordBook);
+            int quantityBlock = nullBlock.QuantityBlock;
+            int start = nullBlock.GetPointersStart(idRBHashed);
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                byte[] blockBinary = new byte[blockSize];
+                while(start!=0)
+                {
+                    reader.Seek(start, SeekOrigin.Begin);
+                    reader.Read(blockBinary, 0, blockSize);
+                    ByteArrToBlock(blockBinary);
+                    if(FindStudent(idRecordBook)!=-1)
+                    {
+                        int end = nullBlock.GetPointersEnd(idRBHashed);
+                        if(start!=end)
+                        {
+                            reader.Seek(end, SeekOrigin.Begin);
+                            reader.Read(blockBinary, 0, blockSize);
+                            ByteArrToBlock(blockBinary);
+                        }
+                        reader.Close();
+                        return start;
+                    }
+                    start=block.Next;
+                }
+            }
+            return -1;
+        }
+
     }
 }

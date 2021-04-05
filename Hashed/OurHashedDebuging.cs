@@ -27,7 +27,8 @@ namespace Hashed{
                     ByteArrToBlock(blockBinary);
                     Console.WriteLine("------------------------------------------------------------");
                     Console.WriteLine("Номер блока = "+i);
-                    Console.WriteLine("Cсылка на блок = "+block.Nextb);
+                    Console.WriteLine("Cсылка на блок = "+block.Next);
+                    Console.WriteLine("Ссылка на предыдущий = "+ block.Back);
                     PrintBlock();
                 }
                 reader.Close();

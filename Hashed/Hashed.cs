@@ -18,13 +18,6 @@ namespace Hashed{
             this.patronymic = patronymic;
             this.idGroup = idGroup;
         }
-        public void SetZap(Zap record){
-            this.idRecordBook = record.idRecordBook;
-            this.lastname = record.lastname;
-            this.name = record.name;
-            this.patronymic = record.patronymic;
-            this.idGroup = record.idGroup;
-        }
         public Zap(Zap record){
             this.idRecordBook = record.idRecordBook;
             this.lastname = record.lastname;
@@ -43,10 +36,17 @@ namespace Hashed{
     }
     class Block {
         Zap[] zapMass = new Zap[5];
-        int nextb;
-        public int Nextb {get => this.nextb;}
-        public void SetNextb(int nextb){
-            this.nextb=nextb;
+        int next;
+        public int Next 
+        {
+            get{ return next;}
+            set{ next = value;}
+        }
+        int back;
+        public int Back 
+        {
+            get{ return back;}
+            set{ back = value;}
         }
         public Zap GetZapMass(int i){
             return zapMass[i];
@@ -59,7 +59,8 @@ namespace Hashed{
           zapMass[i] = new Zap(record.IdRecordBook,record.Lastname,record.Name,record.Middlename,record.IdGroup);
         }
         public Block(){
-            nextb=0;
+            back=0;
+            next=0;
             for(int i=0;i<5;i++)
             {
                 zapMass[i] = new Zap();
