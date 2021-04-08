@@ -88,7 +88,7 @@ namespace Hashed{
                             string patronymic = Console.ReadLine();
                             Console.Write("Номер группы: ");
                             int idG = Convert.ToInt32(Console.ReadLine());
-                            mainBlock.Edit(filename,oldIdz, idZ,lastname,name,patronymic,idG,searchEndCheckResult);
+                            mainBlock.Edit(filename,oldIdz, idZ,lastname,name,patronymic,idG,searchResult);
                             break;
                         }
                         case "3":
