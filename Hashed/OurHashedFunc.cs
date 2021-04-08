@@ -68,10 +68,22 @@ namespace Hashed{
             }
         }
 
-        public void Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup,int searchEndCheckResult)
+        public void Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup,int searchResult)
         {
-            Remove(oldidRecordBook, filename,searchEndCheckResult);
-            AddOnEnd(filename, idRecordBook, lastname,name, patronymic, idGroup,searchEndCheckResult);
+          if (HashFunction(idRecordBook)!=HashFunction(oldidRecordBook))
+          {
+            Remove(oldidRecordBook, filename,searchResult);
+            AddOnEnd(filename, idRecordBook, lastname,name, patronymic, idGroup,searchResult);
+          }
+          else
+          {
+            using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+            {
+              block.SetZapMass(FindStudent(oldidRecordBook), idRecordBook, InChar(lastname, 30), InChar(name, 20), InChar(patronymic, 30), idGroup);
+              writer.Seek(searchResult,SeekOrigin.Begin);
+              writer.Write(Combine());
+            }
+          }
         }
 
         public void Remove(int idRecordBook,string filename,int addr)
@@ -84,7 +96,7 @@ namespace Hashed{
             if (numStu==0&&numlast==1)
             {
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-                {  
+                {
                     if (block.Back!=0)
                     {
                         writer.Seek(block.Back+440,SeekOrigin.Begin);
@@ -143,7 +155,7 @@ namespace Hashed{
                 Zap lastZap = new Zap(block.GetZapMass(0));
 
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
-                {  
+                {
                     writer.Seek(block.Back+440,SeekOrigin.Begin);
                     writer.Write(0);
                     writer.Seek(idRBHashed*quantityPointersNullBlock+pointerSize+firstPointerSize,SeekOrigin.Begin);
@@ -188,7 +200,7 @@ namespace Hashed{
                     ByteArrToBlock(blockBinary);
                 }
                 numStu = FindStudent(idRecordBook);
-                block.SetZapMass(numStu, lastZap); 
+                block.SetZapMass(numStu, lastZap);
                 using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                 {
                     writer.Seek(addr,SeekOrigin.Begin);
@@ -228,9 +240,9 @@ namespace Hashed{
                         reader.Read(blockBinary, 0, blockSize);
                         ByteArrToBlock(blockBinary);
                     }
-                    
+
                     numStu = FindStudent(idRecordBook);
-                    block.SetZapMass(numStu, lastZap); 
+                    block.SetZapMass(numStu, lastZap);
                     using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                     {
                         writer.Seek(addr,SeekOrigin.Begin);
@@ -240,7 +252,7 @@ namespace Hashed{
                 }
                 else
                 {
-                    block.SetZapMass(numStu, block.GetZapMass(numlast)); 
+                    block.SetZapMass(numStu, block.GetZapMass(numlast));
                     block.SetZapMass(numlast,0,InChar("0",30),InChar("0",20), InChar("0",30),0);
                     using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
                     {

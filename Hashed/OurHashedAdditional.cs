@@ -117,7 +117,7 @@ namespace Hashed{
         {
             i = HashFunction(i);
             Console.WriteLine("Студент которыго вы искали: Номер зачётки: {0}; Фамилия: {1}; Имя: {2}; Отчество: {3}; Номер группы: {4};\n",
-            block.GetZapMass(i).IdRecordBook, InString(block.GetZapMass(i).Lastname,30), InString(block.GetZapMass(i).Name,20), 
+            block.GetZapMass(i).IdRecordBook, InString(block.GetZapMass(i).Lastname,30), InString(block.GetZapMass(i).Name,20),
             InString(block.GetZapMass(i).Middlename,30), block.GetZapMass(i).IdGroup);
         }
 
@@ -189,6 +189,39 @@ namespace Hashed{
             }
             return -2;
         }
+
+        public int SearchForDellAndEdit(int idRecordBook,string filename)
+        {
+            int idRBHashed = HashFunction(idRecordBook);
+            int start = nullBlock.GetPointersStart(idRBHashed);
+            using (var reader = File.Open(filename, FileMode.Open))
+            {
+                byte[] blockBinary = new byte[blockSize];
+                int numZapFound;
+                while(start!=0)
+                {
+                    reader.Seek(start, SeekOrigin.Begin);
+                    reader.Read(blockBinary, 0, blockSize);
+                    ByteArrToBlock(blockBinary);
+                    if(FindStudent(numZapFound = idRecordBook)!=-1)
+                    {
+                        int mass[2];
+                        mass[0] = numZapFound;
+                        int end = nullBlock.GetPointersEnd(idRBHashed);
+                        if(start!=end)
+                        {
+                            reader.Seek(end, SeekOrigin.Begin);
+                            reader.Read(blockBinary, 0, blockSize);
+                            ByteArrToBlock(blockBinary);
+                        }
+                        reader.Close();
+                        mass[1] = start;
+                        return mass;
+                    }
+                    start=block.Next;
+                }
+            }
+
         public int SearchForDell(int idRecordBook,string filename)
         {
             int idRBHashed = HashFunction(idRecordBook);
@@ -219,6 +252,8 @@ namespace Hashed{
             return -1;
         }
 
+
+
         public int SearchForChange(int oldIdRecordBook,int idRecordBook,string filename)
         {
             int oldIdRBHashed = HashFunction(oldIdRecordBook);
@@ -226,9 +261,10 @@ namespace Hashed{
             if(oldIdRBHashed==idRBHashed)
             {
                 int start = nullBlock.GetPointersStart(idRBHashed);
+                int addr = 0;
                 using (var reader = File.Open(filename, FileMode.Open))
                 {
-                    bool foundOldId=false,foundId=false;
+                    bool foundOldId=false;
                     byte[] blockBinary = new byte[blockSize];
                     byte[] findBlockBinary = new byte[blockSize];
                     while(start!=0)
@@ -236,59 +272,58 @@ namespace Hashed{
                         reader.Seek(start, SeekOrigin.Begin);
                         reader.Read(blockBinary, 0, blockSize);
                         ByteArrToBlock(blockBinary);
-                        if(FindStudent(oldIdRecordBook)!=-1&&!foundOldId)
+                        if(FindStudent(oldIdRecordBook)!=-1)
                         {
                             foundOldId=true;
                             findBlockBinary=blockBinary;
+                            addr = start;
                         }
-                        if(FindStudent(idRecordBook)!=-1&&!foundId)
+                        if(FindStudent(idRecordBook)!=-1)
                         {
-                            foundId=true;
                             Console.WriteLine("Данные на которые вы хотите изменить уже есть в бд");
-                            return -1;
+                            return -3;
                         }
                         start=block.Next;
                     }
-                    if(foundOldId==true)
+                    if(foundOldId)
                     {
                         ByteArrToBlock(findBlockBinary);
-                        return 0;
+                        return addr;
                     }
                     Console.WriteLine("Данные которые вы хотите изменить уже есть в бд");
-                    return -1;
+                    return -3;
                 }
             }
             else{
-                using (var reader = File.Open(filename, FileMode.Open))
-                {
-                    int start = nullBlock.GetPointersStart(idRBHashed);
-                    byte[] blockBinary = new byte[blockSize];
-                    while(start!=0)
-                    {
-                        reader.Seek(start, SeekOrigin.Begin);
-                        reader.Read(blockBinary, 0, blockSize);
-                        ByteArrToBlock(blockBinary);
-                        if(FindStudent(idRecordBook)!=-1)
-                        {
-                            Console.WriteLine("Данные на которые вы хотите изменить уже есть в бд");
-                            return -1;
-                        }
-                        start=block.Next;
-                    }
-                    start = nullBlock.GetPointersStart(oldIdRBHashed);
-                    while(start!=0)
-                    {
-                        reader.Seek(start, SeekOrigin.Begin);
-                        reader.Read(blockBinary, 0, blockSize);
-                        ByteArrToBlock(blockBinary);
-                        if(FindStudent(idRecordBook)!=-1)
-                        {
-                            return 0;
-                        }
-                        start=block.Next;
-                    }
-                }
-                return -1;
+              bool oldRecordBookIsFound = false;
+              using (var reader = File.Open(filename, FileMode.Open))
+              {
+                  int start = nullBlock.GetPointersStart(idRBHashed);
+                  byte[] blockBinary = new byte[blockSize];
+                  start = nullBlock.GetPointersStart(oldIdRBHashed);
+                  while(start!=0)
+                  {
+                      reader.Seek(start, SeekOrigin.Begin);
+                      reader.Read(blockBinary, 0, blockSize);
+                      ByteArrToBlock(blockBinary);
+                      if(FindStudent(oldIdRecordBook)!=-1)
+                      {
+                        oldRecordBookIsFound = true;
+                          break;
+                      }
+                      start=block.Next;
+                  }
+              }
+              int newBlock = SearchEndCheck(idRecordBook, filename);
+              if(newBlock!=-1&&newBlock!=-2){
+                  Console.WriteLine("Номер зачётки {0} занят!",idRecordBook);
+                  return -3;
+              }
+              if (oldRecordBookIsFound)
+              {
+                  return newBlock;
+              }
+              return -3;
             }
         }
     }

@@ -77,7 +77,7 @@ namespace Hashed{
                                 break;
                             }
                             int searchResult = mainBlock.SearchForChange(oldIdz,idZ,filename);
-                            if(searchResult==-1){
+                            if(searchResult==-3){
                                 break;
                             }
                             Console.Write("Фамилия: ");
