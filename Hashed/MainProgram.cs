@@ -63,17 +63,21 @@ namespace Hashed{
                         case "2":
                         {
                             Console.Write("Введите номер зачётки студента которого хотите изменить: ");
-                            int oldidz = Convert.ToInt32(Console.ReadLine());
+                            int oldIdz = Convert.ToInt32(Console.ReadLine());
+                            if(oldIdz<1)
+                            {
+                                Console.WriteLine("Такого номера зачётки нету!");
+                                break;
+                            }
                             Console.WriteLine("На что заменяем: ");
                             Console.Write("Номер зачётки: ");
                             int idZ = Convert.ToInt32(Console.ReadLine());
-                            if(idZ==0){
+                            if(idZ==0||idZ==oldIdz){
                                 Console.WriteLine("Нельзя присвоить этот номер зачётки!");
                                 break;
                             }
-                            int searchEndCheckResult= mainBlock.SearchEndCheck(idZ,filename);
-                            if(searchEndCheckResult!=-1&&searchEndCheckResult!=-2){
-                                Console.WriteLine("Номер зачётки {0} занят!",idZ);
+                            int searchResult = mainBlock.SearchForChange(oldIdz,idZ,filename);
+                            if(searchResult==-1){
                                 break;
                             }
                             Console.Write("Фамилия: ");
@@ -84,7 +88,7 @@ namespace Hashed{
                             string patronymic = Console.ReadLine();
                             Console.Write("Номер группы: ");
                             int idG = Convert.ToInt32(Console.ReadLine());
-                            mainBlock.Edit(filename,oldidz, idZ,lastname,name,patronymic,idG,searchEndCheckResult);
+                            mainBlock.Edit(filename,oldIdz, idZ,lastname,name,patronymic,idG,searchEndCheckResult);
                             break;
                         }
                         case "3":
