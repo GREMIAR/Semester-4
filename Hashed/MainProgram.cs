@@ -76,9 +76,27 @@ namespace Hashed{
                                 Console.WriteLine("Нельзя присвоить этот номер зачётки!");
                                 break;
                             }
-                            int searchResult = mainBlock.SearchForChange(oldIdz,idZ,filename);
-                            if(searchResult==-3){
-                                break;
+                            int searchResult=0;
+                            int addr=0;
+                            if(oldIdz%4==idZ%4)
+                            {
+                                searchResult = mainBlock.SearchForChange(oldIdz,idZ,filename);
+                                if(searchResult==-3){
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                addr=mainBlock.SearchForDell(oldIdz,filename);
+                                if(addr==-1){
+                                    Console.WriteLine("Номер зачётки {0} нет!",oldIdz);
+                                    break;
+                                }
+                                searchResult = mainBlock.SearchEndCheck(idZ,filename);
+                                if(searchResult!=-1&&searchResult!=-2){
+                                    Console.WriteLine("Номер зачётки {0} занят!",idZ);
+                                    break;
+                                }
                             }
                             Console.Write("Фамилия: ");
                             string lastname = Console.ReadLine();
@@ -88,7 +106,7 @@ namespace Hashed{
                             string patronymic = Console.ReadLine();
                             Console.Write("Номер группы: ");
                             int idG = Convert.ToInt32(Console.ReadLine());
-                            mainBlock.Edit(filename,oldIdz, idZ,lastname,name,patronymic,idG,searchResult);
+                            mainBlock.Edit(filename,oldIdz, idZ,lastname,name,patronymic,idG,searchResult,addr);
                             break;
                         }
                         case "3":
@@ -133,15 +151,6 @@ namespace Hashed{
                 {
                     Console.WriteLine("Вы ввели число за рамками возможного!");
                 }
-            }
-        }
-        public static void test(OurBlock mainBlock,string filename,int num)
-        {
-            int searchEndCheckResult= mainBlock.SearchEndCheck(num,filename);
-            if(searchEndCheckResult!=-1&&searchEndCheckResult!=-2){
-            }
-            else{
-                mainBlock.AddOnEnd(filename, num,num.ToString(),num.ToString(),num.ToString(),num,searchEndCheckResult);
             }
         }
     }

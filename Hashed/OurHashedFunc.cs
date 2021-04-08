@@ -68,22 +68,31 @@ namespace Hashed{
             }
         }
 
-        public void Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup,int searchResult)
+        public void Edit(string filename,int oldidRecordBook,int idRecordBook,string lastname,string name, string patronymic,int idGroup,int searchResult,int addr)
         {
-          if (HashFunction(idRecordBook)!=HashFunction(oldidRecordBook))
-          {
-            Remove(oldidRecordBook, filename,searchResult);
-            AddOnEnd(filename, idRecordBook, lastname,name, patronymic, idGroup,searchResult);
-          }
-          else
-          {
-            using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+            int oldIdRB = HashFunction(oldidRecordBook);
+            if (HashFunction(idRecordBook)!=oldIdRB)
             {
-              block.SetZapMass(FindStudent(oldidRecordBook), idRecordBook, InChar(lastname, 30), InChar(name, 20), InChar(patronymic, 30), idGroup);
-              writer.Seek(searchResult,SeekOrigin.Begin);
-              writer.Write(Combine());
+                AddOnEnd(filename, idRecordBook, lastname,name, patronymic, idGroup,searchResult);
+                int end = nullBlock.GetPointersEnd(oldIdRB);
+                byte[] blockBinary = new byte[blockSize];
+                using (var reader = File.Open(filename, FileMode.Open))
+                {
+                    reader.Seek(end, SeekOrigin.Begin);
+                    reader.Read(blockBinary, 0, blockSize);
+                    ByteArrToBlock(blockBinary);
+                }
+                Remove(oldidRecordBook, filename,addr);
             }
-          }
+            else
+            {
+                using (BinaryWriter writer=new BinaryWriter(File.Open(filename, FileMode.Open)))
+                {
+                    block.SetZapMass(FindStudent(oldidRecordBook), idRecordBook, InChar(lastname, 30), InChar(name, 20), InChar(patronymic, 30), idGroup);
+                    writer.Seek(searchResult,SeekOrigin.Begin);
+                    writer.Write(Combine());
+                }
+            }
         }
 
         public void Remove(int idRecordBook,string filename,int addr)
