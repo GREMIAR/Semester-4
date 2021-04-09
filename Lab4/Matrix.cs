@@ -1,14 +1,71 @@
-namespase Lab4{
+using System;
+namespace Lab4{
     public class Matrix {
-        double[,] matrix;
-    
+        int[,] matrix;
+        public int Cell(int column,int row)
+        {
+            return matrix[column,row];
+        }
+        public void SetCell(int column,int row,int data)
+        {
+            matrix[column,row]=data;
+        }
         int size;
         public int Size {get => this.size;}
-        
         public Matrix(int size) 
         {
             this.size = size;
-            this.matrix = new double[size, size];
+            matrix = new int[size, size];
+        }
+        public Matrix()
+        {
+            size=0;
+            matrix = new int[0,0];
+        }
+        public int[] SearchMin()
+        {
+            int min=matrix[0,0];
+            int column=0 , row=0;
+            for(int i=0;i<size;i++)
+            {
+                for(int f=0;f<size;f++)
+                {
+                    if(min>matrix[i,f])
+                    {
+                        column = i;
+                        row =f;
+                        min = matrix[i,f];
+                    }
+                }
+            }
+            return RedOrDire(column,row);
+        }
+        public int[] RedOrDire(int i, int f)
+        {
+            int[] beginDG = new int[2];
+            while(i<size&&f<size)
+            {
+                i++;
+                f++;
+            }
+            beginDG[0]=i;
+            beginDG[1]=f;
+            return beginDG;
+        }
+        public int Reset()
+        {
+            int min=matrix[0,0];
+            for(int i=0;i<size;i++)
+            {
+                for(int f=0;f<size;f++)
+                {
+                    if(min>matrix[i,f])
+                    {
+                        min = matrix[i,f];
+                    }
+                }
+            }
+            return min;
         }
     }   
 }
