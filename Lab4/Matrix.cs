@@ -43,29 +43,34 @@ namespace Lab4{
         public int[] RedOrDire(int i, int f)
         {
             int[] beginDG = new int[2];
-            while(i<size&&f<size)
+            while(i>0&&f<size)
             {
-                i++;
+                i--;
                 f++;
             }
             beginDG[0]=i;
             beginDG[1]=f;
+            Console.WriteLine("B1"+beginDG[0]);
+            Console.WriteLine("B2"+beginDG[1]);
             return beginDG;
         }
-        public int Reset()
+        public void Reset()
         {
-            int min=matrix[0,0];
+            int[] min = SearchMin();
+            int ii=min[0];
+            int ff=min[1];
             for(int i=0;i<size;i++)
             {
                 for(int f=0;f<size;f++)
                 {
-                    if(min>matrix[i,f])
+                    if((i>=ii&&f>=ff)&&(i!=ii||f!=ff))
                     {
-                        min = matrix[i,f];
+                        matrix[i,f]=0;
                     }
                 }
+                ii++;
+                ff--;
             }
-            return min;
         }
     }   
 }
