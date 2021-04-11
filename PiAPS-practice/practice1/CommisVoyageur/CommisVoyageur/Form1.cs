@@ -37,19 +37,12 @@ namespace CommisVoyageur
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            PaintEventArgs test;
-            test.Graphics.DrawLine(new Pen(Color.Red, 2), 0, 0, pictureBox1.Width, pictureBox1.Height);
-
+            
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-<<<<<<< HEAD
-
-        }
-=======
             e.Graphics.DrawLine(new Pen(Color.Red, 2), 0, 0, pictureBox1.Width, pictureBox1.Height);
->>>>>>> remotes/origin/Practice
         }
 
         private void button2_Click(object sender, EventArgs e)
