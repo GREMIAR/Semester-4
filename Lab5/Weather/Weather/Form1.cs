@@ -62,14 +62,9 @@ namespace Weather
             textBox2.Text = "Средняя температура в данный момент в городе " + response_global.name + " = " + response_global.main.temp;
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void textBox2_Enter(object sender, EventArgs e)
         {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-            
+            label1.Focus();
         }
     }
 
