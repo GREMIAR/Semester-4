@@ -50,8 +50,6 @@ namespace Lab4{
             }
             beginDG[0]=i;
             beginDG[1]=f;
-            Console.WriteLine("B1"+beginDG[0]);
-            Console.WriteLine("B2"+beginDG[1]);
             return beginDG;
         }
         public void Reset()
