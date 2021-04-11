@@ -1,7 +1,7 @@
 ﻿
 namespace Weather
 {
-    partial class Form1
+    partial class ClientForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -111,16 +111,19 @@ namespace Weather
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox2.Size = new System.Drawing.Size(589, 308);
             this.textBox2.TabIndex = 2;
+<<<<<<< HEAD:Lab5/Weather/Weather/Form1.Designer.cs
             this.textBox2.Enter += new System.EventHandler(this.textBox2_Enter);
+=======
+>>>>>>> 7dbc3c753a69f073b6af10bab682a4c8b66ad4dd:Lab5/Weather/Weather/ClientForm.Designer.cs
             // 
-            // Form1
+            // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(619, 438);
+            this.ClientSize = new System.Drawing.Size(619, 442);
             this.Controls.Add(this.tableLayoutPanel1);
             this.MinimumSize = new System.Drawing.Size(635, 477);
-            this.Name = "Form1";
+            this.Name = "ClientForm";
             this.Text = "Form1";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
