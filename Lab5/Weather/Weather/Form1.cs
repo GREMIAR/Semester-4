@@ -41,15 +41,12 @@ namespace Weather
             }
 
 
-            Console.ReadKey();
         }
-        public static async Task ConnectAsync(string CountryID)
+        public async Task ConnectAsync(string CountryID)
         {
-            Form1 form = new Form1();
             WebRequest request = WebRequest.Create("https://api.openweathermap.org/data/2.5/weather?q=" + CountryID + "&APPID=453470e9d170c9031b798d373094ab6c");
-            Thread clientThread = new Thread(new ThreadStart(form.Process));
-            clientThread.Start();
-            
+            WebResponse response = await request.GetResponseAsync().ConfigureAwait(false);
+
             string answer = string.Empty;
             using (Stream s = response.GetResponseStream())
             {
@@ -62,26 +59,18 @@ namespace Weather
 
 
             WeatherResponse response_global = JsonConvert.DeserializeObject<WeatherResponse>(answer);
-            form.textSet1("Средняя температура в данный момент в городе " + response_global.name + " = " + response_global.main.temp);
-
-
-
+            textBox2.Text = "Средняя температура в данный момент в городе " + response_global.name + " = " + response_global.main.temp;
         }
-        public void Process()
+
+        private void label1_Click(object sender, EventArgs e)
         {
-            WebResponse response = await request.GetResponseAsync();
+
         }
 
-            public void textSet1(string i)
+        private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            textBox2.Text = i;
+            
         }
-        public void test1()
-        {
-            textSet1("1");
-        }
-
-
     }
 
     public class Temperatura
