@@ -91,7 +91,7 @@ namespace CommisVoyageur
                 int secondPoint = int.Parse(comboBox2.Text) - 1;
                 if(!AlreadyExists(firstPoint, secondPoint))
                 {
-                    paths.Add(new Path(firstPoint, secondPoint, int.Parse(textBox3.Text)));
+                    paths.Add(new Path(firstPoint, secondPoint, int.Parse(textBox3.Text),checkBox1.Checked));
                     comboBox5.Items.Add(paths.Count);
                 }
             }

@@ -2,6 +2,12 @@
 {
     class Path
     {
+        bool direction;//0 - в 1 сторону(от жёлтой к зелёной); 1 - в обе стороны
+        public bool Direction
+        {
+            get { return direction; }
+            set { direction = value; }
+        }
         int pointFirst;
         public int PointFirst
         {
@@ -21,11 +27,12 @@
             set { length = value; }
         }
         public Path() { }
-        public Path(int point1, int point2, int length)
+        public Path(int pointFirst, int pointSecond, int length,bool direction)
         {
-            this.pointFirst = point1;
-            this.pointSecond = point2;
+            this.pointFirst = pointFirst;
+            this.pointSecond = pointSecond;
             this.length = length;
+            this.direction = direction;
         }
         public Path(Path path)
         {
