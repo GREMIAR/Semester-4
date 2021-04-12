@@ -37,6 +37,7 @@ namespace Weather
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.SuppressKeyPress = true;
                 SendRequest();
             }
         }
@@ -50,10 +51,6 @@ namespace Weather
             {
                 textBox2.Text = "Город не найден";
             }
-        }
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
