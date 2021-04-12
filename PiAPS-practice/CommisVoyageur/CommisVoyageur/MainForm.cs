@@ -5,20 +5,19 @@ using System.Windows.Forms;
 
 namespace CommisVoyageur
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-
         List<Point> points = new List<Point>();
         Point unsavedPoint = new Point();
         List<Path> paths = new List<Path>();
 
         bool FreeSpace=true;
         
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
-            unsavedPoint.X = pictureBox1.Width / 2;
-            unsavedPoint.Y = pictureBox1.Height / 2;
+            unsavedPoint.X = AreaPaint.Width / 2;
+            unsavedPoint.Y = AreaPaint.Height / 2;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -30,57 +29,71 @@ namespace CommisVoyageur
                 comboBox2.Items.Add(points.Count);
                 comboBox3.Items.Add(points.Count);
                 comboBox4.Items.Add(points.Count);
-                pictureBox1.Refresh();
+                AreaPaint.Refresh();
             }
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            unsavedPoint.X = Cursor.Position.X - PointToScreen(pictureBox1.Location).X - 7;
-            unsavedPoint.Y = Cursor.Position.Y - PointToScreen(pictureBox1.Location).Y - 7;
-            pictureBox1.Refresh();
+            unsavedPoint.X = Cursor.Position.X - PointToScreen(AreaPaint.Location).X - 7;
+            unsavedPoint.Y = Cursor.Position.Y - PointToScreen(AreaPaint.Location).Y - 7;
+            AreaPaint.Refresh();
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             if(FreeSpace = FreeSpaceAvailable())
             {
-                e.Graphics.DrawEllipse(new Pen(Color.Black, 2), unsavedPoint.X - 2, unsavedPoint.Y - 2, 4, 4);
+                DrawPoint(e, Color.Black, unsavedPoint);
             }
             else
             {
-                e.Graphics.DrawEllipse(new Pen(Color.Red, 2), unsavedPoint.X - 2, unsavedPoint.Y - 2, 4, 4);
+                DrawPoint(e, Color.Red, unsavedPoint);
             }
             foreach (Path path in paths)
             {
-                e.Graphics.DrawLine(new Pen(Color.Red, 2), points[path.PointFirst].X, points[path.PointFirst].Y, points[path.PointSecond].X, points[path.PointSecond].Y);
+                DrawLine(e, Color.Red, path.PointFirst, path.PointSecond);
             }
             foreach (Point point in points)
             {
-                e.Graphics.DrawEllipse(new Pen(Color.Blue, 2), point.X-2, point.Y-2, 4, 4);
+                DrawPoint(e, Color.Blue, point);
             }
             if (!string.IsNullOrEmpty(comboBox1.Text))
             {
-                e.Graphics.DrawEllipse(new Pen(Color.Yellow, 2), points[int.Parse(comboBox1.Text) - 1].X - 2, points[int.Parse(comboBox1.Text) - 1].Y - 2, 4, 4);
+                DrawPoint(e, Color.Yellow, int.Parse(comboBox1.Text) - 1);
             }
-            if(!string.IsNullOrEmpty(comboBox2.Text))
+            else if(!string.IsNullOrEmpty(comboBox3.Text))
             {
-                e.Graphics.DrawEllipse(new Pen(Color.Green, 2), points[int.Parse(comboBox2.Text) - 1].X - 2, points[int.Parse(comboBox2.Text) - 1].Y - 2, 4, 4);
+                DrawPoint(e, Color.Yellow, int.Parse(comboBox3.Text) - 1);
             }
-            if (!string.IsNullOrEmpty(comboBox3.Text))
+            if (!string.IsNullOrEmpty(comboBox2.Text))
             {
-                e.Graphics.DrawEllipse(new Pen(Color.Yellow, 2), points[int.Parse(comboBox3.Text) - 1].X - 2, points[int.Parse(comboBox3.Text) - 1].Y - 2, 4, 4);
+                DrawPoint(e, Color.Green, int.Parse(comboBox2.Text) - 1);
             }
-            if (!string.IsNullOrEmpty(comboBox4.Text))
+            else if (!string.IsNullOrEmpty(comboBox4.Text))
             {
-                e.Graphics.DrawEllipse(new Pen(Color.Green, 2), points[int.Parse(comboBox4.Text) - 1].X - 2, points[int.Parse(comboBox4.Text) - 1].Y - 2, 4, 4);
+                DrawPoint(e, Color.Green, int.Parse(comboBox4.Text) - 1);
             }
             if (!string.IsNullOrEmpty(comboBox5.Text))
             {
-                e.Graphics.DrawLine(new Pen(Color.White, 2), points[paths[int.Parse(comboBox5.Text) - 1].PointFirst].X , points[paths[int.Parse(comboBox5.Text) - 1].PointFirst].Y, points[paths[int.Parse(comboBox5.Text) - 1].PointSecond].X, points[paths[int.Parse(comboBox5.Text) - 1].PointSecond].Y);
-                e.Graphics.DrawEllipse(new Pen(Color.Yellow, 2), points[paths[int.Parse(comboBox5.Text) - 1].PointFirst].X - 2, points[paths[int.Parse(comboBox5.Text) - 1].PointFirst].Y - 2, 4, 4);
-                e.Graphics.DrawEllipse(new Pen(Color.Green, 2), points[paths[int.Parse(comboBox5.Text) - 1].PointSecond].X - 2, points[paths[int.Parse(comboBox5.Text) - 1].PointSecond].Y - 2, 4, 4);
+                DrawLine(e, Color.White, paths[int.Parse(comboBox5.Text) - 1].PointFirst, paths[int.Parse(comboBox5.Text) - 1].PointSecond);
+                DrawPoint(e, Color.Yellow, paths[int.Parse(comboBox5.Text) - 1].PointFirst);
+                DrawPoint(e, Color.Green, paths[int.Parse(comboBox5.Text) - 1].PointSecond);
             }
+        }
+
+        public void DrawPoint(PaintEventArgs e,Color color,int index)
+        {
+            e.Graphics.DrawEllipse(new Pen(color, 2), points[index].X - 2, points[index].Y - 2, 4, 4);
+        }
+
+        public void DrawPoint(PaintEventArgs e, Color color, Point point)
+        {
+            e.Graphics.DrawEllipse(new Pen(color, 2), point.X - 2, point.Y - 2, 4, 4);
+        }
+        public void DrawLine(PaintEventArgs e, Color color, int indexFirst, int indexSecond)
+        {
+            e.Graphics.DrawLine(new Pen(color, 2), points[indexFirst].X, points[indexFirst].Y, points[indexSecond].X, points[indexSecond].Y);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -98,8 +111,9 @@ namespace CommisVoyageur
             comboBox1.Text = string.Empty;
             comboBox2.Text = string.Empty;
             textBox3.Text = string.Empty;
-            pictureBox1.Refresh();
+            AreaPaint.Refresh();
         }
+
         public bool AlreadyExists(int firstPoint, int secondPoint)
         {
             foreach (Path path in paths)
@@ -111,6 +125,7 @@ namespace CommisVoyageur
             }
             return false;
         }
+
         public bool FreeSpaceAvailable()
         {
             foreach (Point point in points)
@@ -142,7 +157,7 @@ namespace CommisVoyageur
             comboBox3.Text = string.Empty;
             comboBox4.Text = string.Empty;
             comboBox5.Text = string.Empty;
-            pictureBox1.Refresh();
+            AreaPaint.Refresh();
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
@@ -150,7 +165,7 @@ namespace CommisVoyageur
             comboBox1.Text = string.Empty;
             comboBox2.Text = string.Empty;
             comboBox5.Text = string.Empty;
-            pictureBox1.Refresh();
+            AreaPaint.Refresh();
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -158,7 +173,7 @@ namespace CommisVoyageur
             comboBox3.Text = string.Empty;
             comboBox4.Text = string.Empty;
             comboBox5.Text = string.Empty;
-            pictureBox1.Refresh();
+            AreaPaint.Refresh();
         }
 
         private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
@@ -167,8 +182,8 @@ namespace CommisVoyageur
             comboBox2.Text = string.Empty;
             comboBox3.Text = string.Empty;
             comboBox4.Text = string.Empty;
-            pictureBox1.Refresh();
-            textBox1.Text = paths[int.Parse(comboBox5.Text) - 1].Length.ToString();
+            AreaPaint.Refresh();
+            textBox1.Text = "Растояние = " + paths[int.Parse(comboBox5.Text) - 1].Length.ToString()+"; От точки: "+ paths[int.Parse(comboBox5.Text) - 1].PointFirst + ";До точки: "+ paths[int.Parse(comboBox5.Text) - 1].PointSecond;
         }
     }
 }
