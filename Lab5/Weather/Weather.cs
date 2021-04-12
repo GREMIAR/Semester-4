@@ -25,46 +25,45 @@ namespace Weather
                 }
             }
             response.Close();
-            /*
-            <current>
-                <city id="0" name="Mountain View">
-                    <coord lon="-122.09" lat="37.39" />
-                    <country>US</country>
-                    <timezone>-28800</timezone>
-                    <sun rise="2020-01-07T15:22:59" set="2020-01-08T01:05:37" />
-                </city>
-                <temperature value="278.07" min="273.15" max="282.59" unit="kelvin" />
-                <feels_like value="275.88" unit="kelvin" />
-                <humidity value="86" unit="%" />
-                <pressure value="1026" unit="hPa" />
-                <wind>
-                    <speed value="0.93" unit="m/s" name="Calm" />
-                    <gusts />
-                    <direction value="23" code="NNE" name="North-northeast" />
-                </wind>
-                <clouds value="1" name="clear sky" />
-                <visibility value="16093" />
-                <precipitation mode="no" />
-                <weather number="800" value="clear sky" icon="01n" />
-                <lastupdate value="2020-01-07T11:33:40" />
-            </current>
-             */
             XDocument doc;
             using (var sr = new StringReader(answer))
             {
                 doc = XDocument.Load(sr);
             }
             XElement current = doc.Element("current");
-            string info = "Город:" + current.Element("city").Attribute("name").Value;
-            info += "\r\nСтрана:" + current.Element("city").Element("country").Value;
-            info += "\r\nРассвет:" + current.Element("city").Element("sun").Attribute("rise").Value;
-            info += "\r\nЗакат:" + current.Element("city").Element("sun").Attribute("set").Value;
-            info += "\r\nТемпература:" + current.Element("temperature").Attribute("value").Value;
-            /*info += "\r\nЗакат:" + current.Element("city").Element("sun").Attribute("set").Value;
-            info += "\r\nЗакат:" + current.Element("city").Element("sun").Attribute("set").Value;
-            info += "\r\nЗакат:" + current.Element("city").Element("sun").Attribute("set").Value;*/
-
-            //"Средняя температура в данный момент в городе " + current.Element("city").Element("coord").Attribute("lon").Value)
+            string info = "Город: " + current.Element("city").Attribute("name").Value;
+            info += "\r\nСтрана: " + current.Element("city").Element("country").Value;
+            info += "\r\nРассвет: " + current.Element("city").Element("sun").Attribute("rise").Value;
+            info += "\r\nЗакат: " + current.Element("city").Element("sun").Attribute("set").Value;
+            info += "\r\nСредняя температура: " + current.Element("temperature").Attribute("value").Value;
+            info += " " + current.Element("temperature").Attribute("unit").Value;
+            info += "\r\nМинимальная температура: " + current.Element("temperature").Attribute("min").Value;
+            info += " " + current.Element("temperature").Attribute("unit").Value;
+            info += "\r\nМаксимальная температура: " + current.Element("temperature").Attribute("max").Value;
+            info += " " + current.Element("temperature").Attribute("unit").Value;
+            info += "\r\nОщущается как: " + current.Element("feels_like").Attribute("value").Value;
+            info += " " + current.Element("feels_like").Attribute("unit").Value;
+            info += "\r\nВлажность: " + current.Element("humidity").Attribute("value").Value;
+            info += " " + current.Element("humidity").Attribute("unit").Value;
+            info += "\r\nАтмосферное давление: " + current.Element("pressure").Attribute("value").Value;
+            info += " " + current.Element("pressure").Attribute("unit").Value;
+            foreach (XElement elem in current.Elements("wind"))
+            {
+                info += "\r\nСкорость ветра: " + elem.Element("speed").Attribute("value").Value;
+                info += " " + elem.Element("speed").Attribute("unit").Value;
+                info += " " + elem.Element("speed").Attribute("name").Value;
+                info += "\r\nНаправление: " + elem.Element("direction").Attribute("value").Value;
+                info += " " + elem.Element("direction").Attribute("code").Value;
+                info += " " + elem.Element("direction").Attribute("name").Value;
+            }
+            info += "\r\nОблака: " + current.Element("clouds").Attribute("value").Value;
+            info += " " + current.Element("clouds").Attribute("name").Value;
+            info += "\r\nВидимость: " + current.Element("visibility").Attribute("value").Value;
+            info += "\r\nОсадки: " + current.Element("precipitation").Attribute("mode").Value;
+            info += "\r\nПогода: " + current.Element("weather").Attribute("number").Value;
+            info += " " + current.Element("weather").Attribute("value").Value;
+            info += " " + current.Element("weather").Attribute("icon").Value;
+            info += "\r\n\r\nПоследнее обновление: " + current.Element("lastupdate").Attribute("value").Value;
             form.WriteTextBox(info);
         }
     }

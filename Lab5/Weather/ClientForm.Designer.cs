@@ -124,7 +124,7 @@ namespace Weather
             this.Controls.Add(this.tableLayoutPanel1);
             this.MinimumSize = new System.Drawing.Size(635, 477);
             this.Name = "ClientForm";
-            this.Text = "Form1";
+            this.Text = "Погода";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
