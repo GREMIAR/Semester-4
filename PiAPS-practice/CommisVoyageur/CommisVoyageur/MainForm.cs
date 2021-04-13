@@ -158,5 +158,10 @@ namespace CommisVoyageur
                 AreaPaint.Refresh();
             }
         }
+
+        private void MainForm_SizeChanged(object sender, EventArgs e)
+        {
+            AreaPaint.Refresh();
+        }
     }
 }

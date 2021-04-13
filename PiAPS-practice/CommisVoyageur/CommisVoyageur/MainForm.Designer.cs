@@ -527,6 +527,7 @@
             this.MinimumSize = new System.Drawing.Size(727, 553);
             this.Name = "MainForm";
             this.Text = "CommisVoyageur";
+            this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AreaPaint)).EndInit();

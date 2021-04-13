@@ -84,6 +84,7 @@ namespace CommisVoyageur
         public void DrawLine(PaintEventArgs e, Color color, Point First, Point Second)
         {
             e.Graphics.DrawLine(new Pen(color, 2), First.X, First.Y, Second.X, Second.Y);
+
         }
 
         public bool FreeSpaceAvailable()
