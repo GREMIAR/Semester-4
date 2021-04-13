@@ -129,6 +129,9 @@ namespace CommisVoyageur
         private void buttonCalculatePath_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = "Поиск выполнен!";
+            minLength = -1;
+            FindKP(int.Parse(comboBox3.Text) - 1, int.Parse(comboBox4.Text) - 1, 0, new List<int>());
+            textBox6.Text = minLength.ToString();
             comboBox3.Text = string.Empty;
             comboBox4.Text = string.Empty;
             comboBox5.Text = string.Empty;
