@@ -42,10 +42,12 @@ namespace CommisVoyageur
             comboBox5.Text = string.Empty;
             textBoxDistance.Text = string.Empty;
             textBox1.Text = string.Empty;
+            textBox6.Text = string.Empty;
         }
 
         private void AreaPaint_Click(object sender, EventArgs e)
         {
+            textBox6.Text = string.Empty;
             unsavedPoint.X = Cursor.Position.X - PointToScreen(AreaPaint.Location).X - 7;
             unsavedPoint.Y = Cursor.Position.Y - PointToScreen(AreaPaint.Location).Y - 7;
             AreaPaint.Refresh();
@@ -69,6 +71,7 @@ namespace CommisVoyageur
                     comboBox2.Text = string.Empty;
                     textBoxDistance.Text = string.Empty;
                     textBox1.Text = string.Empty;
+                    textBox6.Text = string.Empty;
                 }
                 else
                 {
@@ -114,6 +117,7 @@ namespace CommisVoyageur
             comboBox3.Text = string.Empty;
             comboBox4.Text = string.Empty;
             comboBox5.Text = string.Empty;
+            textBox6.Text = string.Empty;
             AreaPaint.Refresh();
         }
 
@@ -123,19 +127,26 @@ namespace CommisVoyageur
             comboBox1.Text = string.Empty;
             comboBox2.Text = string.Empty;
             comboBox5.Text = string.Empty;
+            textBox6.Text = string.Empty;
             AreaPaint.Refresh();
         }
 
         private void buttonCalculatePath_Click(object sender, EventArgs e)
         {
-            toolStripStatusLabel1.Text = "Поиск выполнен!";
-            minLength = -1;
-            FindKP(int.Parse(comboBox3.Text) - 1, int.Parse(comboBox4.Text) - 1, 0, new List<int>());
-            textBox6.Text = minLength.ToString();
-            comboBox3.Text = string.Empty;
-            comboBox4.Text = string.Empty;
-            comboBox5.Text = string.Empty;
-            AreaPaint.Refresh();
+            if (!(string.IsNullOrEmpty(comboBox3.Text) || string.IsNullOrEmpty(comboBox4.Text)) && (comboBox3.Text != comboBox4.Text))
+            {
+                toolStripStatusLabel1.Text = string.Empty;
+                //toolStripStatusLabel1.Text = "Поиск выполнен!"; toolStripStatusLabel1.Text = "Поиск выполнен!";
+                minLength = -1;
+                List<int> test = new List<int>();
+                test.Add(int.Parse(comboBox3.Text) - 1);
+                FindKP(int.Parse(comboBox3.Text) - 1, int.Parse(comboBox4.Text) - 1, 0, test);
+                textBox6.Text = minLength.ToString();
+                comboBox3.Text = string.Empty;
+                comboBox4.Text = string.Empty;
+                comboBox5.Text = string.Empty;
+                AreaPaint.Refresh();
+            }
         }
 
         private void comboBoxPathInfo_SelectedIndexChanged(object sender, EventArgs e)

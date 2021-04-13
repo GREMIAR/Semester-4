@@ -54,6 +54,13 @@ namespace CommisVoyageur
                 DrawPoint(e, Color.Orange, points[indexFirstPoint].Point);
                 DrawPoint(e, Color.Green, points[indexSecondPoint].Point);
             }
+            if (!string.IsNullOrEmpty(textBox6.Text))
+            {
+                foreach (int tes in test1)
+                {
+                    DrawPoint(e, Color.Black, points[tes].Point);
+                }
+            }
         }
 
         private void label1_Paint(object sender, PaintEventArgs e)
