@@ -1,21 +1,18 @@
-﻿namespace CommisVoyageur
+﻿using System.Collections.Generic;
+using System.Drawing;
+
+namespace CommisVoyageur
 {
     class Path
-    {
-        bool direction;//0 - в 1 сторону(от жёлтой к зелёной); 1 - в обе стороны
-        public bool Direction
+    { 
+        int indexPoint;
+        public int IndexPoint
         {
-            get { return direction; }
-            set { direction = value; }
+            get { return indexPoint; }
+            set { indexPoint = value; }
         }
-        int pointFirst;
-        public int PointFirst
-        {
-            get{return pointFirst;}
-            set{pointFirst = value;}
-        }
-        int pointSecond;
-        public int PointSecond
+        Point pointSecond;
+        public Point PointSecond
         {
             get { return pointSecond; }
             set { pointSecond = value; }
@@ -27,18 +24,26 @@
             set { length = value; }
         }
         public Path() { }
-        public Path(int pointFirst, int pointSecond, int length,bool direction)
+        public Path(int indexPoint, Point pointSecond, int length)
         {
-            this.pointFirst = pointFirst;
+            this.indexPoint = indexPoint;
             this.pointSecond = pointSecond;
             this.length = length;
-            this.direction = direction;
         }
-        public Path(Path path)
+    }
+
+    class MainPoint
+    {
+        Point point;
+        public Point Point
         {
-            this.pointFirst = path.pointFirst;
-            this.pointSecond = path.pointSecond;
-            this.length = path.length;
+            get { return point; }
+            set { point = value; }
+        }
+        public List<Path> paths = new List<Path>();
+        public MainPoint(Point point)
+        {
+            this.point = point;
         }
     }
 }
