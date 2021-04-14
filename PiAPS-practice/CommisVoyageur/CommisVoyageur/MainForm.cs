@@ -17,6 +17,7 @@ namespace CommisVoyageur
             InitializeComponent();
             unsavedPoint.X = AreaPaint.Width / 2;
             unsavedPoint.Y = AreaPaint.Height / 2;
+            AreaPaint.Refresh();
         }
 
         private void buttonAddPoint_Click(object sender, EventArgs e)
@@ -61,10 +62,10 @@ namespace CommisVoyageur
                 int secondPoint = int.Parse(comboBox2.Text) - 1;
                 if (!AlreadyExists(firstPoint, secondPoint))
                 {
-                    points[firstPoint].paths.Add(new Path(secondPoint, points[secondPoint].Point, int.Parse(textBoxDistance.Text)));
+                    points[firstPoint].paths.Add(new Path(firstPoint, secondPoint, points[secondPoint].Point, int.Parse(textBoxDistance.Text)));
                     if (checkBox1.Checked)
                     {
-                        points[secondPoint].paths.Add(new Path(firstPoint, points[firstPoint].Point, int.Parse(textBoxDistance.Text)));
+                        points[secondPoint].paths.Add(new Path(secondPoint, firstPoint, points[firstPoint].Point, int.Parse(textBoxDistance.Text)));
                     }
                     comboBox5.Items.Add((firstPoint + 1) + "-" + (secondPoint + 1));
                     comboBox1.Text = string.Empty;
@@ -89,7 +90,7 @@ namespace CommisVoyageur
         {
             foreach (Path path in points[firstPoint].paths)
             {
-                if(path.IndexPoint == secondPoint)
+                if(path.EndPointIndex == secondPoint)
                 {
                     return true;
                 }
@@ -138,9 +139,7 @@ namespace CommisVoyageur
                 toolStripStatusLabel1.Text = string.Empty;
                 //toolStripStatusLabel1.Text = "Поиск выполнен!"; toolStripStatusLabel1.Text = "Поиск выполнен!";
                 minLength = -1;
-                List<int> test = new List<int>();
-                test.Add(int.Parse(comboBox3.Text) - 1);
-                FindKP(int.Parse(comboBox3.Text) - 1, int.Parse(comboBox4.Text) - 1, 0, test);
+                FindKP(int.Parse(comboBox3.Text) - 1, int.Parse(comboBox4.Text) - 1, 0, new List<Path>());
                 textBox6.Text = minLength.ToString();
                 comboBox3.Text = string.Empty;
                 comboBox4.Text = string.Empty;
@@ -159,7 +158,7 @@ namespace CommisVoyageur
                 int indexSecondPoint = int.Parse(str[1]) - 1;
                 foreach (Path path in points[indexFirstPoint].paths)
                 {
-                    if (path.IndexPoint == indexSecondPoint)
+                    if (path.EndPointIndex == indexSecondPoint)
                     {
                         textBox1.Text = "Растояние = " + path.Length;
                         break;

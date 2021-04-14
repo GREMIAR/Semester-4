@@ -25,7 +25,7 @@ namespace CommisVoyageur
             {
                 foreach (Path path in point.paths)
                 {
-                    DrawLine(e, Color.Black, point.Point, path.PointSecond);
+                    DrawLine(e, Color.Black, point.Point, path.EndPointCoords);
                 }
                 DrawPoint(e, Color.Blue, point.Point);
             }
@@ -53,13 +53,6 @@ namespace CommisVoyageur
                 DrawLine(e, Color.Red, points[indexFirstPoint].Point, points[indexSecondPoint].Point);
                 DrawPoint(e, Color.Orange, points[indexFirstPoint].Point);
                 DrawPoint(e, Color.Green, points[indexSecondPoint].Point);
-            }
-            if (!string.IsNullOrEmpty(textBox6.Text))
-            {
-                foreach (int tes in test1)
-                {
-                    DrawPoint(e, Color.Black, points[tes].Point);
-                }
             }
         }
 

@@ -6,59 +6,73 @@ namespace CommisVoyageur
     public partial class MainForm : Form
     {
         int minLength;
-        List<int> test1 = new List<int>();
-        bool FindKP(int indexFirst,int indexSecond,int length, List<int> indexs1)
+        int countElems = 0;
+        bool FindKP(int indexFirst,int indexSecond,int length, List<Path> blockedPaths)
         {
+            textBox2.Text += "Entered point: " + indexFirst + " L:" + length;
+            foreach (Path pathQWE in blockedPaths)
+            {
+                textBox2.Text += " {" + pathQWE.StartPointIndex + ";" + pathQWE.EndPointIndex + "} ";
+            }
+            textBox2.Text += "\r\n";
+
+            /////////////////////////////////////////////////////////////////////////////////////////
+            bool isFork = false;
             foreach (Path path in points[indexFirst].paths)
             {
-               /*toolStripStatusLabel1.Text += ("&"+ indexFirst);
-                toolStripStatusLabel1.Text += "!";
-                foreach (int index in indexs1)
+                textBox2.Text += "Entered path: " + path.StartPointIndex + " -> " + path.EndPointIndex + " L: " + length + "\r\n";
+                if (isFork)
                 {
-                    toolStripStatusLabel1.Text += (index+";");
-                }
-                toolStripStatusLabel1.Text += "!";*/
-                if (path.IndexPoint==indexSecond)
-                {
-                    length += path.Length;
-                    if (minLength == -1)
+                    for (int i = 0; i < countElems; i++)
                     {
-                        indexs1.Add(path.IndexPoint);
-                        test1 = indexs1;
+                        if (blockedPaths.Count > 0)
+                        {
+                            blockedPaths.RemoveAt(blockedPaths.Count - 1);
+                        }
+                    }
+                    length -= path.Length;
+                    countElems = 0;
+                }
+                if (!CheckPathRepeat(blockedPaths, path))
+                {
+                    FinishPath(path, ref length, ref blockedPaths);
+                    if ((path.EndPointIndex == indexSecond) && ((minLength == -1) || (minLength > length)))
+                    {
                         minLength = length;
                     }
-                    else if (minLength>length)
+                    else
                     {
-                        indexs1.Add(path.IndexPoint);
-                        test1 = indexs1;
-                        minLength = length;
+                        FindKP(path.EndPointIndex, indexSecond, length, blockedPaths);
                     }
                 }
-                else
-                {
-                    if(!CheckPointRepeat(indexs1, path.IndexPoint))
-                    {
-                        length += path.Length;
-                        indexs1.Add(path.IndexPoint);
-                        FindKP(path.IndexPoint, indexSecond, length, new List<int>(indexs1));
-                    }
-                }
-                toolStripStatusLabel1.Text += indexFirst;
-                toolStripStatusLabel1.Text += "!!";
-                foreach (int index in indexs1)
-                {
-                    toolStripStatusLabel1.Text += (index + ";");
-                }
-                toolStripStatusLabel1.Text += "!!";
+                isFork = true;
+                textBox2.Text += "Quited path: " + path.StartPointIndex + " -> " + path.EndPointIndex + " L: " + length + "\r\n";
             }
+            ////////////////////////////////////////////////////////////////////////////////////////////////////
+            textBox2.Text += "Quited point: " + indexFirst + " L:" + length;
+            foreach (Path pathQWE in blockedPaths)
+            {
+                textBox2.Text += " {" + pathQWE.StartPointIndex + ";" + pathQWE.EndPointIndex + "} ";
+            }
+            textBox2.Text += "\r\n";
+
+
             return true;
         }
 
-        public bool CheckPointRepeat(List<int> indexs,int second)
+
+        private void FinishPath(Path path, ref int length, ref List<Path> blockedPaths)
         {
-            foreach(int index in indexs)
+            length += path.Length;
+            blockedPaths.Add(path);
+            countElems++;
+        }
+
+        public bool CheckPathRepeat(List<Path> blockedPaths, Path pathToCheck)
+        {
+            foreach(Path pathFromList in blockedPaths)
             {
-                if (second == index)
+                if (pathToCheck.isEqualTo(pathFromList) || pathToCheck.isEqualTo(pathToCheck.GetReversedPath(points)))
                 {
                     return true;
                 }

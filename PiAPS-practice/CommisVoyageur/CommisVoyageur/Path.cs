@@ -3,19 +3,25 @@ using System.Drawing;
 
 namespace CommisVoyageur
 {
-    class Path
-    { 
-        int indexPoint;
-        public int IndexPoint
+    public class Path
+    {
+        int startPointIndex;
+        public int StartPointIndex
         {
-            get { return indexPoint; }
-            set { indexPoint = value; }
+            get { return startPointIndex; }
+            set { startPointIndex = value; }
         }
-        Point pointSecond;
-        public Point PointSecond
+        int endPointIndex;
+        public int EndPointIndex
         {
-            get { return pointSecond; }
-            set { pointSecond = value; }
+            get { return endPointIndex; }
+            set { endPointIndex = value; }
+        }
+        Point endPointCoords;
+        public Point EndPointCoords
+        {
+            get { return endPointCoords; }
+            set { endPointCoords = value; }
         }
         int length;
         public int Length
@@ -24,15 +30,31 @@ namespace CommisVoyageur
             set { length = value; }
         }
         public Path() { }
-        public Path(int indexPoint, Point pointSecond, int length)
+        public Path(int startPointIndex, int endPointIndex, Point endPointCoords, int length)
         {
-            this.indexPoint = indexPoint;
-            this.pointSecond = pointSecond;
+            this.startPointIndex = startPointIndex;
+            this.endPointIndex = endPointIndex;
+            this.endPointCoords = endPointCoords;
             this.length = length;
+        }
+        public bool isEqualTo(Path path)
+        {
+            if ((this.startPointIndex == path.startPointIndex) &&(this.EndPointIndex == path.endPointIndex))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public Path GetReversedPath(List<MainPoint> points)
+        {
+            return new Path(this.EndPointIndex, this.StartPointIndex, points[this.startPointIndex].Point, this.Length);
         }
     }
 
-    class MainPoint
+    public class MainPoint
     {
         Point point;
         public Point Point
