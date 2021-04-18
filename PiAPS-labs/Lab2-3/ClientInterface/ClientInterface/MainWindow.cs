@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Text;
 using System.Windows.Forms;
-using System.Net.Sockets;
-using System.Threading;
 
 namespace ClientInterface
 {
@@ -22,16 +19,23 @@ namespace ClientInterface
         //при клике на кнопку войти происходит попытка TCP-клиента соединиться с сервером
         private void buttonLogIn_Click(object sender, EventArgs e)
         {
-            LogIn();
+            if(LogIn())
+            {
+                textBoxAddress.Visible = false;
+                textBoxPort.Visible = false;
+                textBoxName.Visible = false;
+                buttonLogIn.Visible = false;
+            }
         }
         //попытка TCP-клиента соединиться с сервером
-        void LogIn()
+        bool LogIn()
         {
             try
             {
                 string userName = textBoxName.Text;
                 client.LogIn(userName, textBoxAddress.Text, textBoxPort.Text);
                 buttonSend.Enabled = true;
+                return true;
             }
             catch
             {
@@ -42,6 +46,7 @@ namespace ClientInterface
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1,
                 MessageBoxOptions.DefaultDesktopOnly);
+                return false;
             }
         }
         //записывает текст в текстовое поле textBoxChat
