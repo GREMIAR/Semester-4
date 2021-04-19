@@ -8,6 +8,7 @@ namespace ClientInterface
     class Client
     {
         ClientForm form;
+        bool entered= false;
         //конструктор
         public Client(ClientForm form)
         {
@@ -20,6 +21,7 @@ namespace ClientInterface
         {
             this.userName = userName;
             client = new TcpClient(ipAddr, int.Parse(port));
+            entered = true;
             NetworkStream stream = client.GetStream();
             byte[] data = Encoding.Unicode.GetBytes(String.Format(userName + ": вошёл в чат "));
             stream.Write(data, 0, data.Length);
@@ -60,10 +62,13 @@ namespace ClientInterface
         {
             try
             {
-                NetworkStream stream = client.GetStream();
-                string message = "/Close";
-                byte[] data = Encoding.Unicode.GetBytes(String.Format(message));
-                stream.Write(data, 0, data.Length);
+                if (entered)
+                {
+                    NetworkStream stream = client.GetStream();
+                    string message = "/Close";
+                    byte[] data = Encoding.Unicode.GetBytes(String.Format(message));
+                    stream.Write(data, 0, data.Length);
+                }
             }
             catch
             {
