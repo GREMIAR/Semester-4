@@ -26,11 +26,6 @@ namespace MakeReportWord
                     e.Graphics.FillRectangle(brush, e.CellBounds);
         }
 
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-            this.BackColor = Color.FromArgb(255, 50, 39, 62);
-        }
-
         private void checkBox1_Enter(object sender, EventArgs e)
         {
             label1.Focus();
@@ -52,9 +47,9 @@ namespace MakeReportWord
             }
         }
 
-
-        private void Form1_Enter(object sender, EventArgs e)
+        private void Form1_Shown(object sender, EventArgs e)
         {
+            this.BackColor = Color.FromArgb(255, 50, 39, 62);
             label1.BackColor = Color.FromArgb(255, 253, 219, 124);
             label2.BackColor = Color.FromArgb(255, 253, 219, 124);
             label3.BackColor = Color.FromArgb(255, 208, 117, 252);

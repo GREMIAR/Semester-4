@@ -107,9 +107,9 @@ namespace MakeReportWord
             this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
-            "Программная инженерия ",
+            "Программная инженерия",
             "Прикладная математика и информатика",
-            "Информационные системы ",
+            "Информационные системы",
             "Приборостроение, метрология и сертификация",
             "Электроника, радиотехника и системы связи",
             "Информационная безопасность",
@@ -283,8 +283,7 @@ namespace MakeReportWord
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Сотворение топ отчета из небытия";
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
-            this.Enter += new System.EventHandler(this.Form1_Enter);
+            this.Shown += new System.EventHandler(this.Form1_Shown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
