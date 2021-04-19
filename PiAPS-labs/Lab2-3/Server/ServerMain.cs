@@ -6,10 +6,8 @@ namespace ServerChat
     class Program
     {
         const int port = 8888;
-        const string ipAdd = "Ваш IP";//нужно раскомментировать 12 и закомментировать 11
         static void Main(string[] args)
         {
-            //IPAddress ipAddress = Dns.GetHostAddresses(Dns.GetHostName())[3];
             Console.WriteLine(GetLocalIPAddress());
             IPAddress ipAddress = IPAddress.Parse(GetLocalIPAddress());
             Server server = new Server();
@@ -40,7 +38,7 @@ namespace ServerChat
                     return ip.ToString();
                 }
             }
-            throw new Exception("No network adapters with an IPv4 address in the system!");
+            throw new Exception("В системе нет сетевых адаптеров с IPv4 адресом!");
         }
     }
 }
