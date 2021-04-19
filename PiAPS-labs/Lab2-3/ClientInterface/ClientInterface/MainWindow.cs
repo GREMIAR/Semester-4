@@ -169,7 +169,25 @@ namespace ClientInterface
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true;
-                LogIn();
+                if (LogIn())
+                {
+                    textBoxAddress.Visible = false;
+                    textBoxPort.Visible = false;
+                    textBoxName.Visible = false;
+                    buttonLogIn.Visible = false;
+                }
+            }
+        }
+        //при закрытии окна отправляет серверу команду об отключении клиента
+        private void ClientForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            try
+            {
+                client.CloseClient();
+            }
+            catch
+            {
+                return;
             }
         }
     }
