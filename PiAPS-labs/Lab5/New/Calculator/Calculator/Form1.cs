@@ -19,23 +19,29 @@ namespace Calculator
             client = new Calculator.CalculatorSoapClient();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void textBox3_Enter(object sender, EventArgs e)
         {
-            label1.Text = client.Add(int.Parse(textBox1.Text), int.Parse(textBox2.Text)).ToString();
-        }
-        private void button2_Click(object sender, EventArgs e)
-        {
-            label1.Text = client.Divide(int.Parse(textBox1.Text), int.Parse(textBox2.Text)).ToString();
+            label1.Focus();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
         {
-            label1.Text = client.Multiply(int.Parse(textBox1.Text), int.Parse(textBox2.Text)).ToString();
+            textBox3.Text = client.Add(int.Parse(textBox1.Text), int.Parse(textBox2.Text)).ToString();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button2_Click_1(object sender, EventArgs e)
         {
-            label1.Text = client.Subtract(int.Parse(textBox1.Text), int.Parse(textBox2.Text)).ToString();
+            textBox3.Text = client.Divide(int.Parse(textBox1.Text), int.Parse(textBox2.Text)).ToString();
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            textBox3.Text = client.Multiply(int.Parse(textBox1.Text), int.Parse(textBox2.Text)).ToString();
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            textBox3.Text = client.Subtract(int.Parse(textBox1.Text), int.Parse(textBox2.Text)).ToString();
         }
     }
 }
