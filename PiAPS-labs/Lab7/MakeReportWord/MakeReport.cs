@@ -12,6 +12,10 @@ namespace MakeReportWord
             app.Visible = true;
             var doc = app.Documents.Add();
             var r = doc.Range();
+            r.PageSetup.TopMargin = CentimetersToPoints(2);
+            r.PageSetup.BottomMargin = CentimetersToPoints(2);
+            r.PageSetup.LeftMargin = CentimetersToPoints(3);
+            r.PageSetup.RightMargin = CentimetersToPoints(1.5f);
             r.Font.Size = 14;
             r.Font.Name = "Times New Roman";
             r.Paragraphs.SpaceAfter = 0;
@@ -68,6 +72,12 @@ namespace MakeReportWord
             r.InsertBreak(0);
             r.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
         }
+        
+        float CentimetersToPoints(float cen)
+        {
+            return cen * 28.3465f;
+        }
+                
         string SkipLine(int quantity)
         {
             var str = string.Empty;
