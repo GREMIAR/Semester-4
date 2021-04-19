@@ -4,21 +4,21 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <_PublishTargetUrl>C:\Users\Mikhail\Documents\1_MAIN\University\4 семестр\ПиАПС\PiAPS\PiAPS-labs\Lab6\FlightInformationService\FlightInformationService\bin</_PublishTargetUrl>
-    <History>True|2021-04-18T16:19:43.9434801Z;</History>
+    <_PublishTargetUrl>C:\Users\Nikitos\Desktop\qqqqqww</_PublishTargetUrl>
+    <History>True|2021-04-19T20:07:07.0660344Z;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/FlightInformationService.dll">
-      <publishTime>04/18/2021 19:19:42</publishTime>
+      <publishTime>04/19/2021 23:07:06</publishTime>
     </File>
     <File Include="bin/FlightInformationService.pdb">
-      <publishTime>04/18/2021 19:19:42</publishTime>
+      <publishTime>04/19/2021 23:07:06</publishTime>
     </File>
-    <File Include="Flight.svc">
-      <publishTime>04/18/2021 18:48:33</publishTime>
+    <File Include="Service1.svc">
+      <publishTime>04/19/2021 22:58:26</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>04/18/2021 19:19:43</publishTime>
+      <publishTime>04/19/2021 23:07:06</publishTime>
     </File>
   </ItemGroup>
 </Project>

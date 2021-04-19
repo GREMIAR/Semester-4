@@ -3,7 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace FlightInformationService
 {
-    public class Fligt : FlightInformation
+    // ПРИМЕЧАНИЕ. Команду "Переименовать" в меню "Рефакторинг" можно использовать для одновременного изменения имени класса "Service1" в коде, SVC-файле и файле конфигурации.
+    // ПРИМЕЧАНИЕ. Чтобы запустить клиент проверки WCF для тестирования службы, выберите элементы Service1.svc или Service1.svc.cs в обозревателе решений и начните отладку.
+    public class Service1 : IService1
     {
         string path = "InfoFlight.txt";
         public string InformationSpecifiedRoute(string startPoint, string destinationPoint)
@@ -17,7 +19,7 @@ namespace FlightInformationService
                     while ((line = str.ReadLine()) != null)
                     {
                         string[] subs = line.Split(' ');
-                        if (subs[1] == startPoint&& subs[2] == destinationPoint)
+                        if (subs[1] == startPoint && subs[2] == destinationPoint)
                         {
                             flightInfo += line;
                         }
@@ -28,7 +30,7 @@ namespace FlightInformationService
             {
                 flightInfo = "К сожалению, на нас совершается хакерская атака, зайдите через [ОШИБКА] минут";
             }
-            if(flightInfo == string.Empty)
+            if (flightInfo == string.Empty)
             {
                 flightInfo = "К сожлению, мы не смогли ничего найти для вас";
             }
@@ -69,11 +71,11 @@ namespace FlightInformationService
             try
             {
                 string line;
-                string[] subs = {};
+                string[] subs = { };
                 using (StreamReader str = new StreamReader(path))
                 {
-                    
-                    int index=0;
+
+                    int index = 0;
                     while ((line = str.ReadLine()) != null)
                     {
                         subs = line.Split(' ');
@@ -87,7 +89,7 @@ namespace FlightInformationService
                 }
                 StreamReader reader = new StreamReader(path);
                 string content = reader.ReadToEnd();
-                reader.Close();                content = Regex.Replace(content, line, Regex.Replace(line, subs[4], (int.Parse(subs[4])-1).ToString()));
+                reader.Close(); content = Regex.Replace(content, line, Regex.Replace(line, subs[4], (int.Parse(subs[4]) - 1).ToString()));
 
                 StreamWriter writer = new StreamWriter(path);
                 writer.Write(content);
