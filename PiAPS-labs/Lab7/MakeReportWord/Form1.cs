@@ -87,5 +87,15 @@ namespace MakeReportWord
         {
             label1.Focus();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MakeReport report = new MakeReport();
+            report.CreateReport(comboBox1.Text,maskedTextBox1.Text, textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text);
+            if(checkBox1.Enabled==true)
+            {
+                Application.Exit();
+            }
+        }
     }
 }
