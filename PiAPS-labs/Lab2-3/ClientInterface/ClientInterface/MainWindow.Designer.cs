@@ -78,13 +78,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxUserList.BackColor = System.Drawing.SystemColors.ControlDark;
             this.textBoxUserList.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxUserList.Location = new System.Drawing.Point(3, 201);
+            this.textBoxUserList.Location = new System.Drawing.Point(3, 173);
             this.textBoxUserList.Multiline = true;
             this.textBoxUserList.Name = "textBoxUserList";
             this.textBoxUserList.ReadOnly = true;
             this.tableLayoutPanel1.SetRowSpan(this.textBoxUserList, 2);
             this.textBoxUserList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUserList.Size = new System.Drawing.Size(275, 599);
+            this.textBoxUserList.Size = new System.Drawing.Size(275, 627);
             this.textBoxUserList.TabIndex = 7;
             // 
             // label2
@@ -94,9 +94,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(3, 160);
+            this.label2.Location = new System.Drawing.Point(3, 145);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(275, 38);
+            this.label2.Size = new System.Drawing.Size(275, 25);
             this.label2.TabIndex = 8;
             this.label2.Text = "Пользователи онлайн";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -170,7 +170,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonLogIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonLogIn.Location = new System.Drawing.Point(3, 123);
+            this.buttonLogIn.Location = new System.Drawing.Point(3, 108);
             this.buttonLogIn.Name = "buttonLogIn";
             this.buttonLogIn.Size = new System.Drawing.Size(275, 34);
             this.buttonLogIn.TabIndex = 1;
@@ -185,7 +185,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxName.BackColor = System.Drawing.SystemColors.ControlDark;
             this.textBoxName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxName.Location = new System.Drawing.Point(3, 83);
+            this.textBoxName.Location = new System.Drawing.Point(3, 73);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(275, 29);
             this.textBoxName.TabIndex = 2;
@@ -200,7 +200,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxPort.BackColor = System.Drawing.SystemColors.ControlDark;
             this.textBoxPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxPort.Location = new System.Drawing.Point(3, 43);
+            this.textBoxPort.Location = new System.Drawing.Point(3, 38);
             this.textBoxPort.Name = "textBoxPort";
             this.textBoxPort.Size = new System.Drawing.Size(275, 29);
             this.textBoxPort.TabIndex = 12;
@@ -217,6 +217,7 @@
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(1297, 890);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.MaximizeBox = false;
             this.Name = "ClientForm";
             this.Text = "ChatClient";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClientForm_FormClosing);
