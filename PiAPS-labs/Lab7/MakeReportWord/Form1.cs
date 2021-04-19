@@ -88,11 +88,17 @@ namespace MakeReportWord
             label1.Focus();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
             MakeReport report = new MakeReport();
-            report.CreateReport(comboBox1.Text,maskedTextBox1.Text, textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text);
-            if(checkBox1.Enabled==true)
+            string faculty = comboBox1.Text;
+            string numberLab = maskedTextBox1.Text;
+            string theme = textBox1.Text;
+            string discipline = textBox2.Text;
+            string professor = textBox3.Text;
+            string year = textBox4.Text;
+            await Task.Run(() => report.CreateReport(faculty, numberLab, theme, discipline, professor, year));
+            if (checkBox1.Enabled==true)
             {
                 Application.Exit();
             }
