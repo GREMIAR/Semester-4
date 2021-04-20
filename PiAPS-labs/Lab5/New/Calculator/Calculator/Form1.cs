@@ -20,30 +20,66 @@ namespace Calculator
 
         private async void button1_Click_1(object sender, EventArgs e)
         {
-            int one = int.Parse(textBox1.Text);
-            int two = int.Parse(textBox2.Text);
-            textBox3.Text = await Task.Run(() => client.Add(one, two).ToString());
+            try
+            {
+                int one, two;
+                StrToInt(out one, out two);
+                textBox3.Text = await Task.Run(() => client.Add(one, two).ToString());
+            }
+            catch (Exception)
+            {
+                textBox3.Text = "Ошибка";
+            }
         }
 
         private async void button2_Click_1(object sender, EventArgs e)
         {
-            int one = int.Parse(textBox1.Text);
-            int two = int.Parse(textBox2.Text);
-            textBox3.Text = await Task.Run(() => client.Subtract(one, two).ToString());
+            try
+            {
+                int one, two;
+                StrToInt(out one, out two);
+                textBox3.Text = await Task.Run(() => client.Subtract(one, two).ToString());
+            }
+            catch (Exception)
+            {
+                textBox3.Text = "Ошибка";
+            }
         }
 
         private async void button3_Click_1(object sender, EventArgs e)
         {
-            int one = int.Parse(textBox1.Text);
-            int two = int.Parse(textBox2.Text);
-            textBox3.Text = await Task.Run(() => client.Multiply(one, two).ToString());
-        }
+            try
+            {
+                int one, two;
+                StrToInt(out one, out two);
+                textBox3.Text = await Task.Run(() => client.Multiply(one, two).ToString());
+            }
+            catch (Exception)
+            {
+                textBox3.Text = "Ошибка";
+            }
+}
 
         private async void button4_Click_1(object sender, EventArgs e)
         {
-            int one = int.Parse(textBox1.Text);
-            int two = int.Parse(textBox2.Text);
-            textBox3.Text = await Task.Run(() => client.Divide(one, two).ToString());
+            try
+            {
+                int one, two;
+                StrToInt(out one, out two);
+                textBox3.Text = await Task.Run(() => client.Divide(one, two).ToString());
+            }
+            catch (Exception)
+            {
+                textBox3.Text = "Ошибка";
+            }
+        }
+
+        void StrToInt(out int one, out int two)
+        {
+            Int32.TryParse(textBox1.Text, out one);
+            Int32.TryParse(textBox2.Text, out two);
+            textBox1.Text = one.ToString();
+            textBox2.Text = two.ToString();
         }
     }
 }
