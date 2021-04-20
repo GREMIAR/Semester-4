@@ -8,9 +8,7 @@ namespace CommisVoyageur
     public partial class MainForm : Form
     {
         Point unsavedPoint = new Point();
-        List<Point> points = new List<Point>();
-        List<Point> pointsSorted = new List<Point>();
-
+        NearestNeighbor nearestNeighbor = new NearestNeighbor();
         bool FreeSpace=true;
         
         public MainForm()
@@ -25,8 +23,8 @@ namespace CommisVoyageur
         {
             if (FreeSpace)
             {
-                points.Add(unsavedPoint);
-                comboBox3.Items.Add(points.Count);
+                nearestNeighbor.AddPoints(unsavedPoint);
+                comboBox3.Items.Add(nearestNeighbor.GetPoints().Count);
                 AreaPaint.Refresh();
                 toolStripStatusLabel1.Text = "Точка успешно поставлена";
             }
@@ -38,30 +36,9 @@ namespace CommisVoyageur
             textBox6.Text = string.Empty;
         }
 
-        private void AreaPaint_Click(object sender, EventArgs e)
-        {
-            textBox6.Text = string.Empty;
-            unsavedPoint.X = Cursor.Position.X - PointToScreen(AreaPaint.Location).X - 11;
-            unsavedPoint.Y = Cursor.Position.Y - PointToScreen(AreaPaint.Location).Y - 12;
-            AreaPaint.Refresh();
-        }
-
         private void comboBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = true;
-        }
-
-        private void buttonCalculatePath_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(comboBox3.Text)&&points.Count>2)
-            {
-                toolStripStatusLabel1.Text = string.Empty;
-                NearestNeighbor nearestNeighbor = new NearestNeighbor();
-                List<Point> tempPoints = new List<Point>(points);
-                textBox6.Text = (Math.Round(nearestNeighbor.Greedy(tempPoints, int.Parse(comboBox3.Text)-1, pointsSorted),2)).ToString();
-                toolStripStatusLabel1.Text = "Поиск выполнен!";
-                AreaPaint.Refresh();
-            }
         }
 
         private void MainForm_SizeChanged(object sender, EventArgs e)
@@ -74,7 +51,7 @@ namespace CommisVoyageur
             CommisVoyageur.Paint.DrawLine(e, Color.Black, new Point(0, AreaPaint.Height), new Point(AreaPaint.Width, AreaPaint.Height));
             CommisVoyageur.Paint.DrawLine(e, Color.Black, new Point(0, 0), new Point(0, AreaPaint.Height));
             CommisVoyageur.Paint.DrawLine(e, Color.Black, new Point(AreaPaint.Width, 0), new Point(AreaPaint.Width, AreaPaint.Height));
-            if (FreeSpace = FreeSpaceAvailable(unsavedPoint, points))
+            if (FreeSpace = nearestNeighbor.FreeSpaceAvailable(unsavedPoint))
             {
                 CommisVoyageur.Paint.DrawPoint(e, Color.Black, unsavedPoint);
             }
@@ -82,33 +59,54 @@ namespace CommisVoyageur
             {
                 CommisVoyageur.Paint.DrawPoint(e, Color.Red, unsavedPoint);
             }
-            foreach (Point point in points)
+            foreach (Point point in nearestNeighbor.GetPoints())
             {
-                CommisVoyageur.Paint.DrawPoint(e, Color.Blue, point);
+                CommisVoyageur.Paint.DrawPoint(e, Color.Blue, point); 
             }
-            for(int i = 0; i < pointsSorted.Count-1; i++)
+            for(int i = 0; i < nearestNeighbor.GetpointsSorted().Count-1; i++)
             {
-                CommisVoyageur.Paint.DrawArrow(e, Color.Black, pointsSorted[i], pointsSorted[i+1]);
+                CommisVoyageur.Paint.DrawArrow(e, Color.Black, nearestNeighbor.GetpointsSorted()[i], nearestNeighbor.GetpointsSorted()[i+1]);
             }
-            if (pointsSorted.Count > 2)
+            if (nearestNeighbor.GetpointsSorted().Count > 2)
             {
-                CommisVoyageur.Paint.DrawArrow(e, Color.Black, pointsSorted[pointsSorted.Count - 1], pointsSorted[0]);
-                CommisVoyageur.Paint.DrawPoint(e, Color.Red, pointsSorted[0]);
+                CommisVoyageur.Paint.DrawArrow(e, Color.Black, nearestNeighbor.GetpointsSorted()[nearestNeighbor.GetpointsSorted().Count - 1], nearestNeighbor.GetpointsSorted()[0]);
+                CommisVoyageur.Paint.DrawPoint(e, Color.Red, nearestNeighbor.GetpointsSorted()[0]);
             }
         }
-        public bool FreeSpaceAvailable(Point unsavedPoint, List<Point> points)
+
+        private void AreaPaint_MouseClick(object sender, MouseEventArgs e)
         {
-            foreach (Point point in points)
+            textBox6.Text = string.Empty;
+            unsavedPoint.X = Cursor.Position.X - PointToScreen(AreaPaint.Location).X - 11;
+            unsavedPoint.Y = Cursor.Position.Y - PointToScreen(AreaPaint.Location).Y - 12;
+            AreaPaint.Refresh();
+            if (e.Button==MouseButtons.Right)
             {
-                if ((Math.Pow(point.X - unsavedPoint.X, 2) + Math.Pow(point.Y - unsavedPoint.Y, 2) < 1600))
+                if (FreeSpace)
                 {
-                    return false;
+                    nearestNeighbor.AddPoints(unsavedPoint);
+                    comboBox3.Items.Add(nearestNeighbor.GetPoints().Count);
+                    AreaPaint.Refresh();
+                    toolStripStatusLabel1.Text = "Точка успешно поставлена";
                 }
+                else
+                {
+                    toolStripStatusLabel1.Text = "Нельзя установить точку";
+                }
+                comboBox3.Text = string.Empty;
+                textBox6.Text = string.Empty;
             }
-            return true;
         }
 
-
-
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(comboBox3.Text) && nearestNeighbor.GetPoints().Count > 2)
+            {
+                toolStripStatusLabel1.Text = string.Empty;
+                textBox6.Text = (Math.Round(nearestNeighbor.Greedy(int.Parse(comboBox3.Text) - 1), 2)).ToString();
+                toolStripStatusLabel1.Text = "Поиск выполнен!";
+                AreaPaint.Refresh();
+            }
+        }
     }
 }
