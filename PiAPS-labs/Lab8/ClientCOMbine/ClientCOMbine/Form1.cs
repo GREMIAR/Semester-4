@@ -11,19 +11,29 @@ namespace ClientCOMbine
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            textBox1.Text = combaen.PingPong("");
-        }
-
         private void button1_Click_1(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-            textBox1.Text = combaen.PingPong(comboBox1.Text);
+            if(comboBox1.Text == "Пинг-Понг")
+            {
+                textBox1.Text = combaen.PingPong(textBox2.Text);
+            }
+            else if (comboBox1.Text == "Кто ты из смешариков")
+            {
+                textBox1.Text = combaen.WhichSmesharik();
+            }
+            else if (comboBox1.Text == "Цельсия")
+            {
+                textBox1.Text = combaen.CelsiusToFahrenheit(float.Parse(textBox2.Text)).ToString();
+            }
+            else if (comboBox1.Text == "Фаренгейты")
+            {
+                textBox1.Text = combaen.FahrenheitToCelsius(float.Parse(textBox2.Text)).ToString();
+            }
         }
     }
 }
