@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace CommisVoyageur
@@ -51,21 +52,6 @@ namespace CommisVoyageur
         public Path GetReversedPath(List<MainPoint> points)
         {
             return new Path(this.EndPointIndex, this.StartPointIndex, points[this.startPointIndex].Point, this.Length);
-        }
-    }
-
-    public class MainPoint
-    {
-        Point point;
-        public Point Point
-        {
-            get { return point; }
-            set { point = value; }
-        }
-        public List<Path> paths = new List<Path>();
-        public MainPoint(Point point)
-        {
-            this.point = point;
         }
     }
 }
