@@ -8,7 +8,7 @@ namespace CommisVoyageur
     public partial class MainForm : Form
     {
         Point unsavedPoint = new Point();
-        List<MainPoint> points = new List<MainPoint>();
+        List<Point> points = new List<Point>();
 
         bool FreeSpace=true;
         
@@ -24,7 +24,7 @@ namespace CommisVoyageur
         {
             if (FreeSpace)
             {
-                points.Add(new MainPoint(unsavedPoint));
+                points.Add(unsavedPoint);
                 comboBox3.Items.Add(points.Count);
                 AreaPaint.Refresh();
                 toolStripStatusLabel1.Text = "Точка успешно поставлена";
@@ -55,9 +55,11 @@ namespace CommisVoyageur
             if (!string.IsNullOrEmpty(comboBox3.Text))
             {
                 toolStripStatusLabel1.Text = string.Empty;
-                //toolStripStatusLabel1.Text = "Поиск выполнен!"; toolStripStatusLabel1.Text = "Поиск выполнен!";
-                comboBox3.Text = string.Empty;
-                AreaPaint.Refresh();
+                NearestNeighbor nearestNeighbor = new NearestNeighbor();
+                List<Point> tempPoints = new List<Point>(points);
+                textBox6.Text = (Math.Round(nearestNeighbor.Greedy(tempPoints, int.Parse(comboBox3.Text)-1),2)).ToString();
+                toolStripStatusLabel1.Text = "Поиск выполнен!";
+                //AreaPaint.Refresh();
             }
         }
 
@@ -71,7 +73,7 @@ namespace CommisVoyageur
             CommisVoyageur.Paint.DrawLine(e, Color.Black, new Point(0, AreaPaint.Height), new Point(AreaPaint.Width, AreaPaint.Height));
             CommisVoyageur.Paint.DrawLine(e, Color.Black, new Point(0, 0), new Point(0, AreaPaint.Height));
             CommisVoyageur.Paint.DrawLine(e, Color.Black, new Point(AreaPaint.Width, 0), new Point(AreaPaint.Width, AreaPaint.Height));
-            if (FreeSpace = MainPoint.FreeSpaceAvailable(unsavedPoint, points))
+            if (FreeSpace = FreeSpaceAvailable(unsavedPoint, points))
             {
                 CommisVoyageur.Paint.DrawPoint(e, Color.Black, unsavedPoint);
             }
@@ -79,17 +81,24 @@ namespace CommisVoyageur
             {
                 CommisVoyageur.Paint.DrawPoint(e, Color.Red, unsavedPoint);
             }
-            foreach (MainPoint point in points)
+            foreach (Point point in points)
             {
-                foreach (Path path in point.paths)
-                {
-                    CommisVoyageur.Paint.DrawLine(e, Color.Black, point.Point, path.EndPointCoords);
-                }
-                CommisVoyageur.Paint.DrawPoint(e, Color.Blue, point.Point);
+                CommisVoyageur.Paint.DrawPoint(e, Color.Blue, point);
             }
         }
-        
+        public bool FreeSpaceAvailable(Point unsavedPoint, List<Point> points)
+        {
+            foreach (Point point in points)
+            {
+                if ((Math.Pow(point.X - unsavedPoint.X, 2) + Math.Pow(point.Y - unsavedPoint.Y, 2) < 1600))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
-        
+
+
     }
 }
