@@ -9,6 +9,7 @@ namespace CommisVoyageur
     {
         Point unsavedPoint = new Point();
         List<Point> points = new List<Point>();
+        List<Point> pointsSorted = new List<Point>();
 
         bool FreeSpace=true;
         
@@ -52,14 +53,14 @@ namespace CommisVoyageur
 
         private void buttonCalculatePath_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(comboBox3.Text))
+            if (!string.IsNullOrEmpty(comboBox3.Text)&&points.Count>2)
             {
                 toolStripStatusLabel1.Text = string.Empty;
                 NearestNeighbor nearestNeighbor = new NearestNeighbor();
                 List<Point> tempPoints = new List<Point>(points);
-                textBox6.Text = (Math.Round(nearestNeighbor.Greedy(tempPoints, int.Parse(comboBox3.Text)-1),2)).ToString();
+                textBox6.Text = (Math.Round(nearestNeighbor.Greedy(tempPoints, int.Parse(comboBox3.Text)-1, pointsSorted),2)).ToString();
                 toolStripStatusLabel1.Text = "Поиск выполнен!";
-                //AreaPaint.Refresh();
+                AreaPaint.Refresh();
             }
         }
 
@@ -84,6 +85,15 @@ namespace CommisVoyageur
             foreach (Point point in points)
             {
                 CommisVoyageur.Paint.DrawPoint(e, Color.Blue, point);
+            }
+            for(int i = 0; i < pointsSorted.Count-1; i++)
+            {
+                CommisVoyageur.Paint.DrawArrow(e, Color.Black, pointsSorted[i], pointsSorted[i+1]);
+            }
+            if (pointsSorted.Count > 2)
+            {
+                CommisVoyageur.Paint.DrawArrow(e, Color.Black, pointsSorted[pointsSorted.Count - 1], pointsSorted[0]);
+                CommisVoyageur.Paint.DrawPoint(e, Color.Red, pointsSorted[0]);
             }
         }
         public bool FreeSpaceAvailable(Point unsavedPoint, List<Point> points)

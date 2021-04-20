@@ -6,8 +6,9 @@ namespace CommisVoyageur
 {
     class NearestNeighbor
     {
-        public double Greedy(List<Point> points,int indexStartPoint)
+        public double Greedy(List<Point> points,int indexStartPoint, List<Point> pointsSorted)
         {
+            pointsSorted.Clear();
             double minPath=0;
             double minDistance;
             Point testPoint = points[indexStartPoint];
@@ -24,11 +25,12 @@ namespace CommisVoyageur
                         delIndex = i;
                     }
                 }
-                Paint.DrawLine()
                 testPoint = points[delIndex];
+                pointsSorted.Add(testPoint);
                 points.RemoveAt(delIndex);
                 minPath += minDistance;
             }
+            minPath += DistancePoint(pointsSorted[pointsSorted.Count-1], pointsSorted[0]);
             return minPath;
 
         }
