@@ -21,19 +21,7 @@ namespace CommisVoyageur
 
         private void buttonAddPoint_Click(object sender, EventArgs e)
         {
-            if (FreeSpace)
-            {
-                nearestNeighbor.AddPoints(unsavedPoint);
-                comboBox3.Items.Add(nearestNeighbor.GetPoints().Count);
-                AreaPaint.Refresh();
-                toolStripStatusLabel1.Text = "Точка успешно поставлена";
-            }
-            else
-            {
-                toolStripStatusLabel1.Text = "Нельзя установить точку";
-            }
-            comboBox3.Text = string.Empty;
-            textBox6.Text = string.Empty;
+            SetBluePoint();
         }
 
         private void comboBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -70,7 +58,7 @@ namespace CommisVoyageur
             if (nearestNeighbor.GetpointsSorted().Count > 2)
             {
                 CommisVoyageur.Paint.DrawArrow(e, Color.Black, nearestNeighbor.GetpointsSorted()[nearestNeighbor.GetpointsSorted().Count - 1], nearestNeighbor.GetpointsSorted()[0]);
-                CommisVoyageur.Paint.DrawPoint(e, Color.Red, nearestNeighbor.GetpointsSorted()[0]);
+                CommisVoyageur.Paint.BigRedPoint(e, Color.Red, nearestNeighbor.GetpointsSorted()[0]);
             }
         }
 
@@ -82,23 +70,31 @@ namespace CommisVoyageur
             AreaPaint.Refresh();
             if (e.Button==MouseButtons.Right)
             {
-                if (FreeSpace)
-                {
-                    nearestNeighbor.AddPoints(unsavedPoint);
-                    comboBox3.Items.Add(nearestNeighbor.GetPoints().Count);
-                    AreaPaint.Refresh();
-                    toolStripStatusLabel1.Text = "Точка успешно поставлена";
-                }
-                else
-                {
-                    toolStripStatusLabel1.Text = "Нельзя установить точку";
-                }
-                comboBox3.Text = string.Empty;
-                textBox6.Text = string.Empty;
+                SetBluePoint();
             }
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Search();
+        }
+        void SetBluePoint()
+        {
+            if (FreeSpace)
+            {
+                nearestNeighbor.AddPoints(unsavedPoint);
+                comboBox3.Items.Add(nearestNeighbor.GetPoints().Count);
+                AreaPaint.Refresh();
+                toolStripStatusLabel1.Text = "Точка успешно поставлена";
+                Search();
+            }
+            else
+            {
+                toolStripStatusLabel1.Text = "Нельзя установить точку";
+            }
+            textBox6.Text = string.Empty;
+        }
+        void Search()
         {
             if (!string.IsNullOrEmpty(comboBox3.Text) && nearestNeighbor.GetPoints().Count > 2)
             {
