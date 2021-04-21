@@ -17,27 +17,5 @@ namespace FlightsClient
         {
             label1.Focus();
         }
-
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            listBox1.Items.Clear();
-            string[] words = flight.numberFlightInfo(textBox1.Text,textBox2.Text).Split(new char[] {' '});
-            foreach(string word in words)
-            {
-                listBox1.Items.Add(word);
-            }    
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            richTextBox1.Text = (flight.InformationSpecifiedRoute(listBox1.SelectedItem.ToString()));
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            textBox3.Text = flight.BookTickets(int.Parse(listBox1.SelectedItem.ToString()));
-            richTextBox1.Text = (flight.InformationSpecifiedRoute(listBox1.SelectedItem.ToString()));
-        }
     }
 }
