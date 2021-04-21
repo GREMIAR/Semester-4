@@ -1,28 +1,34 @@
-﻿using System.IO;
-using System.Text.RegularExpressions;
+﻿using System;
+using System.Collections.Generic;
+using System.ServiceModel;
 
 namespace FlightInformationService
 {
-    // ПРИМЕЧАНИЕ. Команду "Переименовать" в меню "Рефакторинг" можно использовать для одновременного изменения имени класса "Service1" в коде, SVC-файле и файле конфигурации.
-    // ПРИМЕЧАНИЕ. Чтобы запустить клиент проверки WCF для тестирования службы, выберите элементы Service1.svc или Service1.svc.cs в обозревателе решений и начните отладку.
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
     public class Service1 : IService1
     {
-        string path = "InfoFlight.txt";
-        public string InformationSpecifiedRoute(string startPoint, string destinationPoint)
+        List<Flight> flights;
+        Service1()
+        {
+            flights = new List<Flight>();
+            flights.Add(new Flight(1, "Орёл", "Москва", 23));
+            flights.Add(new Flight(2, "Орёл", "Москва", 2));
+            flights.Add(new Flight(3, "Орёл", "Москва", 5));
+            flights.Add(new Flight(4, "Орёл", "Москва", 6));
+            flights.Add(new Flight(5, "Орёл", "Москва", 7));
+        }
+
+        public string InformationSpecifiedRoute(string numberFlight)
         {
             string flightInfo = string.Empty;
             try
             {
-                using (StreamReader str = new StreamReader(path))
+                foreach (Flight flight in flights)
                 {
-                    string line;
-                    while ((line = str.ReadLine()) != null)
+                    if (flight.NumberFlight.ToString() == numberFlight)
                     {
-                        string[] subs = line.Split(' ');
-                        if (subs[1] == startPoint && subs[2] == destinationPoint)
-                        {
-                            flightInfo += line;
-                        }
+                        flightInfo = flight.Info();
+                        break;
                     }
                 }
             }
@@ -36,65 +42,21 @@ namespace FlightInformationService
             }
             return flightInfo;
         }
-        public string NumberTickets(string numberFlight)
+        public string BookTickets(int numberFlight)
         {
-            string numberTickets = string.Empty;
+            string numberTickets =string.Empty;
             try
             {
-                using (StreamReader str = new StreamReader(path))
+                for(int i=0;i<flights.Count;i++)
                 {
-                    string line;
-                    while ((line = str.ReadLine()) != null)
+                    if (flights[i].NumberFlight == numberFlight&& flights[i].QuantityTickets != 0)
                     {
-                        string[] subs = line.Split(' ');
-                        if (subs[0] == numberFlight)
-                        {
-                            numberTickets = subs[4];
-                            break;
-                        }
+
+                        flights[i].QuantityTickets--;
+                        numberTickets = "Вы успешно забронировали билет";
+                        break;
                     }
                 }
-            }
-            catch
-            {
-                numberTickets = "К сожалению, на нас совершается хакерская атака, зайдите через [ОШИБКА] минут";
-            }
-            if (numberTickets == string.Empty)
-            {
-                numberTickets = "К сожалению, все билеты были раскупленны";
-            }
-            return numberTickets;
-        }
-        public string BookTickets(string numberFlight)
-        {
-            string numberTickets = string.Empty;
-            try
-            {
-                string line;
-                string[] subs = { };
-                using (StreamReader str = new StreamReader(path))
-                {
-
-                    int index = 0;
-                    while ((line = str.ReadLine()) != null)
-                    {
-                        subs = line.Split(' ');
-                        if (subs[0] == numberFlight)
-                        {
-                            numberTickets = subs[4];
-                            break;
-                        }
-                        index++;
-                    }
-                }
-                StreamReader reader = new StreamReader(path);
-                string content = reader.ReadToEnd();
-                reader.Close(); content = Regex.Replace(content, line, Regex.Replace(line, subs[4], (int.Parse(subs[4]) - 1).ToString()));
-
-                StreamWriter writer = new StreamWriter(path);
-                writer.Write(content);
-                writer.Close();
-
             }
             catch
             {
@@ -105,6 +67,71 @@ namespace FlightInformationService
                 numberTickets = "К сожалению, нам не удалось забронировать билеты на ваш рейс";
             }
             return numberTickets;
+        }
+        public string numberFlightInfo(string startPoint, string destinationPoint)
+        {
+            string info = string.Empty;
+            try
+            {
+                foreach (Flight flight in flights)
+                {
+                    if(flight.StartPoint == startPoint&& flight.DestinationPoint == destinationPoint)
+                    {
+                        info += flight.NumberFlight.ToString() + " ";
+                    }
+                }
+            }
+            catch
+            {
+                info = "К сожалению, на нас совершается хакерская атака, зайдите через [ОШИБКА] минут";
+            }
+            if (info == string.Empty)
+            {
+                info = "Рейсов нет";
+            }
+            return info;
+        }
+        public void AddFlight(int numberFlight, string startPoint, string destinationPoint, int quantityTickets)
+        {
+            foreach (Flight flight in flights)
+            {
+                if (flight.NumberFlight==numberFlight)
+                {
+                    return;
+                }
+            }
+            flights.Add(new Flight(numberFlight, startPoint, destinationPoint, quantityTickets));
+        }
+        public void СhangesFlightQuantityTickets(int numberFlight,int quantityTickets)
+        {
+            for(int i=0;i<flights.Count;i++)
+            {
+                if (flights[i].NumberFlight == numberFlight)
+                {
+                    flights[i].QuantityTickets = quantityTickets;
+                    break;
+                }
+            }
+        }
+        public void DelFlight(int numberFlight)
+        {
+            for (int i = 0; i < flights.Count; i++)
+            {
+                if (flights[i].NumberFlight == numberFlight)
+                {
+                    flights.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+        public string FullFlight()
+        {
+            string flightInfo = string.Empty;
+            foreach (Flight flight in flights)
+            {
+                 flightInfo = flight.Info();
+            }
+            return flightInfo;
         }
     }
 }

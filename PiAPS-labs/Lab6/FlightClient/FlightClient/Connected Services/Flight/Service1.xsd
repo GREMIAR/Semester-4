@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="InformationSpecifiedRoute">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="numberFlight" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InformationSpecifiedRouteResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="InformationSpecifiedRouteResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="BookTickets">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="numberFlight" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="BookTicketsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="BookTicketsResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="numberFlightInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="startPoint" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="destinationPoint" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="numberFlightInfoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="numberFlightInfoResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
