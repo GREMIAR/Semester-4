@@ -5,7 +5,7 @@ namespace ClientCOMbine
 {
     public partial class Form1 : Form
     {
-        COMbine.Starsurge combaen = new COMbine.Starsurge();
+        COMbine.Starsurge combain = new COMbine.Starsurge();
         public Form1()
         {
             InitializeComponent();
@@ -18,22 +18,30 @@ namespace ClientCOMbine
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if(comboBox1.Text == "Пинг-Понг")
+            if (comboBox1.Text == "Кто ты из смешариков")
             {
-                textBox1.Text = combaen.PingPong(textBox2.Text);
+                textBox1.Text = combain.WhichSmesharik();
             }
-            else if (comboBox1.Text == "Кто ты из смешариков")
+            else if (comboBox1.Text == "Из цельсия в фаренгейты")
             {
-                textBox1.Text = combaen.WhichSmesharik();
+                float degrees;
+                Single.TryParse(textBox2.Text, out degrees);
+                textBox2.Text = degrees.ToString();
+                textBox1.Text = degrees + "°C = " + combain.CelsiusToFahrenheit(degrees).ToString() +"°F";
             }
-            else if (comboBox1.Text == "Цельсия")
+            else if (comboBox1.Text == "Из фаренгейтов в цельсия")
             {
-                textBox1.Text = combaen.CelsiusToFahrenheit(float.Parse(textBox2.Text)).ToString();
+                float degrees;
+                Single.TryParse(textBox2.Text, out degrees);
+                textBox2.Text = degrees.ToString();
+                textBox1.Text = degrees + "°F = " + combain.FahrenheitToCelsius(degrees).ToString() + "°C";
             }
-            else if (comboBox1.Text == "Фаренгейты")
-            {
-                textBox1.Text = combaen.FahrenheitToCelsius(float.Parse(textBox2.Text)).ToString();
-            }
+        }
+
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((e.KeyChar <= 48 || e.KeyChar >= 59) && e.KeyChar != 8 && e.KeyChar != 45)
+                e.Handled = true;
         }
     }
 }

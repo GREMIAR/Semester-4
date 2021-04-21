@@ -8,23 +8,11 @@ namespace COMbine
     [Guid("0EAE5E5D-EA09-42DA-A2C6-B3E2C40E0A95")]
     public class Starsurge : IStarsurge
     {
-        public String PingPong(string str)
-        {
-            if (str == "Пинг")
-            {
-                return "Понг";
-            }
-            else if (str == "Понг")
-            {
-                return "Пинг";
-            }
-            return "ОТ ВИН ТА";
-        }
         public String WhichSmesharik()
         {
             string smesharik = string.Empty;
             Random rnd = new Random();
-            int value = rnd.Next(0, 8);
+            int value = rnd.Next(0, 9);
             switch (value)
             {
                 case 0:
@@ -73,7 +61,6 @@ namespace COMbine
     [Guid("CB6C156B-B9B9-4DCA-B33F-E1F5F9709F13")]
     public interface IStarsurge
     {
-        String PingPong(string str);
         String WhichSmesharik();
         float CelsiusToFahrenheit(float degrees);
         float FahrenheitToCelsius(float degrees);
