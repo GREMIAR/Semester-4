@@ -1,7 +1,7 @@
 ﻿
 namespace MakeReportWord
 {
-    partial class Form1
+    partial class CustomInterface
     {
         /// <summary>
         /// Обязательная переменная конструктора.
