@@ -32,6 +32,30 @@ namespace FlightClient.Flight {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/numberFlightInfo", ReplyAction="http://tempuri.org/IService1/numberFlightInfoResponse")]
         System.Threading.Tasks.Task<string> numberFlightInfoAsync(string startPoint, string destinationPoint);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/AddFlight", ReplyAction="http://tempuri.org/IService1/AddFlightResponse")]
+        void AddFlight(int numberFlight, string startPoint, string destinationPoint, int quantityTickets);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/AddFlight", ReplyAction="http://tempuri.org/IService1/AddFlightResponse")]
+        System.Threading.Tasks.Task AddFlightAsync(int numberFlight, string startPoint, string destinationPoint, int quantityTickets);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ChangesFlightQuantityTickets", ReplyAction="http://tempuri.org/IService1/ChangesFlightQuantityTicketsResponse")]
+        void ChangesFlightQuantityTickets(int numberFlight, int quantityTickets);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ChangesFlightQuantityTickets", ReplyAction="http://tempuri.org/IService1/ChangesFlightQuantityTicketsResponse")]
+        System.Threading.Tasks.Task ChangesFlightQuantityTicketsAsync(int numberFlight, int quantityTickets);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DelFlight", ReplyAction="http://tempuri.org/IService1/DelFlightResponse")]
+        void DelFlight(int numberFlight);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DelFlight", ReplyAction="http://tempuri.org/IService1/DelFlightResponse")]
+        System.Threading.Tasks.Task DelFlightAsync(int numberFlight);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/FullFlight", ReplyAction="http://tempuri.org/IService1/FullFlightResponse")]
+        string FullFlight();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/FullFlight", ReplyAction="http://tempuri.org/IService1/FullFlightResponse")]
+        System.Threading.Tasks.Task<string> FullFlightAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -83,6 +107,38 @@ namespace FlightClient.Flight {
         
         public System.Threading.Tasks.Task<string> numberFlightInfoAsync(string startPoint, string destinationPoint) {
             return base.Channel.numberFlightInfoAsync(startPoint, destinationPoint);
+        }
+        
+        public void AddFlight(int numberFlight, string startPoint, string destinationPoint, int quantityTickets) {
+            base.Channel.AddFlight(numberFlight, startPoint, destinationPoint, quantityTickets);
+        }
+        
+        public System.Threading.Tasks.Task AddFlightAsync(int numberFlight, string startPoint, string destinationPoint, int quantityTickets) {
+            return base.Channel.AddFlightAsync(numberFlight, startPoint, destinationPoint, quantityTickets);
+        }
+        
+        public void ChangesFlightQuantityTickets(int numberFlight, int quantityTickets) {
+            base.Channel.ChangesFlightQuantityTickets(numberFlight, quantityTickets);
+        }
+        
+        public System.Threading.Tasks.Task ChangesFlightQuantityTicketsAsync(int numberFlight, int quantityTickets) {
+            return base.Channel.ChangesFlightQuantityTicketsAsync(numberFlight, quantityTickets);
+        }
+        
+        public void DelFlight(int numberFlight) {
+            base.Channel.DelFlight(numberFlight);
+        }
+        
+        public System.Threading.Tasks.Task DelFlightAsync(int numberFlight) {
+            return base.Channel.DelFlightAsync(numberFlight);
+        }
+        
+        public string FullFlight() {
+            return base.Channel.FullFlight();
+        }
+        
+        public System.Threading.Tasks.Task<string> FullFlightAsync() {
+            return base.Channel.FullFlightAsync();
         }
     }
 }

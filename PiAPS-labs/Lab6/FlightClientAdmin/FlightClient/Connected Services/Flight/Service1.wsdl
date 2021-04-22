@@ -1,10 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Service1" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
-    <xsd:schema targetNamespace="http://tempuri.org/Imports">
-      <xsd:import schemaLocation="http://localhost:64452/Service1.svc?xsd=xsd0" namespace="http://tempuri.org/" />
-      <xsd:import schemaLocation="http://localhost:64452/Service1.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-    </xsd:schema>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="InformationSpecifiedRoute">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="numberFlight" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="InformationSpecifiedRouteResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="InformationSpecifiedRouteResult" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="BookTickets">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="numberFlight" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="BookTicketsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="BookTicketsResult" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="numberFlightInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="startPoint" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="destinationPoint" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="numberFlightInfoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="numberFlightInfoResult" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddFlight">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="numberFlight" type="xs:int" />
+            <xs:element minOccurs="0" name="startPoint" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="destinationPoint" nillable="true" type="xs:string" />
+            <xs:element minOccurs="0" name="quantityTickets" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AddFlightResponse">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangesFlightQuantityTickets">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="numberFlight" type="xs:int" />
+            <xs:element minOccurs="0" name="quantityTickets" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangesFlightQuantityTicketsResponse">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DelFlight">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="numberFlight" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DelFlightResponse">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FullFlight">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FullFlightResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="FullFlightResult" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="anyType" nillable="true" type="xs:anyType" />
+      <xs:element name="anyURI" nillable="true" type="xs:anyURI" />
+      <xs:element name="base64Binary" nillable="true" type="xs:base64Binary" />
+      <xs:element name="boolean" nillable="true" type="xs:boolean" />
+      <xs:element name="byte" nillable="true" type="xs:byte" />
+      <xs:element name="dateTime" nillable="true" type="xs:dateTime" />
+      <xs:element name="decimal" nillable="true" type="xs:decimal" />
+      <xs:element name="double" nillable="true" type="xs:double" />
+      <xs:element name="float" nillable="true" type="xs:float" />
+      <xs:element name="int" nillable="true" type="xs:int" />
+      <xs:element name="long" nillable="true" type="xs:long" />
+      <xs:element name="QName" nillable="true" type="xs:QName" />
+      <xs:element name="short" nillable="true" type="xs:short" />
+      <xs:element name="string" nillable="true" type="xs:string" />
+      <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte" />
+      <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong" />
+      <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="char" nillable="true" type="tns:char" />
+      <xs:simpleType name="char">
+        <xs:restriction base="xs:int" />
+      </xs:simpleType>
+      <xs:element name="duration" nillable="true" type="tns:duration" />
+      <xs:simpleType name="duration">
+        <xs:restriction base="xs:duration">
+          <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?" />
+          <xs:minInclusive value="-P10675199DT2H48M5.4775808S" />
+          <xs:maxInclusive value="P10675199DT2H48M5.4775807S" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="guid" nillable="true" type="tns:guid" />
+      <xs:simpleType name="guid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:attribute name="FactoryType" type="xs:QName" />
+      <xs:attribute name="Id" type="xs:ID" />
+      <xs:attribute name="Ref" type="xs:IDREF" />
+    </xs:schema>
   </wsdl:types>
   <wsdl:message name="IService1_InformationSpecifiedRoute_InputMessage">
     <wsdl:part name="parameters" element="tns:InformationSpecifiedRoute" />
@@ -24,6 +158,30 @@
   <wsdl:message name="IService1_numberFlightInfo_OutputMessage">
     <wsdl:part name="parameters" element="tns:numberFlightInfoResponse" />
   </wsdl:message>
+  <wsdl:message name="IService1_AddFlight_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddFlight" />
+  </wsdl:message>
+  <wsdl:message name="IService1_AddFlight_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddFlightResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ChangesFlightQuantityTickets_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangesFlightQuantityTickets" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ChangesFlightQuantityTickets_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangesFlightQuantityTicketsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DelFlight_InputMessage">
+    <wsdl:part name="parameters" element="tns:DelFlight" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DelFlight_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DelFlightResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_FullFlight_InputMessage">
+    <wsdl:part name="parameters" element="tns:FullFlight" />
+  </wsdl:message>
+  <wsdl:message name="IService1_FullFlight_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FullFlightResponse" />
+  </wsdl:message>
   <wsdl:portType name="IService1">
     <wsdl:operation name="InformationSpecifiedRoute">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/InformationSpecifiedRoute" message="tns:IService1_InformationSpecifiedRoute_InputMessage" />
@@ -36,6 +194,22 @@
     <wsdl:operation name="numberFlightInfo">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/numberFlightInfo" message="tns:IService1_numberFlightInfo_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService1/numberFlightInfoResponse" message="tns:IService1_numberFlightInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddFlight">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/AddFlight" message="tns:IService1_AddFlight_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/AddFlightResponse" message="tns:IService1_AddFlight_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangesFlightQuantityTickets">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/ChangesFlightQuantityTickets" message="tns:IService1_ChangesFlightQuantityTickets_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/ChangesFlightQuantityTicketsResponse" message="tns:IService1_ChangesFlightQuantityTickets_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DelFlight">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/DelFlight" message="tns:IService1_DelFlight_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/DelFlightResponse" message="tns:IService1_DelFlight_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FullFlight">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/FullFlight" message="tns:IService1_FullFlight_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/FullFlightResponse" message="tns:IService1_FullFlight_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IService1" type="tns:IService1">
@@ -60,6 +234,42 @@
     </wsdl:operation>
     <wsdl:operation name="numberFlightInfo">
       <soap:operation soapAction="http://tempuri.org/IService1/numberFlightInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddFlight">
+      <soap:operation soapAction="http://tempuri.org/IService1/AddFlight" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangesFlightQuantityTickets">
+      <soap:operation soapAction="http://tempuri.org/IService1/ChangesFlightQuantityTickets" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DelFlight">
+      <soap:operation soapAction="http://tempuri.org/IService1/DelFlight" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FullFlight">
+      <soap:operation soapAction="http://tempuri.org/IService1/FullFlight" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

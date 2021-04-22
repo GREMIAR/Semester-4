@@ -74,12 +74,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="Connected Services\Flight\Service1.wsdl" />
-    <None Include="Connected Services\Flight\Service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\Flight\Service11.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

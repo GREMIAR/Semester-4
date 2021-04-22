@@ -15,7 +15,7 @@ namespace FlightInformationService
         [OperationContract]
         void AddFlight(int numberFlight, string startPoint, string destinationPoint, int quantityTickets);
         [OperationContract]
-        void СhangesFlightQuantityTickets(int numberFlight, int quantityTickets);
+        void ChangesFlightQuantityTickets(int numberFlight, int quantityTickets);
         [OperationContract]
         void DelFlight(int numberFlight);
         [OperationContract]

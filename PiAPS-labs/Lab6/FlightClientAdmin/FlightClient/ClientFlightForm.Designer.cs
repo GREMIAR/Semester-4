@@ -29,6 +29,7 @@ namespace FlightsClient
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -49,6 +50,7 @@ namespace FlightsClient
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -62,6 +64,7 @@ namespace FlightsClient
             this.button1.TabIndex = 0;
             this.button1.Text = "Добавить";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // textBox1
             // 
@@ -116,6 +119,7 @@ namespace FlightsClient
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(257, 29);
             this.textBox3.TabIndex = 5;
+            this.textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
             // 
             // label4
             // 
@@ -134,6 +138,7 @@ namespace FlightsClient
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(257, 29);
             this.textBox4.TabIndex = 7;
+            this.textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
             // 
             // label5
             // 
@@ -152,6 +157,7 @@ namespace FlightsClient
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(257, 29);
             this.textBox5.TabIndex = 10;
+            this.textBox5.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
             // 
             // button2
             // 
@@ -162,6 +168,7 @@ namespace FlightsClient
             this.button2.TabIndex = 9;
             this.button2.Text = "Удалить";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label6
             // 
@@ -180,6 +187,7 @@ namespace FlightsClient
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(257, 29);
             this.textBox6.TabIndex = 15;
+            this.textBox6.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
             // 
             // label7
             // 
@@ -198,6 +206,7 @@ namespace FlightsClient
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(257, 29);
             this.textBox7.TabIndex = 13;
+            this.textBox7.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
             // 
             // button3
             // 
@@ -208,6 +217,7 @@ namespace FlightsClient
             this.button3.TabIndex = 12;
             this.button3.Text = "Изменить количество билетов";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // pictureBox1
             // 
@@ -229,12 +239,22 @@ namespace FlightsClient
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(12, 363);
+            this.richTextBox1.Location = new System.Drawing.Point(12, 375);
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 3, 9, 9);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(939, 302);
+            this.richTextBox1.Size = new System.Drawing.Size(939, 290);
             this.richTextBox1.TabIndex = 19;
             this.richTextBox1.Text = "";
+            // 
+            // button4
+            // 
+            this.button4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button4.BackgroundImage")));
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button4.Location = new System.Drawing.Point(458, 329);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(44, 40);
+            this.button4.TabIndex = 20;
+            this.button4.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -243,6 +263,7 @@ namespace FlightsClient
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(975, 683);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
@@ -294,6 +315,7 @@ namespace FlightsClient
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Button button4;
     }
 }
 

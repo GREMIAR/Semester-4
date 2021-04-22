@@ -102,7 +102,7 @@ namespace FlightInformationService
             }
             flights.Add(new Flight(numberFlight, startPoint, destinationPoint, quantityTickets));
         }
-        public void СhangesFlightQuantityTickets(int numberFlight,int quantityTickets)
+        public void ChangesFlightQuantityTickets(int numberFlight,int quantityTickets)
         {
             for(int i=0;i<flights.Count;i++)
             {
@@ -129,7 +129,7 @@ namespace FlightInformationService
             string flightInfo = string.Empty;
             foreach (Flight flight in flights)
             {
-                 flightInfo = flight.Info();
+                 flightInfo += flight.Info();
             }
             return flightInfo;
         }

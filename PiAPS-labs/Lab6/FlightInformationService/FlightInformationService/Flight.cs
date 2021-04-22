@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace FlightInformationService
+﻿namespace FlightInformationService
 {
     public class Flight
     {
@@ -30,7 +25,7 @@ namespace FlightInformationService
         }
         public string Info()
         {
-            return "Номер полёта: " + numberFlight + ";\nОт: " + startPoint + ";\nДо: " + destinationPoint + ";\nКоличесвто билетов: " + quantityTickets + ";";
+            return "Номер полёта: " + numberFlight + ";\nОт: " + startPoint + ";\nДо: " + destinationPoint + ";\nКоличесвто билетов: " + quantityTickets + ";\n";
         }
 
         public Flight(int numberFlight, string startPoint,string destinationPoint,int quantityTickets)
