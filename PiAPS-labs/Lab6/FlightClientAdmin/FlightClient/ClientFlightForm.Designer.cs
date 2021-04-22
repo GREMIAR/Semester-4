@@ -242,9 +242,11 @@ namespace FlightsClient
             this.richTextBox1.Location = new System.Drawing.Point(12, 375);
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 3, 9, 9);
             this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
             this.richTextBox1.Size = new System.Drawing.Size(939, 290);
             this.richTextBox1.TabIndex = 19;
             this.richTextBox1.Text = "";
+            this.richTextBox1.Enter += new System.EventHandler(this.richTextBox1_Enter_1);
             // 
             // button4
             // 
@@ -255,6 +257,7 @@ namespace FlightsClient
             this.button4.Size = new System.Drawing.Size(44, 40);
             this.button4.TabIndex = 20;
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // Form1
             // 
