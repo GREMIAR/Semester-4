@@ -13,6 +13,7 @@ namespace FlightsClient
         {
             flight = new FlightClient.Flight.Service1Client();
             InitializeComponent();
+            richTextBox1.Text = flight.FullFlight();
             Thread refreshing = new Thread(RefreshInfo);
             refreshing.Start();
         }
@@ -50,14 +51,21 @@ namespace FlightsClient
         {
             while (true)
             {
-                new Task(() =>
+                for (int i = 9; i >= 0; i--)
                 {
-                    this.Invoke(new Action(() =>
+                    new Task(() =>
                     {
-                        richTextBox1.Text = flight.FullFlight();
-                    }));
-                }).Start();
-                Thread.Sleep(10000);
+                        this.Invoke(new Action(() =>
+                        {
+                            toolStripStatusLabel1.Text = "Обновление информации через " + i.ToString() + " секунд(ы).";
+                            if (i == 0)
+                            {
+                                richTextBox1.Text = flight.FullFlight();
+                            }
+                        }));
+                    }).Start();
+                    Thread.Sleep(1000);
+                }
             }
         }
 
@@ -69,6 +77,11 @@ namespace FlightsClient
         private void richTextBox1_Enter_1(object sender, EventArgs e)
         {
             label1.Focus();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Environment.Exit(1);
         }
     }
 }
