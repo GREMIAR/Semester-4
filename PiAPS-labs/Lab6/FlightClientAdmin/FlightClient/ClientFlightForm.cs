@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace FlightsClient
 {
@@ -13,6 +14,7 @@ namespace FlightsClient
             flight = new FlightClient.Flight.Service1Client();
             InitializeComponent();
             Thread refreshing = new Thread(RefreshInfo);
+            refreshing.Start();
         }
 
         private void richTextBox1_Enter(object sender, EventArgs e)
@@ -48,14 +50,20 @@ namespace FlightsClient
         {
             while (true)
             {
-                richTextBox1.Text = flight.FullFlight();
+                new Task(() =>
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        richTextBox1.Text = flight.FullFlight();
+                    }));
+                }).Start();
                 Thread.Sleep(10000);
             }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-
+            richTextBox1.Text = flight.FullFlight();
         }
 
         private void richTextBox1_Enter_1(object sender, EventArgs e)
