@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-
+using CookComputing.XmlRpc;
 
 namespace ClientGUI
 {
     public partial class Form1 : Form
     {
+        XmlRpcRequest client;
         const int matrixSizeLimit = 10;
         List<List<TextBox>> elements = new List<List<TextBox>>();
         List<List<TextBox>> elementsResult = new List<List<TextBox>>();
