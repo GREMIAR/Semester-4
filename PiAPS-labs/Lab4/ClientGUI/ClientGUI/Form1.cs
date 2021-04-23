@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace ClientGUI
 {
@@ -35,31 +30,33 @@ namespace ClientGUI
 
         private void button2_Click(object sender, EventArgs e)
         {
-            await RefreshTable();
-        }
-        async void RefreshTable()
-        {
             if (!string.IsNullOrEmpty(comboBox1.Text))
             {
+                int count = int.Parse(comboBox1.Text);
                 tableLayoutPanel1.ColumnCount = 0;
                 tableLayoutPanel1.RowCount = 0;
                 tableLayoutPanel1.Controls.Clear();
-                for (int i = 0; i<int.Parse(comboBox1.Text); i++)
+                for (int i = 0; i < count; i++)
                 {
                     tableLayoutPanel1.ColumnCount++;
                     tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
                     tableLayoutPanel1.RowCount++;
                     tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
                 }
-                for (int i = 0; i<tableLayoutPanel1.RowCount; i++)
+                for (int i = 0; i < tableLayoutPanel1.RowCount; i++)
                 {
-                    for (int j = 0; j<tableLayoutPanel1.ColumnCount; j++)
+                    for (int j = 0; j < tableLayoutPanel1.ColumnCount; j++)
                     {
                         elements[i][j].Text = (i + 1).ToString() + "." + (j + 1).ToString();
-                        tableLayoutPanel1.Controls.Add(elements[i][j], j, i);
+                        Action action = () => tableLayoutPanel1.Controls.Add(elements[i][j]);
+                        if (this.InvokeRequired)
+                            Invoke(action);
+                        else
+                            action();
                     }
                 }
             }
         }
+
     }
 }
