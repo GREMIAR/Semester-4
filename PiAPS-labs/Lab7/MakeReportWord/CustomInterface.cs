@@ -6,9 +6,9 @@ using System.Windows.Forms;
 
 namespace MakeReportWord
 {
-    public partial class Form1 : Form
+    public partial class CustomInterface : Form
     {
-        public Form1()
+        public CustomInterface()
         {
             InitializeComponent();
         }
@@ -21,7 +21,7 @@ namespace MakeReportWord
             else if (e.Row == 3 || e.Row == 4)
                 using (SolidBrush brush = new SolidBrush(Color.FromArgb(255, 208, 117, 252)))
                     e.Graphics.FillRectangle(brush, e.CellBounds);
-          else if (e.Row == 6 || e.Row == 7)
+            else if (e.Row == 6 || e.Row == 7)
                 using (SolidBrush brush = new SolidBrush(Color.FromArgb(255, 84, 213, 245)))
                     e.Graphics.FillRectangle(brush, e.CellBounds);
         }
