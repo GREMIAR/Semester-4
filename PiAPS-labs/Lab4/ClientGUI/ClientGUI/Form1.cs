@@ -58,6 +58,7 @@ namespace ClientGUI
                         }
                     }
                 }
+
                 SendToServer("Reset");
                 for (int i = 0; i < int.Parse(comboBox1.Text); i++)
                 {
@@ -119,11 +120,7 @@ namespace ClientGUI
                 {
                     for (int j = 0; j < matrix.ColumnCount; j++)
                     {
-                        Action action = () => matrix.Controls.Add(textBoxes[i][j]);
-                        if (this.InvokeRequired)
-                            Invoke(action);
-                        else
-                            action();
+                        matrix.Controls.Add(textBoxes[i][j], j, i);
                     }
                 }
                 matrix.Visible = true;

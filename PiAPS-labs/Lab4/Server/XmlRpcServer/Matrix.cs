@@ -52,39 +52,41 @@ namespace XmlRpcServer
         }
         public int[] RedOrDire(int i, int f)
         {
-            int[] beginDG = new int[2];
-            while (i < size && f > 0)
+            int[] beginDG = new int[4];
+            while (i < size-1 && f > 0)
             {
                 i++;
                 f--;
             }
-            matrix[i, f] = 0;
-            while (i > 0 && f < size)
-            {
-                i--;
-                f++;
-                matrix[i, f] = 0;
-            }
             beginDG[0] = i;
             beginDG[1] = f;
+            while (i >= 0 && f < size)
+            {
+                matrix[i, f] = 0;
+                i--;
+                f++;
+                
+            }
+            beginDG[2] = i+1;
+            beginDG[3] = f-1;
             return beginDG;
         }
         public void Reset()
         {
             int[] min = SearchMin();
-            int ii = min[0];
-            int ff = min[1];
+            int iDown = min[0];
+            int fDown = min[1];
+            int iUp = min[2];
+            int fUp = min[3];
             for (int i = 0; i < size; i++)
             {
                 for (int f = 0; f < size; f++)
                 {
-                    if ((i >= ii && f >= ff) && (i != ii || f != ff))
+                    if (i >= iDown && f >= fDown ||  (i >= iUp && f >= fUp))
                     {
-                        matrix[i, f]=(int)Math.Pow(matrix[i, f],2);
+                        matrix[i, f] = (int)Math.Pow(matrix[i, f], 2);
                     }
                 }
-                ii++;
-                ff--;
             }
         }
     }
