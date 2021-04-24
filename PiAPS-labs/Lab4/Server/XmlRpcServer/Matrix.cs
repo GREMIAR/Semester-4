@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace XmlRpcServer
 {
     public class Matrix
@@ -18,7 +13,15 @@ namespace XmlRpcServer
             matrix[column, row] = data;
         }
         int size;
-        public int Size { get => this.size; }
+        public int GetSize()
+        {
+            return size;
+        }
+        public void SetSize(int size)
+        {
+            this.size = size;
+            matrix = new int[size, size];
+        }
         public Matrix(int size)
         {
             this.size = size;

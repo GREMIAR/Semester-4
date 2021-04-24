@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using CookComputing.XmlRpc;
-
+using Nwc.XmlRpc;
 namespace ClientGUI
 {
     public partial class Form1 : Form
     {
         XmlRpcRequest client;
+        String host = "http://127.0.0.1:8888";
         const int matrixSizeLimit = 10;
         List<List<TextBox>> elements = new List<List<TextBox>>();
         List<List<TextBox>> elementsResult = new List<List<TextBox>>();
 
         public Form1()
         {
+            client = new XmlRpcRequest();
             InitializeComponent();
             comboBox1.Items.Clear();
             for (int i = 0; i < matrixSizeLimit; i++)
@@ -34,12 +35,53 @@ namespace ClientGUI
         }
         void MatrixCellHandler(object sender, KeyPressEventArgs e)
         {
-            e.Handled = true;
+            if ((e.KeyChar <= 48 || e.KeyChar >= 59) && e.KeyChar != 8 && e.KeyChar != 45)
+                e.Handled = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            int test = (int)SendToServer("GetSize");
+            for(int i=0;i<int.Parse(comboBox1.Text);i++)
+            {
+                for (int j = 0; j < int.Parse(comboBox1.Text); j++)
+                {
+                    SendToServer("SetCell", i,j,int.Parse(elements[i][j].Text));
+                }
+            }
+            SendToServer("Reset");
+            for (int i = 0; i < int.Parse(comboBox1.Text); i++)
+            {
+                for (int j = 0; j < int.Parse(comboBox1.Text); j++)
+                {
+                    elementsResult[i][j].Text = ((int)SendToServer("Cell", i, j)).ToString();
+                }
+            }
+            RefreshMatrix(tableLayoutPanel2, elementsResult);
+        }
+        
+
+
+        public dynamic SendToServer(string methodName, params object[] value)
+        {
+            XmlRpcResponse response;
+            client.MethodName = "sample."+methodName;
+            client.Params.Clear();
+            foreach (var item in value)
+            {
+                Console.WriteLine(item.GetType());
+                client.Params.Add(item);
+            }
+            response = client.Send(host);
+            if (response.IsFault)
+            {
+                return -1;
+            }
+            else
+            {
+                return response.Value;
+            }
+
         }
 
         private void comboBox1_KeyPress(object sender, KeyPressEventArgs e)
@@ -47,7 +89,7 @@ namespace ClientGUI
             e.Handled = true;
         }
 
-        void RefreshMatrix(TableLayoutPanel matrix)
+        void RefreshMatrix(TableLayoutPanel matrix, List<List<TextBox>> textBoxes)
         {
             if (!string.IsNullOrEmpty(comboBox1.Text))
             {
@@ -67,8 +109,7 @@ namespace ClientGUI
                 {
                     for (int j = 0; j < matrix.ColumnCount; j++)
                     {
-                        //elements[i][j].Text = (i + 1).ToString() + "." + (j + 1).ToString();
-                        Action action = () => matrix.Controls.Add(elements[i][j]);
+                        Action action = () => matrix.Controls.Add(textBoxes[i][j]);
                         if (this.InvokeRequired)
                             Invoke(action);
                         else
@@ -81,7 +122,8 @@ namespace ClientGUI
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            RefreshMatrix(tableLayoutPanel1);
+            RefreshMatrix(tableLayoutPanel1, elements);
+            SendToServer("SetSize", int.Parse(comboBox1.Text));
         }
 
         void MatrixCellText(TextBox txtBx)

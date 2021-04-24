@@ -1,21 +1,16 @@
 ﻿using System;
-using CookComputing.XmlRpc;
+
 
 namespace XmlRpcServer
 {
     class Program
     {
-        public class StateNameService : XmlRpcService
+        static void Main(string[] args)
         {
-            [XmlRpcMethod("examples.getStateName",
-              Description = "Return name of state given its number")]
-            public string getStateName(int stateNum)
-            {
-                if (stateNum == 41)
-                    return "South Dakota";
-                else
-                    return "Don't know";
-            }
+            Nwc.XmlRpc.XmlRpcServer server = new Nwc.XmlRpc.XmlRpcServer(8888);
+            server.Add("sample", new Matrix());
+            Console.WriteLine("Поехали!");
+            server.Start();
         }
     }
 }
