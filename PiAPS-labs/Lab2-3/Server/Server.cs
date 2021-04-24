@@ -17,7 +17,7 @@ namespace ServerChat
         static TcpListener listener;
 
         TcpClient client;
-        
+
         public Server()
         {
 
@@ -42,7 +42,7 @@ namespace ServerChat
         {
             stream = tcpClient.GetStream();
             byte[] data = new byte[2048];
-            int bytes = stream.Read(data, 0, data.Length); 
+            int bytes = stream.Read(data, 0, data.Length);
             return Encoding.Unicode.GetString(data, 0, bytes);
         }
         //поток обработки TCP-клиента
@@ -59,14 +59,41 @@ namespace ServerChat
                 userArr.Add(username);
                 UpdateUserOnline(localClient);
                 while (true)
-                {                        
-                    string message = ReadClient(localClient,stream);
-                    if(Commands(message,username,localClient,stream))
+                {     
+                    if (localClient.Connected)
                     {
+                        string message = string.Empty;
+                        try 
+                        {
+                            message = ReadClient(localClient,stream); 
+                        }
+                        catch(Exception)
+                        {
+                            Console.WriteLine(username+": вышел");
+                            userArr.Remove(username);
+                            UpdateUserOnline(localClient);
+                            clients.Remove(localClient);
+                            localClient.Close();
+                            stream.Close();
+                            return;
+                        }
+                        if(Commands(message,username,localClient,stream))
+                        {
+                            return;
+                        }
+                        Console.WriteLine(message);
+                        WriteClient(localClient,stream,message);
+                    } 
+                    else
+                    {
+                        userArr.Remove(username);
+                        UpdateUserOnline(localClient);
+                        clients.Remove(localClient);
+                        localClient.Close();
+                        stream.Close();
+                        Console.WriteLine(username+": вышелНАША");
                         return;
-                    }
-                    Console.WriteLine(message);
-                    WriteClient(localClient,stream,message);
+                    }              
                 }
             }
             catch(Exception ex)
@@ -114,10 +141,13 @@ namespace ServerChat
             {
                 userOnline+=(user+"#");
             }
-            foreach (TcpClient Client in clients)
+            foreach (TcpClient client in clients)
             {
-                NetworkStream stream = Client.GetStream();
-                stream.Write(Encoding.Unicode.GetBytes(String.Format(userOnline)));
+                if(client.Connected)
+                {
+                    NetworkStream stream = client.GetStream();
+                    stream.Write(Encoding.Unicode.GetBytes(String.Format(userOnline)));
+                }
             }
         }
         //Закрываем прослушку новых клиентов
