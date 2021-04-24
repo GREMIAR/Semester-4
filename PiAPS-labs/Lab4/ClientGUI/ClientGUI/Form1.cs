@@ -35,29 +35,39 @@ namespace ClientGUI
         }
         void MatrixCellHandler(object sender, KeyPressEventArgs e)
         {
-            if ((e.KeyChar <= 48 || e.KeyChar >= 59) && e.KeyChar != 8 && e.KeyChar != 45)
+            if ((e.KeyChar <= 47 || e.KeyChar >= 59) && e.KeyChar != 8 && e.KeyChar != 45)
                 e.Handled = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int test = (int)SendToServer("GetSize");
-            for(int i=0;i<int.Parse(comboBox1.Text);i++)
+            if (!string.IsNullOrEmpty(comboBox1.Text))
             {
-                for (int j = 0; j < int.Parse(comboBox1.Text); j++)
+                for (int i = 0; i < int.Parse(comboBox1.Text); i++)
                 {
-                    SendToServer("SetCell", i,j,int.Parse(elements[i][j].Text));
+                    for (int j = 0; j < int.Parse(comboBox1.Text); j++)
+                    {
+                        if (!string.IsNullOrEmpty(elements[i][j].Text))
+                        {
+                            SendToServer("SetCell", i, j, int.Parse(elements[i][j].Text));
+                        }
+                        else
+                        {
+                            elements[i][j].Text = "0";
+                            SendToServer("SetCell", i, j, int.Parse(elements[i][j].Text));
+                        }
+                    }
                 }
-            }
-            SendToServer("Reset");
-            for (int i = 0; i < int.Parse(comboBox1.Text); i++)
-            {
-                for (int j = 0; j < int.Parse(comboBox1.Text); j++)
+                SendToServer("Reset");
+                for (int i = 0; i < int.Parse(comboBox1.Text); i++)
                 {
-                    elementsResult[i][j].Text = ((int)SendToServer("Cell", i, j)).ToString();
+                    for (int j = 0; j < int.Parse(comboBox1.Text); j++)
+                    {
+                        elementsResult[i][j].Text = ((int)SendToServer("Cell", i, j)).ToString();
+                    }
                 }
+                RefreshMatrix(tableLayoutPanel2, elementsResult);
             }
-            RefreshMatrix(tableLayoutPanel2, elementsResult);
         }
         
 
