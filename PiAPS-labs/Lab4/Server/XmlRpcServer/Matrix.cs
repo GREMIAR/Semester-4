@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 namespace XmlRpcServer
 {
     public class Matrix
@@ -53,10 +53,17 @@ namespace XmlRpcServer
         public int[] RedOrDire(int i, int f)
         {
             int[] beginDG = new int[2];
+            while (i < size && f > 0)
+            {
+                i++;
+                f--;
+            }
+            matrix[i, f] = 0;
             while (i > 0 && f < size)
             {
                 i--;
                 f++;
+                matrix[i, f] = 0;
             }
             beginDG[0] = i;
             beginDG[1] = f;
@@ -73,7 +80,7 @@ namespace XmlRpcServer
                 {
                     if ((i >= ii && f >= ff) && (i != ii || f != ff))
                     {
-                        matrix[i, f] = 0;
+                        matrix[i, f]=(int)Math.Pow(matrix[i, f],2);
                     }
                 }
                 ii++;
