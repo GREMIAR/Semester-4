@@ -1,7 +1,7 @@
 DELIMITER $$
 
 -- (1)
--- Убирать из товары в филиале, куплкнные(-)
+-- Убирать из товары в филиале, купленные(-)
 CREATE TRIGGER sale_fixed_capital
 	AFTER INSERT ON sale_product
     FOR EACH ROW
@@ -14,24 +14,20 @@ END$$
 -- (2)
 -- Запрет на выстовление цены ниже закупочной INSERT
 CREATE TRIGGER the_purchase_price_lower
-	BEFORE INSERT ON branch_product
+	BEFORE INSERT ON product
     FOR EACH ROW
     BEGIN
-    IF (new.price < (SELECT price_purchases
-    FROM product
-	WHERE product_id=new.product_id) ) THEN
+    IF (new.price < new.price_purchases) THEN
 		signal sqlstate '45000' set message_text = 'Закупочная цена выше!!';
 	END IF;
 END$$
 
 -- Запрет на выстовление цены ниже закупочной UPDATE
 CREATE TRIGGER the_purchase_price_lower_UP
-	BEFORE UPDATE ON branch_product
+	BEFORE UPDATE ON product
     FOR EACH ROW
     BEGIN
-    IF (new.price < (SELECT price_purchases
-    FROM product
-	WHERE product_id=new.product_id) ) THEN
+    IF (new.price < new.price_purchases ) THEN
 		signal sqlstate '45000' set message_text = 'Закупочная цена выше!!';
 	END IF;
 END$$

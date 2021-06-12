@@ -2,7 +2,7 @@ DELIMITER $$
 -- Товары определённого типа и производителя в неком городе
 CREATE PROCEDURE search_product(city VARCHAR(45), manufacturer VARCHAR(45), type  VARCHAR(45))
 BEGIN
-SELECT c.name Город, b.street Улица, b.house Дом, t.name Тип, m.name Производитель, p.name Модель, bp.quantity Количество, bp.price Цена
+SELECT c.name Город, b.street Улица, b.house Дом, t.name Тип, m.name Производитель, p.name Модель, bp.quantity Количество, IF(p.discount is NULL,p.price,p.price*(1-p.discount)) Цена
 FROM city c
 JOIN branch b USING(city_id)
 JOIN branch_product bp USING(branch_id)
