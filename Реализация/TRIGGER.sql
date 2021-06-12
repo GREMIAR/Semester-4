@@ -1,18 +1,17 @@
 DELIMITER $$
--- Добавляют на счёт компании цену продожи
+
+-- (1)
+-- Убирать из товары в филиале, куплкнные(-)
 CREATE TRIGGER sale_fixed_capital
-	AFTER INSERT ON sale
+	AFTER INSERT ON sale_product
     FOR EACH ROW
     BEGIN
-    UPDATE company 
-    SET money = money + new.total_cost
-    WHERE company_id=(SELECT company_id
-    FROM sale
-    JOIN seller USING(seller_id)
-    JOIN branch USING(branch_id)
-    WHERE new.sale_id=sale_id);
+    UPDATE branch_product
+    SET quantity = quantity - new.quantity
+    WHERE branch_id = new.branch_id AND product_id = new.product_id;
 END$$
 
+-- (2)
 -- Запрет на выстовление цены ниже закупочной INSERT
 CREATE TRIGGER the_purchase_price_lower
 	BEFORE INSERT ON branch_product
@@ -37,6 +36,7 @@ CREATE TRIGGER the_purchase_price_lower_UP
 	END IF;
 END$$
 
+-- (3)
 -- Номер телефона производителя должен начинаться с кода страны производителя INSERT
 CREATE TRIGGER phone_number_check_manufacturer
 	BEFORE INSERT ON manufacturer
@@ -57,6 +57,7 @@ CREATE TRIGGER phone_number_check_manufacturer_UP
     END IF;
 END$$
 
+-- (4)
 -- Номер телефона филиала должен начинаться с кода страны в котором находится филиал INSERT
 CREATE TRIGGER phone_number_check_branch
 	BEFORE INSERT ON branch
@@ -77,6 +78,7 @@ CREATE TRIGGER phone_number_check_branch_UP
     END IF;
 END$$
 
+-- (5)
 -- Номер телефона продавца должен начинаться с кода страны в котором находится филиал INSERT
 CREATE TRIGGER phone_number_check_seller
 	BEFORE INSERT ON seller
@@ -97,6 +99,7 @@ CREATE TRIGGER phone_number_check_seller_UP
     END IF;
 END$$
 
+-- (6)
 -- не может быть харатеристики у товара не того типа INSERT
 CREATE TRIGGER product_type_equal_characteristics
 	BEFORE INSERT ON product_characteristics
@@ -117,6 +120,7 @@ CREATE TRIGGER product_type_equal_characteristics_UP
     END IF;
 END$$
 
+-- (7)
 -- нельзя купить больше товаров, чем товаров находящихся в филиале INSERT
 CREATE TRIGGER quantity_limit
 	BEFORE INSERT ON sale_product
@@ -135,18 +139,6 @@ CREATE TRIGGER quantity_limit_UP
     IF (new.quantity > (SELECT quantity FROM branch_product WHERE new.branch_id= branch_id AND new.product_id=product_id )) THEN
 		signal sqlstate '45000' set message_text = "Нет такого количества товара в филиале";
     END IF;
-END$$
-
--- после преобретения филиалом товара, со счёта компании списываются деньги
-CREATE TRIGGER sale_fixed_capital_decreases
-	AFTER INSERT ON branch_product
-    FOR EACH ROW
-    BEGIN
-    UPDATE company 
-    SET money = money - (SELECT price_purchases FROM product WHERE product_id=new.product_id)
-    WHERE company_id=(SELECT company_id
-    FROM branch
-    WHERE new.branch_id=branch_id);
 END$$
 
 
