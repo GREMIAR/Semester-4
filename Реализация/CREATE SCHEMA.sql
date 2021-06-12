@@ -14,21 +14,15 @@ CREATE TABLE IF NOT EXISTS city (
   PRIMARY KEY (city_id),
     FOREIGN KEY (country_id) REFERENCES country (country_id));
 
-CREATE TABLE IF NOT EXISTS company (
-  company_id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  name VARCHAR(45) NOT NULL UNIQUE,
-  money DECIMAL(20,2) NOT NULL,
-  PRIMARY KEY (company_id));
-
 CREATE TABLE IF NOT EXISTS branch (
   branch_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  address VARCHAR(45) NOT NULL,
+  street VARCHAR(45) NOT NULL,
+  house VARCHAR(8) NOT NULL,
   phone VARCHAR(20) NULL,
   city_id TINYINT UNSIGNED NOT NULL,
   company_id TINYINT UNSIGNED NOT NULL,
   PRIMARY KEY (branch_id),
-    FOREIGN KEY (city_id) REFERENCES city (city_id),
-    FOREIGN KEY (company_id) REFERENCES сompany (сompany_id));
+    FOREIGN KEY (city_id) REFERENCES city (city_id));
 
 CREATE TABLE IF NOT EXISTS manufacturer (
   manufacturer_id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -57,6 +51,7 @@ CREATE TABLE IF NOT EXISTS product (
 CREATE TABLE IF NOT EXISTS characteristics(
   characteristics_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   name VARCHAR(70) NOT NULL UNIQUE,
+  measure_units VARCHAR(70) NULL,
   PRIMARY KEY (characteristics_id));
 
 CREATE TABLE IF NOT EXISTS type_characteristics (
@@ -70,7 +65,6 @@ CREATE TABLE IF NOT EXISTS product_characteristics (
   product_id MEDIUMINT UNSIGNED NOT NULL,
   characteristics_id SMALLINT  UNSIGNED NOT NULL,
   value VARCHAR(70) NOT NULL,
-  measure_units VARCHAR(70) NULL,
   PRIMARY KEY (product_id, characteristics_id),
     FOREIGN KEY (product_id) REFERENCES product (product_id),
     FOREIGN KEY (characteristics_id)REFERENCES characteristics (characteristics_id));
@@ -86,7 +80,9 @@ CREATE TABLE IF NOT EXISTS branch_product (
 
 CREATE TABLE IF NOT EXISTS seller (
   seller_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  initials VARCHAR(45) NOT NULL,
+  lastname VARCHAR(45) NOT NULL,
+  firstname VARCHAR(45) NOT NULL,
+  patronymic VARCHAR(45) NOT NULL,
   phone VARCHAR(45) NULL,
   branch_id SMALLINT UNSIGNED NOT NULL,
   PRIMARY KEY (seller_id),

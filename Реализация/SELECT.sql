@@ -10,4 +10,3 @@ SELECT * FROM sale;
 SELECT * FROM sale_product;
 SELECT * FROM seller;
 SELECT * FROM type;
-SELECT * FROM company;
