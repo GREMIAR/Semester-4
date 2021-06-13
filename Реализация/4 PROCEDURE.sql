@@ -35,7 +35,7 @@ WHERE c.name=city
 GROUP BY p.name;
 END$$
 
--- поменят скидку на товар
+-- поменяет скидку на товар
 CREATE PROCEDURE discount_model(discounts DECIMAL(2,2),model VARCHAR(45))
 BEGIN
 UPDATE product

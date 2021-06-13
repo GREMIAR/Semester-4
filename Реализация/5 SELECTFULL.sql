@@ -17,7 +17,8 @@ JOIN product p USING(product_id)
 GROUP BY sale_id;
 
 -- Сотрудникои которы получат премию
-SELECT CONCAT(se.lastname,' ',LEFT(se.firstname,1),'.',LEFT(se.patronymic,1),'.') Фамилия_и_Инициалы, SUM((p.price)*sp.quantity) Продал_на
+SELECT CONCAT(se.lastname,' ',LEFT(se.firstname,1),'.',LEFT(se.patronymic,1),'.') Фамилия_и_Инициалы,
+SUM((p.price)*sp.quantity) Продал_на
 FROM product p
 JOIN sale_product sp USING(product_id)
 JOIN sale sa USING(sale_id)

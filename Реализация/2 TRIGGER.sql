@@ -167,7 +167,7 @@ CREATE TRIGGER date_future
 END$$
 
 
--- нельзя совершить покупку в будующем покупка UPDATE
+-- нельзя совершить покупку в будущем покупка UPDATE
 CREATE TRIGGER date_future_UP
 	BEFORE UPDATE ON sale
     FOR EACH ROW
