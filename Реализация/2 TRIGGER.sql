@@ -8,7 +8,13 @@ CREATE TRIGGER sale_fixed_capital
     BEGIN
     UPDATE branch_product
     SET quantity = quantity - new.quantity
-    WHERE branch_id = new.branch_id AND product_id = new.product_id;
+    WHERE product_id = new.product_id AND branch_id = (
+    SELECT branch_id 
+    FROM sale
+    JOIN seller USING(seller_id)
+    JOIN branch USING(branch_id)
+    WHERE sale_id=new.sale_id
+    );
 END$$
 
 -- (2)
@@ -122,7 +128,13 @@ CREATE TRIGGER quantity_limit
 	BEFORE INSERT ON sale_product
     FOR EACH ROW
     BEGIN
-    IF (new.quantity > (SELECT quantity FROM branch_product WHERE new.branch_id= branch_id AND new.product_id=product_id )) THEN
+    IF (new.quantity > (
+	SELECT quantity 
+    FROM sale
+    JOIN seller USING(seller_id)
+    JOIN branch USING(branch_id)
+    JOIN branch_product USING(branch_id)
+    WHERE sale_id=new.sale_id AND new.product_id=product_id)) THEN
 		signal sqlstate '45000' set message_text = "Нет такого количества товара в филиале";
     END IF;
 END$$
@@ -132,31 +144,18 @@ CREATE TRIGGER quantity_limit_UP
 	BEFORE UPDATE ON sale_product
     FOR EACH ROW
     BEGIN
-    IF (new.quantity > (SELECT quantity FROM branch_product WHERE new.branch_id= branch_id AND new.product_id=product_id )) THEN
+    IF (new.quantity > (
+	SELECT quantity 
+    FROM sale
+    JOIN seller USING(seller_id)
+    JOIN branch USING(branch_id)
+    JOIN branch_product USING(branch_id)
+    WHERE sale_id=new.sale_id AND new.product_id=product_id)) THEN
 		signal sqlstate '45000' set message_text = "Нет такого количества товара в филиале";
     END IF;
 END$$
 
--- нельзя получать товар не из того филиала, в котором было совершенна покупка INSERT
-CREATE TRIGGER branch_id_sale
-	BEFORE INSERT ON sale_product
-    FOR EACH ROW
-    BEGIN
-    IF (new.branch_id != (SELECT branch_id FROM sale JOIN seller USING(seller_id) WHERE new.sale_id = sale_id)) THEN
-		signal sqlstate '45000' set message_text = "Нельзя получить товар не из того филиала в котором ты его покупешь";
-    END IF;
-END$$
-
--- нельзя получать товар не из того филиала, в котором было совершенна покупка UPDATE
-CREATE TRIGGER branch_id_sale_UP
-	BEFORE UPDATE ON sale_product
-    FOR EACH ROW
-    BEGIN
-    IF (new.branch_id != (SELECT branch_id FROM sale JOIN seller USING(seller_id) WHERE new.sale_id = sale_id)) THEN
-		signal sqlstate '45000' set message_text = "Нельзя получить товар не из того филиала в котором ты его покупешь";
-    END IF;
-END$$
-
+-- (8)
 -- нельзя совершить покупку в будующем покупка INSERT
 CREATE TRIGGER date_future
 	BEFORE INSERT ON sale

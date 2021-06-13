@@ -97,12 +97,11 @@ CREATE TABLE IF NOT EXISTS sale (
     FOREIGN KEY (seller_id) REFERENCES seller (seller_id));
 
 CREATE TABLE IF NOT EXISTS sale_product (
-	branch_id SMALLINT UNSIGNED NOT NULL,
 	product_id MEDIUMINT UNSIGNED NOT NULL,
 	sale_id INT UNSIGNED NOT NULL,
 	quantity VARCHAR(45) NOT NULL,
-	PRIMARY KEY (branch_id, product_id, sale_id),
-    FOREIGN KEY (branch_id, product_id) REFERENCES branch_product (branch_id, product_id),
+	PRIMARY KEY (product_id, sale_id),
+    FOREIGN KEY (product_id) REFERENCES product (product_id),
     FOREIGN KEY (sale_id) REFERENCES sale (sale_id));
 
 

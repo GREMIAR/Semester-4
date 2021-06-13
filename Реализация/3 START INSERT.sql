@@ -64,7 +64,7 @@ INSERT INTO sale(seller_id, date)
 VALUES (1,curdate()), (3,curdate()),(4,curdate());
 
 
-INSERT INTO sale_product(branch_id, product_id, sale_id, quantity)
-VALUES (1,1,1,1),(1,2,1,3),
-(2,1,2,1),
-(2,1,3,1);
+INSERT INTO sale_product(sale_id, product_id, quantity)
+VALUES (1,1,1),(1,2,3),
+(2,1,1),
+(3,1,1);

@@ -6,6 +6,7 @@ SELECT * FROM country;
 SELECT * FROM manufacturer;
 SELECT * FROM product;
 SELECT * FROM product_characteristics;
+SELECT * FROM type_characteristics;
 SELECT * FROM sale;
 SELECT * FROM sale_product;
 SELECT * FROM seller;
