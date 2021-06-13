@@ -60,8 +60,11 @@ VALUES (1,1,5),(1,2,5),(1,3,5),
 (4,1,5),(4,2,5),(4,3,5),
 (5,1,5),(5,2,5),(5,3,5);
 
-INSERT INTO sale(total_cost, seller_id, date)
-VALUES (200000,1,curdate());
+INSERT INTO sale(seller_id, date)
+VALUES (1,curdate()), (3,curdate()),(4,curdate());
+
 
 INSERT INTO sale_product(branch_id, product_id, sale_id, quantity)
-VALUES (1,1,1,1),(1,2,1,3);
+VALUES (1,1,1,1),(1,2,1,3),
+(2,1,2,1),
+(2,1,3,1);

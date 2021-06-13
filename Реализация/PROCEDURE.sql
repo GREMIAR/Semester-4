@@ -31,4 +31,10 @@ JOIN city c USING(city_id)
 WHERE c.name=city
 GROUP BY p.name;
 END$$
-
+-- поменят скидку на товар
+CREATE PROCEDURE discount_model(discounts DECIMAL(2,2),model VARCHAR(45))
+BEGIN
+UPDATE product
+SET discount=discounts
+WHERE name=model;
+END$$

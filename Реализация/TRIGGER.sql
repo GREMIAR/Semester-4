@@ -137,7 +137,44 @@ CREATE TRIGGER quantity_limit_UP
     END IF;
 END$$
 
+-- нельзя получать товар не из того филиала, в котором было совершенна покупка INSERT
+CREATE TRIGGER branch_id_sale
+	BEFORE INSERT ON sale_product
+    FOR EACH ROW
+    BEGIN
+    IF (new.branch_id != (SELECT branch_id FROM sale JOIN seller USING(seller_id) WHERE new.sale_id = sale_id)) THEN
+		signal sqlstate '45000' set message_text = "Нельзя получить товар не из того филиала в котором ты его покупешь";
+    END IF;
+END$$
+
+-- нельзя получать товар не из того филиала, в котором было совершенна покупка UPDATE
+CREATE TRIGGER branch_id_sale_UP
+	BEFORE UPDATE ON sale_product
+    FOR EACH ROW
+    BEGIN
+    IF (new.branch_id != (SELECT branch_id FROM sale JOIN seller USING(seller_id) WHERE new.sale_id = sale_id)) THEN
+		signal sqlstate '45000' set message_text = "Нельзя получить товар не из того филиала в котором ты его покупешь";
+    END IF;
+END$$
+
+-- нельзя совершить покупку в будующем покупка INSERT
+CREATE TRIGGER date_future
+	BEFORE INSERT ON sale
+    FOR EACH ROW
+    BEGIN
+    IF (new.date>curdate()) THEN
+		signal sqlstate '45000' set message_text = "Нельзья покупать товар в будующем";
+    END IF;
+END$$
 
 
-
+-- нельзя совершить покупку в будующем покупка UPDATE
+CREATE TRIGGER date_future_UP
+	BEFORE UPDATE ON sale
+    FOR EACH ROW
+    BEGIN
+    IF (new.date>curdate()) THEN
+		signal sqlstate '45000' set message_text = "Нельзья покупать товар в будующем";
+    END IF;
+END$$
 
