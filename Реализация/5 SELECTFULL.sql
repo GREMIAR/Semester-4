@@ -2,6 +2,8 @@ CALL search_product("Орёл","Samsung","Монитор");
 CALL search_model_characteristics("Ryzen 7 3800XT");
 CALL search_models_in_city("Орёл");
 CALL discount_model(0.10,'S24F354FHI');
+CALL viewing_products(1);
+CALL types_manufacturers(4);
 
 -- Количесво филиалов в городе
 SELECT c.name Город, COUNT(*) Филиалов
@@ -10,7 +12,8 @@ JOIN branch b USING(city_id)
 GROUP BY c.name;
 
 -- Чистая прибыль от покупки
-SELECT s.sale_id ID_Покупки, SUM(p.price*sp.quantity) Прибыль, SUM((p.price - p.price_purchases)*sp.quantity) Чистая_прибыль
+SELECT s.sale_id ID_Покупки, SUM(p.price*sp.quantity) Прибыль,
+SUM((p.price - p.price_purchases)*sp.quantity) Чистая_прибыль
 FROM sale s
 JOIN sale_product sp USING(sale_id)
 JOIN product p USING(product_id)
@@ -43,11 +46,28 @@ JOIN product p USING(product_id)
 WHERE (year(s.date) = year(curdate()));
 
 -- Сумма прибыли с покупок за месяц в филиалах по отдельности
-SELECT CONCAT(b.street,', ', b.house) Адрес,  SUM((p.price)*sp.quantity) Прибыль_за_месяц
+SELECT c.name Город,CONCAT(b.street,', ', b.house) Адрес,  IF(SUM((p.price)*sp.quantity) is NULL,0,SUM((p.price)*sp.quantity)) Прибыль_за_месяц
 FROM sale s
 JOIN seller USING(seller_id)
 JOIN sale_product sp USING(sale_id)
 JOIN product p USING(product_id)
-JOIN branch b USING (branch_id)
-WHERE month(s.date) = month(curdate())
+RIGHT JOIN branch b USING (branch_id)
+JOIN city c USING(city_id)
+WHERE month(s.date) = month(curdate()) or s.date is NULL
 GROUP BY b.branch_id;
+
+-- чек
+SELECT sa.sale_id, CONCAT(co.name,', г.', ci.name,', ул.', b.street, ', д.', b.house) Адрес, 
+CONCAT(se.lastname,' ',LEFT(se.firstname,1),IF(se.patronymic is NULL,'.',CONCAT('.',LEFT(se.patronymic,1),'.'))) Продавец,
+sa.date Дата, 
+SUM(sp.quantity) количество_товара,
+SUM((p.price)*sp.quantity) итоговая_стоимость_заказа
+FROM country co
+JOIN city ci USING(country_id)
+JOIN branch b USING(city_id)
+JOIN seller se USING(branch_id)
+JOIN sale sa USING(seller_id)
+JOIN sale_product sp USING(sale_id)
+JOIN product p USING(product_id)
+JOIN type t USING(type_id)
+GROUP BY sale_id;

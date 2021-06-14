@@ -1,4 +1,3 @@
-SELECT * FROM branch;
 SELECT * FROM branch_product;
 SELECT * FROM characteristics;
 SELECT * FROM city;
@@ -11,3 +10,4 @@ SELECT * FROM sale;
 SELECT * FROM sale_product;
 SELECT * FROM seller;
 SELECT * FROM type;
+SELECT * FROM branch;
