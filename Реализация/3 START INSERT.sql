@@ -44,16 +44,23 @@ VALUES (1,1),(1,2),(1,12),(1,13),
 (6,9),(6,10),(6,11);
   
 INSERT INTO manufacturer(name, phone, country_id)
-VALUES ('Samsung','+868005555555',4),('Aoc','+8688003508845',4),('AMD','+8688433508845',4),('NVIDIA','+868800567745',4);
+VALUES ('LG','+868005555555',4),('Aoc','+8688003508845',4),('AMD','+8688433508845',4),('NVIDIA','+868800567745',4);
 
 INSERT INTO product(name,price,price_purchases,description, manufacturer_id, type_id)
 VALUES ('S24F354FHI',20000,10000,'Монитор способствует отображению детализированной и контрастной картинки, лишенной малейших искажений, поскольку в его основу положена матрица PLS.',1,1),
 ('Ryzen 7 3800XT',60000,30000,'Процессор представляет собой высокопроизводительное решение, которое может стать отличной основой для игровых и рабочих систем. ',3,2),
 ('GeForce GTX 1050',40000,20000,'Отличный выбор для пользователей, которые хотят создать игровую систему начального или среднего уровня.',4,3);
 
+INSERT INTO product(name,price,price_purchases,description, manufacturer_id, type_id)
+VALUES ('hgifjdi',20001,10000,'Монитор способствует отображению детализированной и контрастной картинки, лишенной малейших искажений, поскольку в его основу положена матрица PLS.',1,1),
+('23igfi',20001,10000,'Монитор способствует отображению детализированной и контрастной картинки, лишенной малейших искажений, поскольку в его основу положена матрица PLS.',1,1);
+
 INSERT INTO product_characteristics(product_id, characteristics_id, value)
 VALUES (1,1,'24'),(1,2,'75'),(2,3,'7'),(2,4,'3700'),(3,5,'128'),(3,4,'1290'),(1,12,'1920x1080'),
 (1,13,'PLS'),(2,14,'AM4'),(2,15,'8'),(2,16,'9'),(3,6,'2'),(3,17,'GDDR5');
+
+INSERT INTO product_characteristics(product_id, characteristics_id, value)
+VALUES (4,1,'24'),(5,1,'14');
 
 INSERT INTO branch_product(branch_id, product_id, quantity)
 VALUES (1,1,5),(1,2,5),(1,3,5),
@@ -61,6 +68,10 @@ VALUES (1,1,5),(1,2,5),(1,3,5),
 (3,1,5),(3,2,5),(3,3,5),
 (4,1,5),(4,2,5),(4,3,5),
 (5,1,5),(5,2,5),(5,3,5);
+
+
+INSERT INTO branch_product(branch_id, product_id, quantity)
+VALUES(1,4,6),(1,5,7)
 
 INSERT INTO sale(seller_id, date)
 VALUES (1,curdate()), (3,curdate()),(4,curdate());

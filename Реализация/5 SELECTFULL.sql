@@ -71,3 +71,12 @@ JOIN sale_product sp USING(sale_id)
 JOIN product p USING(product_id)
 JOIN type t USING(type_id)
 GROUP BY sale_id;
+
+SELECT p.name модель, m.name Фирма, CONCAT(ph.value,' ' , ch.measure_units) Диагональ, bp.quantity Количество
+FROM branch b
+JOIN branch_product bp USING (branch_id)
+JOIN product p USING (product_id)
+JOIN manufacturer m USING (manufacturer_id)
+JOIN product_characteristics ph USING (product_id)
+JOIN characteristics ch USING (characteristics_id)
+WHERE ch.name='Диагональ' AND b.branch_id=1 AND m.name='LG' AND ph.value > 15
